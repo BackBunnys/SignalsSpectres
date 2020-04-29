@@ -49,6 +49,10 @@
 		<Unit filename="include/Engine/AssetManager.h" />
 		<Unit filename="include/Engine/State.h" />
 		<Unit filename="include/Engine/StateMachine.h" />
+<<<<<<< HEAD
+		<Unit filename="include/GUI/Button.h" />
+=======
+>>>>>>> 3896d7c30a73a1a6337136fcf3d5c19f93ae0936
 		<Unit filename="include/GUI/InputBox.h" />
 		<Unit filename="include/States/InputState.h" />
 		<Unit filename="main.cpp" />
@@ -57,6 +61,10 @@
 		<Unit filename="src/Engine/AssetManager.cpp" />
 		<Unit filename="src/Engine/State.cpp" />
 		<Unit filename="src/Engine/StateMachine.cpp" />
+<<<<<<< HEAD
+		<Unit filename="src/GUI/Button.cpp" />
+=======
+>>>>>>> 3896d7c30a73a1a6337136fcf3d5c19f93ae0936
 		<Unit filename="src/GUI/InputBox.cpp" />
 		<Unit filename="src/States/InputState.cpp" />
 		<Extensions>

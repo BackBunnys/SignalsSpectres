@@ -3,6 +3,7 @@
 
 #include "Engine/State.h"
 #include "GUI/InputBox.h"
+#include "GUI/Button.h"
 
 class InputState : public State
 {
@@ -23,10 +24,14 @@ class InputState : public State
         sf::Text tip;
         sf::Text error;
         InputBox *inputBox;
+        Button *nextButton;
+
+        void initInputBox();
+        void initTip();
+        void initNextButton();
+        void initError();
 
         void validateFileName();
-
-        void initError();
 };
 
 #endif // INPUTSTATE_H
