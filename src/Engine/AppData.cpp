@@ -34,6 +34,11 @@ void AppData::initWindow(sf::VideoMode VMode)
     this->window->setFramerateLimit(60);
 }
 
+void AppData::setFilePath(std::string filePath)
+{
+    this->filePath = filePath;
+}
+
 sf::Vector2i AppData::getMouseDelta(sf::Vector2i MousePos)
 {
     sf::Vector2i Delta = MousePos - this->mousePosition;
