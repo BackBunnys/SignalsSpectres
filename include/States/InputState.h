@@ -22,12 +22,16 @@ class InputState : public State
     private:
         sf::Color bgColor;
         sf::Text tip;
+        sf::Text error;
         InputBox *inputBox;
         Button *nextButton;
 
         void initInputBox();
         void initTip();
         void initNextButton();
+        void initError();
+
+        void validateFileName();
 };
 
 #endif // INPUTSTATE_H

@@ -18,6 +18,7 @@ class InputBox
         void setSelectedFieldColor(sf::Color color);
 
         sf::FloatRect getGlobalBounds() const;
+        std::string getInputtedText() const;
 
         void draw(sf::RenderWindow &window);
 

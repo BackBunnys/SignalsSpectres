@@ -204,3 +204,8 @@ sf::FloatRect InputBox::getGlobalBounds() const
 {
     return this->field.getGlobalBounds();
 }
+
+std::string InputBox::getInputtedText() const
+{
+    return std::string(this->inputtedText.begin(), this->inputtedText.end());
+}
