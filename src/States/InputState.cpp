@@ -53,7 +53,7 @@ void InputState::ProccessEvent(sf::Event &event)
                 this->inputBox->removeChar();
                 break;
             case 22: //Ctrl+V combination
-                fileNameFromBuffer();                //Input from buffer
+                this->inputBox->copyFromBuffer();    //Input from buffer
                 break;
             case 27: //The Escape button
                 this->appData.GetMachine()->Clear(); //Exit
@@ -69,23 +69,5 @@ void InputState::ProccessEvent(sf::Event &event)
             this->inputBox->move(-1);
         else if(event.key.code == sf::Keyboard::Right)
             this->inputBox->move(1);
-    }
-}
-
-void InputState::fileNameFromBuffer()
-{
-    if(OpenClipboard(NULL))
-    {
-        HANDLE hData = GetClipboardData(CF_TEXT);
-        char* chBuffer = (char*)GlobalLock(hData);
-        GlobalUnlock(hData);
-        CloseClipboard();
-
-        if(chBuffer)
-            while(*chBuffer != 0) {
-                this->inputBox->addChar(*chBuffer);
-                ++chBuffer;
-            }
-
     }
 }

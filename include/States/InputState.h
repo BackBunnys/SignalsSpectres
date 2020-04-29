@@ -22,11 +22,6 @@ class InputState : public State
         sf::Color bgColor;
         sf::Text tip;
         InputBox *inputBox;
-
-        void fileNameFromBuffer();
-
-        wchar_t* fileChoose();
-
 };
 
 #endif // INPUTSTATE_H

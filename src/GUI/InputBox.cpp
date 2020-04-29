@@ -1,6 +1,7 @@
 #include "GUI/InputBox.h"
 #include <string>
 #include <iostream>
+#include <windows.h>
 
 InputBox::InputBox(sf::Font &font,
                    sf::Vector2u fieldSize, unsigned borderSize, unsigned textSize,
@@ -70,6 +71,23 @@ void InputBox::addChar(uint32_t code)
     this->currentPosition++;
     this->rightVisibleCorner++;
     this->updateText();
+}
+
+void InputBox::copyFromBuffer()
+{
+    if(OpenClipboard(NULL))
+    {
+        HANDLE hData = GetClipboardData(CF_TEXT);
+        char* chBuffer = (char*)GlobalLock(hData);
+        GlobalUnlock(hData);
+        CloseClipboard();
+
+        if(chBuffer)
+            while(*chBuffer != 0) {
+                addChar(*chBuffer);
+                ++chBuffer;
+            }
+    }
 }
 
 void InputBox::removeChar()

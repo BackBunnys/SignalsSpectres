@@ -22,6 +22,7 @@ class InputBox
         void draw(sf::RenderWindow &window);
 
         void addChar(uint32_t code);
+        void copyFromBuffer();
         void removeChar();
 
         void selectAll();
