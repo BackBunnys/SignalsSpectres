@@ -1005,3 +1005,11 @@
 	"GUI/Button.h"
 	"cmath"
 
+1588201256 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\windowchooserstate.cpp
+	"WindowChooserState.h"
+
+1588200988 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\windowchooserstate.h
+	"SFML/Graphics.hpp"
+	"Engine/State.h"
+	"GUI/Button.h"
+
