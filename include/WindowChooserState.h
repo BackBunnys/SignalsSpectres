@@ -23,6 +23,8 @@ class WindowChooserState: public State
         Button* backButton;             //TODO: CREATE THE GUI FACTORY
         Button* nextButton;
 
+        sf::Color bgColor;
+
         void initBackButton();
         void initNextButton();
 };

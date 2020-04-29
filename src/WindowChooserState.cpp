@@ -13,6 +13,8 @@ WindowChooserState::~WindowChooserState()
 
 void WindowChooserState::Init()
 {
+    bgColor = sf::Color(100, 100, 100);
+
     initBackButton();
     initNextButton();
 }
@@ -49,6 +51,7 @@ void WindowChooserState::Update()
 
 void WindowChooserState::Render(sf::RenderWindow& window)
 {
+    window.clear(bgColor);
     this->backButton->draw(window);
     this->nextButton->draw(window);
 }
@@ -61,4 +64,19 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
             this->backButton->runAction();
         else if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
             this->nextButton->runAction();
+
+    if(event.type == sf::Event::KeyPressed) {
+        switch(event.key.code) {
+            case sf::Keyboard::Escape:
+                this->appData.GetMachine()->PopState();
+                break;
+            case sf::Keyboard::Enter:
+                this->nextButton->runAction();
+                break;
+            default:
+                break;
+        }
+    }
+
+
 }
