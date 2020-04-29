@@ -962,12 +962,27 @@
 1588169372 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
 	"SFML/Graphics.hpp"
 
-1588170469 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
+1588174618 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
 	"States/InputState.h"
 	<iostream>
 	<windows.h>
 
-1588169438 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\inputstate.h
+1588173862 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\inputstate.h
 	"Engine/State.h"
 	"GUI/InputBox.h"
+	"GUI/Button.h"
+
+1588173521 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\button.cpp
+	"Button.h"
+
+1588173544 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\button.h
+	"SFML/Graphics.hpp"
+	"Engine/AppData.h"
+
+1588174717 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\button.h
+	"SFML/Graphics.hpp"
+	"Engine/AppData.h"
+
+1588174755 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\button.cpp
+	"GUI/Button.h"
 

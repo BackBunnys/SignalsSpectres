@@ -3,6 +3,7 @@
 
 #include "Engine/State.h"
 #include "GUI/InputBox.h"
+#include "GUI/Button.h"
 
 class InputState : public State
 {
@@ -22,6 +23,11 @@ class InputState : public State
         sf::Color bgColor;
         sf::Text tip;
         InputBox *inputBox;
+        Button *nextButton;
+
+        void initInputBox();
+        void initTip();
+        void initNextButton();
 };
 
 #endif // INPUTSTATE_H
