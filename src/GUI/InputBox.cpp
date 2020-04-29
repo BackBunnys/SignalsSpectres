@@ -1,4 +1,4 @@
-#include "InputBox.h"
+#include "GUI/InputBox.h"
 #include <string>
 #include <iostream>
 

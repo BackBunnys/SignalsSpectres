@@ -1,4 +1,4 @@
-#include "InputState.h"
+#include "States/InputState.h"
 #include <iostream>
 #include <windows.h>
 
@@ -78,11 +78,14 @@ void InputState::fileNameFromBuffer()
     {
         HANDLE hData = GetClipboardData(CF_TEXT);
         char* chBuffer = (char*)GlobalLock(hData);
-        while(*chBuffer != NULL) {
-            this->inputBox->addChar(*chBuffer);
-            ++chBuffer;
-        }
         GlobalUnlock(hData);
         CloseClipboard();
+
+        if(chBuffer)
+            while(*chBuffer != 0) {
+                this->inputBox->addChar(*chBuffer);
+                ++chBuffer;
+            }
+
     }
 }

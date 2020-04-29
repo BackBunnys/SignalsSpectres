@@ -1,8 +1,8 @@
 #ifndef INPUTSTATE_H
 #define INPUTSTATE_H
 
-#include "../src/Engine/State.h"
-#include "InputBox.h"
+#include "Engine/State.h"
+#include "GUI/InputBox.h"
 
 class InputState : public State
 {
