@@ -44,21 +44,21 @@
 		<Linker>
 			<Add directory="lib" />
 		</Linker>
-		<Unit filename="include/InputBox.h" />
-		<Unit filename="include/InputState.h" />
+		<Unit filename="include/Application.h" />
+		<Unit filename="include/Engine/AppData.h" />
+		<Unit filename="include/Engine/AssetManager.h" />
+		<Unit filename="include/Engine/State.h" />
+		<Unit filename="include/Engine/StateMachine.h" />
+		<Unit filename="include/GUI/InputBox.h" />
+		<Unit filename="include/States/InputState.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Application.cpp" />
-		<Unit filename="src/Application.h" />
 		<Unit filename="src/Engine/AppData.cpp" />
-		<Unit filename="src/Engine/AppData.h" />
 		<Unit filename="src/Engine/AssetManager.cpp" />
-		<Unit filename="src/Engine/AssetManager.h" />
 		<Unit filename="src/Engine/State.cpp" />
-		<Unit filename="src/Engine/State.h" />
 		<Unit filename="src/Engine/StateMachine.cpp" />
-		<Unit filename="src/Engine/StateMachine.h" />
-		<Unit filename="src/InputBox.cpp" />
-		<Unit filename="src/InputState.cpp" />
+		<Unit filename="src/GUI/InputBox.cpp" />
+		<Unit filename="src/States/InputState.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

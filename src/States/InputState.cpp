@@ -1,6 +1,7 @@
 #include "States/InputState.h"
 #include <iostream>
 #include <windows.h>
+#include <fstream>
 
 InputState::InputState(AppData &appData): State(appData)
 {
@@ -24,6 +25,21 @@ InputState::~InputState()
     delete inputBox;
 }
 
+void InputState::Init()
+{
+    bgColor = sf::Color(100, 100, 100);
+
+    initError();
+}
+
+void InputState::initError()
+{
+    this->error.setFont(this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"));
+    this->error.setFillColor(sf::Color::Red);
+    this->error.setString("");
+    this->error.setCharacterSize(30);
+}
+
 void InputState::Update()
 {
 
@@ -35,11 +51,8 @@ void InputState::Render(sf::RenderWindow& window)
 
     window.draw(this->tip);
     this->inputBox->draw(window);
-}
 
-void InputState::Init()
-{
-    bgColor = sf::Color(100, 100, 100);
+    window.draw(error);
 }
 
 void InputState::ProccessEvent(sf::Event &event)
@@ -54,9 +67,9 @@ void InputState::ProccessEvent(sf::Event &event)
             case sf::Keyboard::Left:
                 this->inputBox->move(-1);
                 break;
-
             case sf::Keyboard::Right:
                 this->inputBox->move(1);
+                break;
 
             case sf::Keyboard::A: //Ctrl + A combination
                 if(event.key.control)
@@ -76,8 +89,23 @@ void InputState::ProccessEvent(sf::Event &event)
                 this->appData.GetMachine()->Clear(); //Exit
                 break;
 
+            case sf::Keyboard::Enter:
+                validateFileName();
+                break;
             default:
-                    break;
+                break;
         }
     }
+}
+
+void InputState::validateFileName()
+{
+    if(!std::ifstream(this->inputBox->getInputtedText().data())) {
+        this->error.setString("Ошибка: файл не найден!");
+        this->error.setPosition(this->appData.GetWindow()->getSize().x / 2 - this->error.getGlobalBounds().width / 2,
+                                this->appData.GetWindow()->getSize().y / 5 * 3 - this->error.getGlobalBounds().height / 2);
+        std::cerr << "Error: file not found." << std::endl;
+    }
+    else
+        this->error.setString("");
 }
