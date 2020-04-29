@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "InputState.h"
+#include "States/InputState.h"
 
 Application::Application(sf::VideoMode VMode):
     Engine(VMode)
