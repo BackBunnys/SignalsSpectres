@@ -6,7 +6,8 @@ Button::Button(sf::Text buttonText,
 : appData(appData)
 {
     this->buttonText = buttonText;
-    this->textHoverSize = buttonText.getCharacterSize();
+    this->textSize = buttonText.getCharacterSize();
+    this->textHoverSize = this->textSize;
     this->action = action;
     this->field.setSize(sf::Vector2f(this->buttonText.getGlobalBounds().width, 2 * this->buttonText.getGlobalBounds().height));
     setCenterPosition(sf::Vector2f(field.getSize().x / 2, field.getSize().y / 2));
