@@ -953,7 +953,7 @@
 1577792258 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\statemachine.cpp
 	"StateMachine.h"
 
-1588169456 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\inputbox.cpp
+1588169897 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\inputbox.cpp
 	"GUI/InputBox.h"
 	<string>
 	<iostream>
@@ -962,7 +962,7 @@
 1588169372 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
 	"SFML/Graphics.hpp"
 
-1588169476 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
+1588170469 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
 	"States/InputState.h"
 	<iostream>
 	<windows.h>

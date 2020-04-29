@@ -45,29 +45,39 @@ void InputState::Init()
 void InputState::ProccessEvent(sf::Event &event)
 {
     if(event.type == sf::Event::TextEntered) {
-        switch(event.text.unicode) {
-            case 1: //Ctrl + A combination
-                this->inputBox->selectAll();
+        if(event.text.unicode >= 32)
+            this->inputBox->addChar(event.text.unicode);
+    }
+
+    if(event.type == sf::Event::KeyPressed) {
+        switch(event.key.code) {
+            case sf::Keyboard::Left:
+                this->inputBox->move(-1);
                 break;
-            case 8: //The Backspace button
+
+            case sf::Keyboard::Right:
+                this->inputBox->move(1);
+
+            case sf::Keyboard::A: //Ctrl + A combination
+                if(event.key.control)
+                    this->inputBox->selectAll();
+                break;
+
+            case sf::Keyboard::Backspace: //The Backspace button
                 this->inputBox->removeChar();
                 break;
-            case 22: //Ctrl+V combination
-                this->inputBox->copyFromBuffer();    //Input from buffer
+
+            case sf::Keyboard::V: //Ctrl+V combination
+                if(event.key.control)
+                    this->inputBox->copyFromBuffer();    //Input from buffer
                 break;
-            case 27: //The Escape button
+
+            case sf::Keyboard::Escape: //The Escape button
                 this->appData.GetMachine()->Clear(); //Exit
                 break;
 
             default:
-                this->inputBox->addChar(event.text.unicode);
-                break;
+                    break;
         }
-    }
-    if(event.type == sf::Event::KeyPressed) {
-        if(event.key.code == sf::Keyboard::Left)
-            this->inputBox->move(-1);
-        else if(event.key.code == sf::Keyboard::Right)
-            this->inputBox->move(1);
     }
 }
