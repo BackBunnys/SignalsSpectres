@@ -13,14 +13,20 @@ class Button
 
         void setCenterPosition(sf::Vector2f position);
         void setSize(sf::Vector2f size);
-        void setTextSize(unsigned textSize);
-        void setTextColor(sf::Color color);
-        void setFieldColor(sf::Color color);
+        void setTextSize(unsigned textSize, unsigned onHoverSize);
+        void setTextColor(sf::Color color, sf::Color onHoverColor);
+        void setFieldColor(sf::Color color, sf::Color onHoverColor);
         void setBorder(uint16_t weight, sf::Color color);
+
+        void update();
 
         void draw(sf::RenderWindow &window);
 
-        bool isMouseOn(sf::Vector2f mousePos);
+        template <typename T>
+        bool isMouseOn(const sf::Vector2<T> mousePos)
+        {
+            return this->field.getGlobalBounds().contains(mousePos.x, mousePos.y);
+        }
 
         void runAction();
 
@@ -28,9 +34,15 @@ class Button
         sf::Text buttonText;
         sf::RectangleShape field;
 
+        unsigned textSize, textHoverSize;
+        sf::Color textColor, textHoverColor,
+                  fieldColor, fieldHoverColor;
+
         AppData &appData;
 
         void (*action) (AppData&);
+
+        void onHoverTransform();
 };
 
 #endif // BUTTON_H

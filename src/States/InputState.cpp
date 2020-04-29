@@ -15,7 +15,7 @@ InputState::~InputState()
 
 void InputState::Update()
 {
-
+    this->nextButton->update();
 }
 
 void InputState::Init()
@@ -49,9 +49,10 @@ void InputState::initTip()
 void InputState::initNextButton()
 {
     this->nextButton = new Button(sf::Text("Далее", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                                  [](AppData &appData){std::cout << "HEllo";}, this->appData);
+                                  [](AppData &appData){;}, this->appData);
     this->nextButton->setBorder(2, sf::Color(50, 50, 50));
-    this->nextButton->setFieldColor(sf::Color(100, 100, 100));
+    this->nextButton->setTextColor(sf::Color::White, sf::Color(45, 45, 45));
+    this->nextButton->setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
     this->nextButton->setSize(sf::Vector2f(200, 50));
     this->nextButton->setCenterPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 2,
                                                      this->appData.GetWindow()->getSize().y / 5 * 4));
@@ -71,7 +72,7 @@ void InputState::Render(sf::RenderWindow& window)
 void InputState::ProccessEvent(sf::Event &event)
 {
     if(event.type == sf::Event::MouseButtonReleased)
-        if(this->nextButton->isMouseOn(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
+        if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
             this->nextButton->runAction();
     if(event.type == sf::Event::TextEntered) {
         if(event.text.unicode >= 32)
