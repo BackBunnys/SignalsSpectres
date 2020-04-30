@@ -1,4 +1,4 @@
-#include "ChooseList.h"
+#include "GUI/ChooseList.h"
 
 ChooseList::ChooseList()
 {
