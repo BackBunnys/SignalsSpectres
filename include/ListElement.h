@@ -10,8 +10,9 @@ template <typename T>
 class ListElement
 {
     public:
-        ListElement(sf::Text text, T data, AppData &appData): appData(appData)
+        ListElement(sf::Text text, T data, AppData* appData)
         {
+            this->appData = appData;
             this->text = text;
             this->data = data;
             this->textSize = text.getCharacterSize();
@@ -23,7 +24,7 @@ class ListElement
 
         void update()  //TODO: do something with code duplicate with button class (some new class maybe?)
         {
-            if(isMouseOn(sf::Mouse::getPosition(*this->appData.GetWindow())))
+            if(isMouseOn(sf::Mouse::getPosition(*this->appData->GetWindow())))
                 onHoverTransform();
             else if(!this->isSelected) {
                 if(this->text.getFillColor() != this->textColor) {
@@ -59,6 +60,8 @@ class ListElement
             this->text.setFillColor(this->textHoverColor);
             this->text.setCharacterSize(this->textHoverSize);
         }
+
+        void setText(std::string text) { this->text.setString(text); }
 
         void setSize(sf::Vector2f size)
         {
@@ -105,7 +108,8 @@ class ListElement
             return this->field.getGlobalBounds().contains(mousePos.x, mousePos.y);
         }
 
-        T& getData() { return this->data; }
+        T getData() { return this->data; }
+        sf::Vector2f getSize() { return this->field.getSize(); }
 
         bool isSelect() { return this->isSelected; }
 
@@ -119,7 +123,7 @@ class ListElement
                   fieldColor, fieldHoverColor;
 
         T data;
-        AppData &appData;
+        AppData* appData;
 };
 
 #endif // LISTELEMENT_H

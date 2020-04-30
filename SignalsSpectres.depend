@@ -979,17 +979,17 @@
 1588188373 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
 	"SFML/Graphics.hpp"
 
-1588202455 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
+1588256027 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
 	"States/InputState.h"
 	<iostream>
 	<windows.h>
 	<fstream>
+	"States/WindowChooserState.h"
 
-1588252486 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\inputstate.h
+1588256006 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\inputstate.h
 	"Engine/State.h"
 	"GUI/InputBox.h"
 	"GUI/Button.h"
-	"ListElement.h"
 
 1588173521 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\button.cpp
 	"Button.h"
@@ -1014,24 +1014,28 @@
 	"Engine/State.h"
 	"GUI/Button.h"
 
-1588250115 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
+1588260403 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
 	"States/WindowChooserState.h"
+	<iostream>
 
-1588202311 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\windowchooserstate.h
+1588257555 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\windowchooserstate.h
 	"SFML/Graphics.hpp"
 	"Engine/State.h"
 	"GUI/Button.h"
-
-1588250106 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\chooselist.cpp
 	"GUI/ChooseList.h"
 
-1588251879 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\chooselist.h
+1588253400 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\chooselist.cpp
+	"GUI/ChooseList.h"
+
+1588260760 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\chooselist.h
+	<vector>
 	"SFML/Graphics.hpp"
+	"ListElement.h"
 
 1588252317 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\listelement.cpp
 	"ListElement.h"
 
-1588253016 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\listelement.h
+1588260327 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\listelement.h
 	"cmath"
 	"SFML/Graphics.hpp"
 	"Engine/AppData.h"
