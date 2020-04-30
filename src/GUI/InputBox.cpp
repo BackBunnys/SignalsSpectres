@@ -23,7 +23,7 @@ InputBox::InputBox(sf::Font &font,
     this->field.setOutlineThickness(borderSize);
     this->field.setOutlineColor(borderColor);
 
-    this->isSelected = false;
+    this->isTextSelected = false;
     this->selectedTextColor = sf::Color((selectedMarker.getFillColor().r + 100) % 256,
                                         (selectedMarker.getFillColor().g + 100) % 256,
                                         (selectedMarker.getFillColor().b + 100) % 256);
@@ -40,6 +40,7 @@ InputBox::InputBox(sf::Font &font,
     this->ptrTime = sf::seconds(1);
 
     this->setHorizontalPadding(4);
+    this->deactivate();
 }
 
 InputBox::~InputBox()
@@ -51,7 +52,7 @@ void InputBox::draw(sf::RenderWindow &window)
 {
     window.draw(this->field);
 
-    if(isSelected)
+    if(isTextSelected)
         window.draw(this->selectedMarker);
 
     window.draw(this->visibleText);
@@ -60,12 +61,13 @@ void InputBox::draw(sf::RenderWindow &window)
         timer.restart();
     else
         if(this->timer.getElapsedTime().asSeconds() > 0.5)
-            window.draw(this->inputPtr);
+            if(this->isActive)
+                window.draw(this->inputPtr);
 }
 
 void InputBox::addChar(uint32_t code)
 {
-    if(isSelected)
+    if(isTextSelected)
         removeChar();
     this->inputtedText.insert(currentPosition, 1, code);
     this->currentPosition++;
@@ -92,14 +94,14 @@ void InputBox::copyFromBuffer()
 
 void InputBox::removeChar()
 {
-    if(this->isSelected)
+    if(this->isTextSelected)
     {
         this->inputtedText.clear();
         this->currentPosition = 0;
         this->leftVisibleCorner = 0;
         this->rightVisibleCorner = 0;
 
-        unselect();
+        unselectAllText();
         updateText();
     }
     else if(currentPosition != 0) {
@@ -112,17 +114,27 @@ void InputBox::removeChar()
     }
 }
 
-void InputBox::selectAll()
+void InputBox::selectAllText()
 {
-    this->isSelected = true;
+    this->isTextSelected = true;
     this->visibleText.setFillColor(this->selectedTextColor);
     this->selectedMarker.setSize(sf::Vector2f(this->visibleText.getGlobalBounds().width, this->visibleText.getCharacterSize()));
 }
 
-void InputBox::unselect()
+void InputBox::unselectAllText()
 {
-    this->isSelected = false;
+    this->isTextSelected = false;
     this->visibleText.setFillColor(this->textColor);
+}
+
+void InputBox::activate()
+{
+    this->isActive = true;
+}
+
+void InputBox::deactivate()
+{
+    this->isActive = false;
 }
 
 void InputBox::setPosition(sf::Vector2f position)
@@ -182,8 +194,8 @@ void InputBox::updatePtr()
 
 void InputBox::move(int chars)
 {
-    if(this->isSelected) {
-        unselect();
+    if(this->isTextSelected) {
+        unselectAllText();
         if(chars > 0)
             this->currentPosition = this->inputtedText.size();
         else
@@ -208,4 +220,15 @@ sf::FloatRect InputBox::getGlobalBounds() const
 std::string InputBox::getInputtedText() const
 {
     return std::string(this->inputtedText.begin(), this->inputtedText.end());
+}
+
+template <typename t>
+bool InputBox::isMouseOn(sf::Vector2<t> mousePos)
+{
+    return this->field.getGlobalBounds().contains(mousePos.x, mousePos.y);
+}
+
+bool InputBox::isActiveted()
+{
+    return this->isActive;
 }

@@ -101,7 +101,7 @@ void InputState::ProccessEvent(sf::Event &event)
 
             case sf::Keyboard::A: //Ctrl + A combination
                 if(event.key.control)
-                    this->inputBox->selectAll();
+                    this->inputBox->selectAllText();
                 break;
 
             case sf::Keyboard::Backspace: //The Backspace button

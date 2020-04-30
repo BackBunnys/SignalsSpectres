@@ -976,10 +976,10 @@
 	<iostream>
 	<windows.h>
 
-1588188373 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
+1588272410 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
 	"SFML/Graphics.hpp"
 
-1588269687 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
+1588272237 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
 	"States/InputState.h"
 	<iostream>
 	<windows.h>
@@ -1014,11 +1014,9 @@
 	"Engine/State.h"
 	"GUI/Button.h"
 
-1588271351 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
+1588271859 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
 	"States/WindowChooserState.h"
 	"cmath"
-	<vector>
-	<iostream>
 
 1588271587 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\windowchooserstate.h
 	"SFML/Graphics.hpp"
