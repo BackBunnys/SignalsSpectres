@@ -6,10 +6,13 @@
 class WindowFunction
 {
     public:
+        WindowFunction() {}
 
-        WindowFunction(std::string name, double (*expression)(uint32_t));
+        WindowFunction(std::string name, double (*expression)(uint32_t, uint32_t));
 
-        double getValue(uint32_t i);
+        const std::string& getName() { return this->name; }
+
+        double getValue(uint32_t n, uint32_t N);
 
         template <typename InputIterator>
         void applyTo(InputIterator first, InputIterator last);
@@ -17,7 +20,7 @@ class WindowFunction
     private:
         std::string name;
 
-        double (*expression)(uint32_t);
+        double (*expression)(uint32_t, uint32_t);
 };
 
 #endif // WINDOWFUNCTION_H

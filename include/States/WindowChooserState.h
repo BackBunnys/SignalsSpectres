@@ -6,6 +6,7 @@
 #include "GUI/Button.h"
 #include "GUI/ChooseList.h"
 #include "WindowFunction.h"
+#include "GUI/InputBox.h"
 
 class WindowChooserState: public State
 {
@@ -24,6 +25,10 @@ class WindowChooserState: public State
     private:
         Button* backButton;             //TODO: CREATE THE GUI FACTORY
         Button* nextButton;
+        InputBox* signalSize;
+        InputBox* fftSize;
+        sf::Text signalSizeTip;
+        sf::Text fftSizeTip;
         ChooseList<WindowFunction>* clist;
 
         sf::Color bgColor;
@@ -31,6 +36,7 @@ class WindowChooserState: public State
         void initBackButton();
         void initNextButton();
         void initChooseList();
+        void initInputBoxes();
 };
 
 #endif // WINDOWCHOOSERSTATE_H

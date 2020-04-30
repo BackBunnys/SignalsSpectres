@@ -979,11 +979,12 @@
 1588188373 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
 	"SFML/Graphics.hpp"
 
-1588260662 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
+1588269687 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
 	"States/InputState.h"
 	<iostream>
 	<windows.h>
 	<fstream>
+	<States/WindowChooserState.h>
 
 1588256006 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\inputstate.h
 	"Engine/State.h"
@@ -1013,18 +1014,24 @@
 	"Engine/State.h"
 	"GUI/Button.h"
 
-1588261347 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
+1588271351 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
 	"States/WindowChooserState.h"
+	"cmath"
+	<vector>
+	<iostream>
 
-1588264984 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\windowchooserstate.h
+1588271587 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\windowchooserstate.h
 	"SFML/Graphics.hpp"
 	"Engine/State.h"
 	"GUI/Button.h"
+	"GUI/ChooseList.h"
+	"WindowFunction.h"
+	"GUI/InputBox.h"
 
 1588261347 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\chooselist.cpp
 	"GUI/ChooseList.h"
 
-1588267093 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\chooselist.h
+1588268025 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\chooselist.h
 	<vector>
 	"SFML/Graphics.hpp"
 	"ListElement.h"
@@ -1037,9 +1044,14 @@
 	"SFML/Graphics.hpp"
 	"Engine/AppData.h"
 
-1588266710 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\windowfunction.cpp
+1588269240 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\windowfunction.cpp
 	"WindowFunction.h"
 
-1588266964 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\windowfunction.h
+1588270431 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\windowfunction.h
 	<string>
+
+1588269631 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\listelement.h
+	"cmath"
+	"SFML/Graphics.hpp"
+	"Engine/AppData.h"
 

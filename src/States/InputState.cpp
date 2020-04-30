@@ -2,6 +2,7 @@
 #include <iostream>
 #include <windows.h>
 #include <fstream>
+#include <States/WindowChooserState.h>
 
 InputState::InputState(AppData &appData): State(appData)
 {
@@ -59,7 +60,7 @@ void InputState::initError()
 void InputState::initNextButton()
 {
     this->nextButton = new Button(sf::Text("Далее", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                                  [](AppData &appData){appData.GetMachine()->PushState(new InputState(appData));}, this->appData);
+                                  [](AppData &appData){appData.GetMachine()->PushState(new WindowChooserState(appData));}, this->appData);
     this->nextButton->setBorder(2, sf::Color(50, 50, 50));
     this->nextButton->setTextColor(sf::Color::White, sf::Color(45, 45, 45));
     this->nextButton->setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
