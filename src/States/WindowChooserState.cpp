@@ -24,6 +24,7 @@ void WindowChooserState::Init()
     initNextButton();
     initChooseList();
     initInputBoxes();
+    initTips();
 }
 
 void WindowChooserState::initBackButton()
@@ -91,15 +92,29 @@ void WindowChooserState::initInputBoxes()
                                   sf::Color(100, 100, 100), sf::Color(50, 50, 50),
                                   sf::Color::White, sf::Color(50, 50, 50));
     this->signalSize->setPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 4 * 3,
-                                               this->appData.GetWindow()->getSize().y / 7 * 2));
+                                               this->appData.GetWindow()->getSize().y / 8 * 2));
     this->signalSize->setHorizontalPadding(10);
     this->fftSize = new InputBox(this->appData.GetAssets()->getFont("a SignboardCpsNr BoldItalic.ttf"),
                                   sf::Vector2u(100, 50), 2, 30,
                                   sf::Color(100, 100, 100), sf::Color(50, 50, 50),
                                   sf::Color::White, sf::Color(50, 50, 50));
     this->fftSize->setPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 4 * 3,
-                                            this->appData.GetWindow()->getSize().y / 7 * 3));
+                                            this->appData.GetWindow()->getSize().y / 8 * 4));
     this->fftSize->setHorizontalPadding(10);
+    this->signalSize->activate();
+}
+
+void WindowChooserState::initTips()
+{
+    this->signalSizeTip.setFont(this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"));
+    this->signalSizeTip.setCharacterSize(30);
+    this->signalSizeTip.setString("Длина сигнала");
+    this->signalSizeTip.setPosition(this->signalSize->getGlobalBounds().left, this->signalSize->getGlobalBounds().top - 1.5 * this->signalSizeTip.getGlobalBounds().height);
+
+    this->fftSizeTip.setFont(this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"));
+    this->fftSizeTip.setCharacterSize(30);
+    this->fftSizeTip.setString("Длина БПФ");
+    this->fftSizeTip.setPosition(this->fftSize->getGlobalBounds().left, this->fftSize->getGlobalBounds().top - 1.5 * this->fftSizeTip.getGlobalBounds().height);
 }
 
 void WindowChooserState::Update()
@@ -116,6 +131,8 @@ void WindowChooserState::Render(sf::RenderWindow& window)
     this->nextButton->draw(window);
     this->signalSize->draw(window);
     this->fftSize->draw(window);
+    window.draw(this->signalSizeTip);
+    window.draw(this->fftSizeTip);
     this->clist->draw(window);
 }
 
@@ -126,15 +143,80 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
             this->backButton->runAction();
         else if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
             this->nextButton->runAction();
-        else this->clist->changeSelection(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+        else if(this->clist->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+            this->clist->changeSelection(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+        else if(this->signalSize->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+        {
+            this->signalSize->activate();
+            this->fftSize->deactivate();
+        }
+        else if(this->fftSize->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+        {
+            this->signalSize->deactivate();
+            this->fftSize->activate();
+        }
+
+    if(event.type == sf::Event::TextEntered) {
+        if(event.text.unicode >= 32)
+            if(this->signalSize->isActivated())
+                this->signalSize->addChar(event.text.unicode);
+            else if(this->fftSize->isActivated())
+                this->fftSize->addChar(event.text.unicode);
+    }
 
     if(event.type == sf::Event::KeyPressed) {
         switch(event.key.code) {
             case sf::Keyboard::Escape:
-                this->appData.GetMachine()->PopState();
+                this->backButton->runAction();
                 break;
             case sf::Keyboard::Enter:
                 this->nextButton->runAction();
+                break;
+            case sf::Keyboard::Left:
+                if(this->signalSize->isActivated())
+                    this->signalSize->move(-1);
+                else if(this->fftSize->isActivated())
+                    this->fftSize->move(-1);
+                break;
+            case sf::Keyboard::Right:
+                if(this->signalSize->isActivated())
+                    this->signalSize->move(1);
+                else if(this->fftSize->isActivated())
+                    this->fftSize->move(1);
+                break;
+
+            case sf::Keyboard::A: //Ctrl + A combination
+                if(event.key.control)
+                    if(this->signalSize->isActivated())
+                        this->signalSize->selectAllText();
+                    else if(this->fftSize->isActivated())
+                        this->fftSize->selectAllText();
+                break;
+
+            case sf::Keyboard::Backspace: //The Backspace button
+                if(this->signalSize->isActivated())
+                    this->signalSize->removeChar();
+                else if(this->fftSize->isActivated())
+                    this->fftSize->removeChar();
+                break;
+
+            case sf::Keyboard::V: //Ctrl+V combination
+                if(event.key.control)
+                    if(this->signalSize->isActivated())
+                        this->signalSize->copyFromBuffer();
+                    else if(this->fftSize->isActivated())
+                        this->fftSize->copyFromBuffer();    //Input from buffer
+                break;
+
+            case sf::Keyboard::Tab:
+                if(event.key.shift) {
+                    this->signalSize->activate();
+                    this->fftSize->deactivate();
+                }
+                else {
+                    this->signalSize->deactivate();
+                    this->fftSize->activate();
+                }
                 break;
 
             default:

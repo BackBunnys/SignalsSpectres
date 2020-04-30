@@ -222,13 +222,7 @@ std::string InputBox::getInputtedText() const
     return std::string(this->inputtedText.begin(), this->inputtedText.end());
 }
 
-template <typename t>
-bool InputBox::isMouseOn(sf::Vector2<t> mousePos)
-{
-    return this->field.getGlobalBounds().contains(mousePos.x, mousePos.y);
-}
-
-bool InputBox::isActiveted()
+bool InputBox::isActivated()
 {
     return this->isActive;
 }

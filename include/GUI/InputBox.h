@@ -32,8 +32,12 @@ class InputBox
         void deactivate();
 
         template <typename t>
-        bool isMouseOn(sf::Vector2<t> mousePos);
-        bool isActiveted();
+        bool isMouseOn(sf::Vector2<t> mousePos)
+        {
+            return this->field.getGlobalBounds().contains(mousePos.x, mousePos.y);
+        }
+
+        bool isActivated();
 
         void move(int chars);
 

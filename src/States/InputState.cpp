@@ -39,6 +39,7 @@ void InputState::initInputBox()
     this->inputBox->setPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 2,
                                              this->appData.GetWindow()->getSize().y / 2));
     this->inputBox->setHorizontalPadding(10);
+    this->inputBox->activate();
 }
 
 void InputState::initTip()
