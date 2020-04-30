@@ -45,7 +45,7 @@ class ChooseList
 
         void setCenterPosition(sf::Vector2f position)
         {
-            setPosition(sf::Vector2f(position.x - this->field.getSize() / 2, position.y - this->field.getSize().y));
+            setPosition(sf::Vector2f(position.x - this->field.getSize().x / 2, position.y - this->field.getSize().y / 2));
         }
 
         void addElement(ListElement<T> element) {
