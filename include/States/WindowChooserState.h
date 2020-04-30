@@ -4,6 +4,8 @@
 #include "SFML/Graphics.hpp"
 #include "Engine/State.h"
 #include "GUI/Button.h"
+#include "GUI/ChooseList.h"
+#include "WindowFunction.h"
 
 class WindowChooserState: public State
 {
@@ -22,11 +24,13 @@ class WindowChooserState: public State
     private:
         Button* backButton;             //TODO: CREATE THE GUI FACTORY
         Button* nextButton;
+        ChooseList<WindowFunction>* clist;
 
         sf::Color bgColor;
 
         void initBackButton();
         void initNextButton();
+        void initChooseList();
 };
 
 #endif // WINDOWCHOOSERSTATE_H

@@ -8,7 +8,9 @@ WindowChooserState::WindowChooserState(AppData &appData):
 
 WindowChooserState::~WindowChooserState()
 {
-    //dtor
+    delete this->backButton;
+    delete this->nextButton;
+    delete this->clist;
 }
 
 void WindowChooserState::Init()
@@ -17,6 +19,7 @@ void WindowChooserState::Init()
 
     initBackButton();
     initNextButton();
+    initChooseList();
 }
 
 void WindowChooserState::initBackButton()
@@ -41,6 +44,11 @@ void WindowChooserState::initNextButton()
     this->nextButton->setSize(sf::Vector2f(200, 50));
     this->nextButton->setCenterPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 5 * 4,
                                                      this->appData.GetWindow()->getSize().y / 5 * 4));
+}
+
+void WindowChooserState::initChooseList()
+{
+    this->clist = new ChooseList<WindowFunction>(1);
 }
 
 void WindowChooserState::Update()

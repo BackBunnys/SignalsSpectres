@@ -7,7 +7,7 @@ class WindowFunction
 {
     public:
 
-        WindowFunction(std::string name, double expression(uint32_t));
+        WindowFunction(std::string name, double (*expression)(uint32_t));
 
         double getValue(uint32_t i);
 

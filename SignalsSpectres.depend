@@ -1024,7 +1024,7 @@
 1588261347 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\chooselist.cpp
 	"GUI/ChooseList.h"
 
-1588261347 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\chooselist.h
+1588267093 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\chooselist.h
 	<vector>
 	"SFML/Graphics.hpp"
 	"ListElement.h"
@@ -1036,4 +1036,10 @@
 	"cmath"
 	"SFML/Graphics.hpp"
 	"Engine/AppData.h"
+
+1588266710 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\windowfunction.cpp
+	"WindowFunction.h"
+
+1588266964 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\windowfunction.h
+	<string>
 
