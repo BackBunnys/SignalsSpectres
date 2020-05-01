@@ -31,13 +31,19 @@ class WindowChooserState: public State
         sf::Text fftSizeTip;
         ChooseList<WindowFunction>* clist;
 
+        sf::Text errorMessage;
         sf::Color bgColor;
+
 
         void initBackButton();
         void initNextButton();
         void initChooseList();
         void initInputBoxes();
         void initTips();
+
+        bool fullValidate();
+
+        bool intValueValidate(const std::string &str, std::string fieldName);
 };
 
 #endif // WINDOWCHOOSERSTATE_H

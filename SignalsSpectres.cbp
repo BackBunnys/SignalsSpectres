@@ -50,8 +50,12 @@
 		<Unit filename="include/Engine/State.h" />
 		<Unit filename="include/Engine/StateMachine.h" />
 		<Unit filename="include/GUI/Button.h" />
+		<Unit filename="include/GUI/ChooseList.h" />
 		<Unit filename="include/GUI/InputBox.h" />
+		<Unit filename="include/GUI/ListElement.h" />
 		<Unit filename="include/States/InputState.h" />
+		<Unit filename="include/States/WindowChooserState.h" />
+		<Unit filename="include/WindowFunction.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Application.cpp" />
 		<Unit filename="src/Engine/AppData.cpp" />
@@ -61,6 +65,8 @@
 		<Unit filename="src/GUI/Button.cpp" />
 		<Unit filename="src/GUI/InputBox.cpp" />
 		<Unit filename="src/States/InputState.cpp" />
+		<Unit filename="src/States/WindowChooserState.cpp" />
+		<Unit filename="src/WindowFunction.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

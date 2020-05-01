@@ -31,7 +31,7 @@ class InputState : public State
         void initNextButton();
         void initError();
 
-        void validateFileName();
+        bool validateFileName();
 };
 
 #endif // INPUTSTATE_H

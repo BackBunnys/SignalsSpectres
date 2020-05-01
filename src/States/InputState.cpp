@@ -85,8 +85,12 @@ void InputState::Render(sf::RenderWindow& window)
 void InputState::ProccessEvent(sf::Event &event)
 {
     if(event.type == sf::Event::MouseButtonReleased)
-        if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
-            this->nextButton->runAction();
+        if(event.mouseButton.button == sf::Mouse::Left)
+            if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+                if(validateFileName()) {
+                    this->appData.setFilePath(this->inputBox->getInputtedText());
+                    this->nextButton->runAction();
+                }
     if(event.type == sf::Event::TextEntered) {
         if(event.text.unicode >= 32)
             this->inputBox->addChar(event.text.unicode);
@@ -119,7 +123,10 @@ void InputState::ProccessEvent(sf::Event &event)
                 break;
 
             case sf::Keyboard::Enter:
-                validateFileName();
+                if(validateFileName()) {
+                    this->appData.setFilePath(this->inputBox->getInputtedText());
+                    this->nextButton->runAction();
+                }
                 break;
             default:
                 break;
@@ -127,14 +134,14 @@ void InputState::ProccessEvent(sf::Event &event)
     }
 }
 
-void InputState::validateFileName()
+bool InputState::validateFileName()
 {
+    this->error.setString("");
     if(!std::ifstream(this->inputBox->getInputtedText().data())) {
         this->error.setString("Ошибка: файл не найден!");
         this->error.setPosition(this->appData.GetWindow()->getSize().x / 2 - this->error.getGlobalBounds().width / 2,
                                 this->appData.GetWindow()->getSize().y / 5 * 3 - this->error.getGlobalBounds().height / 2);
-        std::cerr << "Error: file not found." << std::endl;
+        return false;
     }
-    else
-        this->error.setString("");
+    return true;
 }

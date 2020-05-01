@@ -131,6 +131,8 @@ class ChooseList
             return data;
         }
 
+        uint32_t getNumOfSelected() { return this->numOfSelected; }
+
     private:
         std::vector<ListElement<T> > elements;
 

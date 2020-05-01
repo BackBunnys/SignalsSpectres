@@ -1,5 +1,6 @@
 #include "States/WindowChooserState.h"
 #include "cmath"
+#include <sstream>
 
 WindowChooserState::WindowChooserState(AppData &appData):
     State(appData)
@@ -25,6 +26,9 @@ void WindowChooserState::Init()
     initChooseList();
     initInputBoxes();
     initTips();
+    this->errorMessage.setFont(this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"));
+    this->errorMessage.setFillColor(sf::Color::Red);
+    this->errorMessage.setString("");
 }
 
 void WindowChooserState::initBackButton()
@@ -134,6 +138,7 @@ void WindowChooserState::Render(sf::RenderWindow& window)
     window.draw(this->signalSizeTip);
     window.draw(this->fftSizeTip);
     this->clist->draw(window);
+    window.draw(this->errorMessage);
 }
 
 void WindowChooserState::ProccessEvent(sf::Event &event)
@@ -141,8 +146,10 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
     if(event.type == sf::Event::MouseButtonReleased)
         if(this->backButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
             this->backButton->runAction();
-        else if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
-            this->nextButton->runAction();
+        else if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))) {
+            if(fullValidate())
+                this->nextButton->runAction();
+        }
         else if(this->clist->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
             this->clist->changeSelection(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
         else if(this->signalSize->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
@@ -170,7 +177,8 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
                 this->backButton->runAction();
                 break;
             case sf::Keyboard::Enter:
-                this->nextButton->runAction();
+                if(fullValidate())
+                    this->nextButton->runAction();
                 break;
             case sf::Keyboard::Left:
                 if(this->signalSize->isActivated())
@@ -223,6 +231,27 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
                 break;
         }
     }
+}
 
+bool WindowChooserState::fullValidate()
+{
+    this->errorMessage.setString("");
+    return intValueValidate(this->signalSize->getInputtedText(), "Длина сигнала") &
+           intValueValidate(this->fftSize->getInputtedText(), "Размер БФП");
+}
 
+bool WindowChooserState::intValueValidate(const std::string &str, std::string fieldName)
+{
+    std::stringstream ss;
+    ss << str;
+    int n;
+    ss >> n;
+    if(n == 0)
+    {
+        this->errorMessage.setString(this->errorMessage.getString() + "\nОшибка: некорректное значение в поле " + fieldName + "!");
+        this->errorMessage.setPosition(this->appData.GetWindow()->getSize().x / 2 - this->errorMessage.getGlobalBounds().width / 2,
+                                       this->appData.GetWindow()->getSize().y / 5 * 3 - this->errorMessage.getGlobalBounds().height / 2);
+        return false;
+    }
+    return true;
 }
