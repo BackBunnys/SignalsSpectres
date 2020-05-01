@@ -2,6 +2,7 @@
 #include <iostream>
 #include <windows.h>
 #include <fstream>
+#include <States/WindowChooserState.h>
 
 InputState::InputState(AppData &appData): State(appData)
 {
@@ -38,6 +39,7 @@ void InputState::initInputBox()
     this->inputBox->setPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 2,
                                              this->appData.GetWindow()->getSize().y / 2));
     this->inputBox->setHorizontalPadding(10);
+    this->inputBox->activate();
 }
 
 void InputState::initTip()
@@ -59,7 +61,7 @@ void InputState::initError()
 void InputState::initNextButton()
 {
     this->nextButton = new Button(sf::Text("Далее", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                                  [](AppData &appData){appData.GetMachine()->PushState(new InputState(appData));}, this->appData);
+                                  [](AppData &appData){appData.GetMachine()->PushState(new WindowChooserState(appData));}, this->appData);
     this->nextButton->setBorder(2, sf::Color(50, 50, 50));
     this->nextButton->setTextColor(sf::Color::White, sf::Color(45, 45, 45));
     this->nextButton->setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
@@ -83,8 +85,12 @@ void InputState::Render(sf::RenderWindow& window)
 void InputState::ProccessEvent(sf::Event &event)
 {
     if(event.type == sf::Event::MouseButtonReleased)
-        if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
-            this->nextButton->runAction();
+        if(event.mouseButton.button == sf::Mouse::Left)
+            if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+                if(validateFileName()) {
+                    this->appData.setFilePath(this->inputBox->getInputtedText());
+                    this->nextButton->runAction();
+                }
     if(event.type == sf::Event::TextEntered) {
         if(event.text.unicode >= 32)
             this->inputBox->addChar(event.text.unicode);
@@ -100,7 +106,7 @@ void InputState::ProccessEvent(sf::Event &event)
 
             case sf::Keyboard::A: //Ctrl + A combination
                 if(event.key.control)
-                    this->inputBox->selectAll();
+                    this->inputBox->selectAllText();
                 break;
 
             case sf::Keyboard::Backspace: //The Backspace button
@@ -117,7 +123,10 @@ void InputState::ProccessEvent(sf::Event &event)
                 break;
 
             case sf::Keyboard::Enter:
-                validateFileName();
+                if(validateFileName()) {
+                    this->appData.setFilePath(this->inputBox->getInputtedText());
+                    this->nextButton->runAction();
+                }
                 break;
             default:
                 break;
@@ -125,14 +134,14 @@ void InputState::ProccessEvent(sf::Event &event)
     }
 }
 
-void InputState::validateFileName()
+bool InputState::validateFileName()
 {
+    this->error.setString("");
     if(!std::ifstream(this->inputBox->getInputtedText().data())) {
         this->error.setString("Ошибка: файл не найден!");
         this->error.setPosition(this->appData.GetWindow()->getSize().x / 2 - this->error.getGlobalBounds().width / 2,
                                 this->appData.GetWindow()->getSize().y / 5 * 3 - this->error.getGlobalBounds().height / 2);
-        std::cerr << "Error: file not found." << std::endl;
+        return false;
     }
-    else
-        this->error.setString("");
+    return true;
 }

@@ -26,8 +26,18 @@ class InputBox
         void copyFromBuffer();
         void removeChar();
 
-        void selectAll();
-        void unselect();
+        void selectAllText();
+        void unselectAllText();
+        void activate();
+        void deactivate();
+
+        template <typename t>
+        bool isMouseOn(sf::Vector2<t> mousePos)
+        {
+            return this->field.getGlobalBounds().contains(mousePos.x, mousePos.y);
+        }
+
+        bool isActivated();
 
         void move(int chars);
 
@@ -45,7 +55,8 @@ class InputBox
         sf::Clock timer;
         sf::Time ptrTime;
 
-        bool isSelected;
+        bool isTextSelected;
+        bool isActive;
 
         int32_t currentPosition;
         int32_t leftVisibleCorner;

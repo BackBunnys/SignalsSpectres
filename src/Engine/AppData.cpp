@@ -7,6 +7,9 @@ AppData::AppData(sf::VideoMode VMode)
     initWindow(VMode);
 
     initMachine();
+
+    this->filePath = "";
+    this->signalSize = this->fftSize = -1;
 }
 
 AppData::~AppData()
@@ -32,6 +35,11 @@ void AppData::initWindow(sf::VideoMode VMode)
 {
     this->window = new sf::RenderWindow(VMode, "SignalsSpectres");
     this->window->setFramerateLimit(60);
+}
+
+void AppData::setFilePath(std::string filePath)
+{
+    this->filePath = filePath;
 }
 
 sf::Vector2i AppData::getMouseDelta(sf::Vector2i MousePos)
