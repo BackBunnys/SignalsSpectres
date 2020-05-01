@@ -41,9 +41,15 @@ class WindowChooserState: public State
         void initInputBoxes();
         void initTips();
 
+        void appendErrors(const std::string error);
+
         bool fullValidate();
 
         bool intValueValidate(const std::string &str, std::string fieldName);
+
+        bool fftSizeValidate();
+
+        int parseToInt(const std::string &str);
 };
 
 #endif // WINDOWCHOOSERSTATE_H

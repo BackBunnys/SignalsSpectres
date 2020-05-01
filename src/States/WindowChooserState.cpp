@@ -92,14 +92,14 @@ void WindowChooserState::initChooseList()
 void WindowChooserState::initInputBoxes()
 {
     this->signalSize = new InputBox(this->appData.GetAssets()->getFont("a SignboardCpsNr BoldItalic.ttf"),
-                                  sf::Vector2u(100, 50), 2, 30,
+                                  sf::Vector2u(220, 50), 2, 30,
                                   sf::Color(100, 100, 100), sf::Color(50, 50, 50),
                                   sf::Color::White, sf::Color(50, 50, 50));
     this->signalSize->setPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 4 * 3,
                                                this->appData.GetWindow()->getSize().y / 8 * 2));
     this->signalSize->setHorizontalPadding(10);
     this->fftSize = new InputBox(this->appData.GetAssets()->getFont("a SignboardCpsNr BoldItalic.ttf"),
-                                  sf::Vector2u(100, 50), 2, 30,
+                                  sf::Vector2u(220, 50), 2, 30,
                                   sf::Color(100, 100, 100), sf::Color(50, 50, 50),
                                   sf::Color::White, sf::Color(50, 50, 50));
     this->fftSize->setPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 4 * 3,
@@ -144,16 +144,15 @@ void WindowChooserState::Render(sf::RenderWindow& window)
 void WindowChooserState::ProccessEvent(sf::Event &event)
 {
     if(event.type == sf::Event::MouseButtonReleased)
-        if(event.mouseButton.button == sf::Mouse::Right)
-            if(this->backButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))) {
-                if(fullValidate()) {
-
+        if(event.mouseButton.button == sf::Mouse::Left)
+            if(this->backButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
                     this->backButton->runAction();
-                }
-            }
             else if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))) {
-                if(fullValidate())
+                if(fullValidate()) {
+                    this->appData.setSignalSize(parseToInt(this->signalSize->getInputtedText()));
+                    this->appData.setFFTSize(parseToInt(this->fftSize->getInputtedText()));
                     this->nextButton->runAction();
+                }
             }
             else if(this->clist->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
                 this->clist->changeSelection(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
@@ -182,8 +181,11 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
                 this->backButton->runAction();
                 break;
             case sf::Keyboard::Enter:
-                if(fullValidate())
+                if(fullValidate()) {
+                    this->appData.setSignalSize(parseToInt(this->signalSize->getInputtedText()));
+                    this->appData.setFFTSize(parseToInt(this->fftSize->getInputtedText()));
                     this->nextButton->runAction();
+                }
                 break;
             case sf::Keyboard::Left:
                 if(this->signalSize->isActivated())
@@ -241,22 +243,47 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
 bool WindowChooserState::fullValidate()
 {
     this->errorMessage.setString("");
-    return intValueValidate(this->signalSize->getInputtedText(), "Длина сигнала") &
-           intValueValidate(this->fftSize->getInputtedText(), "Размер БФП");
+    return (intValueValidate(this->signalSize->getInputtedText(), "Длина сигнала") &
+            intValueValidate(this->fftSize->getInputtedText(), "Размер БПФ")) && fftSizeValidate();
+}
+
+bool WindowChooserState::fftSizeValidate()
+{
+    int signal = parseToInt(this->signalSize->getInputtedText());
+    int fft = parseToInt(this->fftSize->getInputtedText());
+    if(fft > 0)
+        if(fft < signal) {
+            appendErrors("Ошибка: размер БПФ не может быть меньше размера сигнала");
+            return false;
+        }
+        else if(!(fft && !(fft & (fft - 1)))) { //Не степень 2
+            appendErrors("Ошибка: размер БПФ должен быть степенью двойки");
+            return false;
+        }
+    return true;
 }
 
 bool WindowChooserState::intValueValidate(const std::string &str, std::string fieldName)
 {
-    std::stringstream ss;
-    ss << str;
-    int n;
-    ss >> n;
-    if(n == 0)
+    if(parseToInt(str) == 0)
     {
-        this->errorMessage.setString(this->errorMessage.getString() + "\nОшибка: некорректное значение в поле " + fieldName + "!");
-        this->errorMessage.setPosition(this->appData.GetWindow()->getSize().x / 2 - this->errorMessage.getGlobalBounds().width / 2,
-                                       this->appData.GetWindow()->getSize().y / 5 * 3 - this->errorMessage.getGlobalBounds().height / 2);
+        appendErrors("Ошибка: некорректное значение в поле " + fieldName + "!");
         return false;
     }
     return true;
+}
+
+int WindowChooserState::parseToInt(const std::string &str)
+{
+    if(str.size() == 0)
+        return -1;
+    else
+        return atoi(str.c_str());
+}
+
+void WindowChooserState::appendErrors(const std::string str)
+{
+    this->errorMessage.setString(this->errorMessage.getString() + "\n" + str);
+    this->errorMessage.setPosition(this->appData.GetWindow()->getSize().x / 2 - this->errorMessage.getGlobalBounds().width / 2,
+                                   this->appData.GetWindow()->getSize().y / 5 * 3 - this->errorMessage.getGlobalBounds().height / 2);
 }
