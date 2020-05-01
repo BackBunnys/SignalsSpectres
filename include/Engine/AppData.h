@@ -15,6 +15,8 @@ class AppData
         ~AppData();
 
         void setFilePath(std::string filePath);
+        void setSignalSize(int32_t signalSize) { this->signalSize = signalSize; }
+        void setFFTSize(int32_t fftSize) { this->fftSize = fftSize; }
 
         StateMachine* const GetMachine() const { return machine; }
         AssetManager* const GetAssets() const { return assets; }
@@ -34,6 +36,8 @@ class AppData
         sf::Vector2i mousePosition;
         sf::Vector2f f_mousePosition;
         std::string filePath;
+        int32_t signalSize;
+        int32_t fftSize;
 
         void initMachine();
         void initAssets();

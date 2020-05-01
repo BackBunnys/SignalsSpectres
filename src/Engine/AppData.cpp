@@ -7,6 +7,9 @@ AppData::AppData(sf::VideoMode VMode)
     initWindow(VMode);
 
     initMachine();
+
+    this->filePath = "";
+    this->signalSize = this->fftSize = -1;
 }
 
 AppData::~AppData()

@@ -144,24 +144,29 @@ void WindowChooserState::Render(sf::RenderWindow& window)
 void WindowChooserState::ProccessEvent(sf::Event &event)
 {
     if(event.type == sf::Event::MouseButtonReleased)
-        if(this->backButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
-            this->backButton->runAction();
-        else if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))) {
-            if(fullValidate())
-                this->nextButton->runAction();
-        }
-        else if(this->clist->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
-            this->clist->changeSelection(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
-        else if(this->signalSize->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
-        {
-            this->signalSize->activate();
-            this->fftSize->deactivate();
-        }
-        else if(this->fftSize->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
-        {
-            this->signalSize->deactivate();
-            this->fftSize->activate();
-        }
+        if(event.mouseButton.button == sf::Mouse::Right)
+            if(this->backButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))) {
+                if(fullValidate()) {
+
+                    this->backButton->runAction();
+                }
+            }
+            else if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))) {
+                if(fullValidate())
+                    this->nextButton->runAction();
+            }
+            else if(this->clist->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+                this->clist->changeSelection(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+            else if(this->signalSize->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+            {
+                this->signalSize->activate();
+                this->fftSize->deactivate();
+            }
+            else if(this->fftSize->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+            {
+                this->signalSize->deactivate();
+                this->fftSize->activate();
+            }
 
     if(event.type == sf::Event::TextEntered) {
         if(event.text.unicode >= 32)

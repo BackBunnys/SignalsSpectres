@@ -532,7 +532,7 @@
 	"Engine/AppData.h"
 	<SFML/Graphics.hpp>
 
-1588201842 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\engine\appdata.h
+1588351872 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\engine\appdata.h
 	"SFML/Graphics.hpp"
 	"StateMachine.h"
 	"AssetManager.h"
@@ -979,7 +979,7 @@
 1588273019 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
 	"SFML/Graphics.hpp"
 
-1588272521 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
+1588350600 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
 	"States/InputState.h"
 	<iostream>
 	<windows.h>
@@ -1014,7 +1014,7 @@
 	"Engine/State.h"
 	"GUI/Button.h"
 
-1588350279 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
+1588351836 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
 	"States/WindowChooserState.h"
 	"cmath"
 	<sstream>
