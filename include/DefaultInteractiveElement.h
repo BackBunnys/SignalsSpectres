@@ -33,6 +33,7 @@ class DefaultInteractiveElement: public InteractiveGUIElement
         sf::Color textColor, textHoverColor,
                   fieldColor, fieldHoverColor;
 
+    protected:
         AppData &appData;
 };
 

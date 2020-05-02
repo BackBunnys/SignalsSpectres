@@ -979,7 +979,7 @@
 1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
 	"SFML/Graphics.hpp"
 
-1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
+1588442132 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
 	"States/InputState.h"
 	<iostream>
 	<windows.h>
@@ -998,11 +998,12 @@
 	"SFML/Graphics.hpp"
 	"Engine/AppData.h"
 
-1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\button.h
+1588442052 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\button.h
 	"SFML/Graphics.hpp"
 	"Engine/AppData.h"
+	"DefaultInteractiveElement.h"
 
-1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\button.cpp
+1588442045 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\button.cpp
 	"GUI/Button.h"
 	"cmath"
 
@@ -1014,7 +1015,7 @@
 	"Engine/State.h"
 	"GUI/Button.h"
 
-1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
+1588442125 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
 	"States/WindowChooserState.h"
 	"cmath"
 	<sstream>
@@ -1053,4 +1054,15 @@
 	"cmath"
 	"SFML/Graphics.hpp"
 	"Engine/AppData.h"
+
+1588442097 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\defaultinteractiveelement.h
+	"InteractiveGUIElement.h"
+	"Engine/AppData.h"
+
+1588441496 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\interactiveguielement.h
+	"SFML/Graphics.hpp"
+
+1588441774 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\defaultinteractiveelement.cpp
+	"DefaultInteractiveElement.h"
+	"cmath"
 

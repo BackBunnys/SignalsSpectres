@@ -86,7 +86,7 @@ void InputState::ProccessEvent(sf::Event &event)
 {
     if(event.type == sf::Event::MouseButtonReleased)
         if(event.mouseButton.button == sf::Mouse::Left)
-            if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+            if(this->nextButton->isMouseOn(event.mouseButton.x, event.mouseButton.y))
                 if(validateFileName()) {
                     this->appData.setFilePath(this->inputBox->getInputtedText());
                     this->nextButton->runAction();

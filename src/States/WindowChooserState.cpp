@@ -145,9 +145,9 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
 {
     if(event.type == sf::Event::MouseButtonReleased)
         if(event.mouseButton.button == sf::Mouse::Left)
-            if(this->backButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+            if(this->backButton->isMouseOn(event.mouseButton.x, event.mouseButton.y))
                     this->backButton->runAction();
-            else if(this->nextButton->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))) {
+            else if(this->nextButton->isMouseOn(event.mouseButton.x, event.mouseButton.y)) {
                 if(fullValidate()) {
                     this->appData.setSignalSize(parseToInt(this->signalSize->getInputtedText()));
                     this->appData.setFFTSize(parseToInt(this->fftSize->getInputtedText()));
