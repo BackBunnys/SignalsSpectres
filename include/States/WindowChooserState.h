@@ -45,7 +45,7 @@ class WindowChooserState: public State
 
         bool fullValidate();
 
-        bool intValueValidate(const std::string &str, std::string fieldName);
+        bool notZeroValueValidate(const std::string &str, std::string fieldName);
 
         bool fftSizeValidate();
 

@@ -247,8 +247,8 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
 bool WindowChooserState::fullValidate()
 {
     this->errorMessage.setString("");
-    return (intValueValidate(this->signalSize->getInputtedText(), "Длина сигнала") &
-            intValueValidate(this->fftSize->getInputtedText(), "Размер БПФ")) && fftSizeValidate();
+    return (notZeroValueValidate(this->signalSize->getInputtedText(), "Длина сигнала") &
+            notZeroValueValidate(this->fftSize->getInputtedText(), "Длина БПФ")) && fftSizeValidate();
 }
 
 bool WindowChooserState::fftSizeValidate()
@@ -257,21 +257,21 @@ bool WindowChooserState::fftSizeValidate()
     int fft = parseToInt(this->fftSize->getInputtedText());
     if(fft > 0)
         if(fft < signal) {
-            appendErrors("Ошибка: размер БПФ не может быть меньше размера сигнала");
+            appendErrors("Ошибка: размер БПФ не может быть меньше размера сигнала!");
             return false;
         }
         else if(!(fft && !(fft & (fft - 1)))) { //Не степень 2
-            appendErrors("Ошибка: размер БПФ должен быть степенью двойки");
+            appendErrors("Ошибка: размер БПФ должен быть степенью двойки!");
             return false;
         }
     return true;
 }
 
-bool WindowChooserState::intValueValidate(const std::string &str, std::string fieldName)
+bool WindowChooserState::notZeroValueValidate(const std::string &str, std::string fieldName)
 {
     if(parseToInt(str) == 0)
     {
-        appendErrors("Ошибка: некорректное значение в поле " + fieldName + "!");
+        appendErrors("Ошибка: " + fieldName + " не может быть равной 0!");
         return false;
     }
     return true;
