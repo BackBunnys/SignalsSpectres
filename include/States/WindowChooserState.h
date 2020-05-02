@@ -7,12 +7,14 @@
 #include "GUI/ChooseList.h"
 #include "WindowFunction.h"
 #include "GUI/InputBox.h"
+#include "DarkThemeGUIFactory.h"
 
 class WindowChooserState: public State
 {
     public:
         WindowChooserState(AppData &appData);
-        virtual ~WindowChooserState();
+
+        virtual ~WindowChooserState() override;
 
         virtual void Update();
 
@@ -23,20 +25,20 @@ class WindowChooserState: public State
         virtual void ProccessEvent(sf::Event &event);
 
     private:
-        Button* backButton;             //TODO: CREATE THE GUI FACTORY
+        Button* backButton;
         Button* nextButton;
         InputBox* signalSize;
         InputBox* fftSize;
+        ChooseList<WindowFunction>* clist;
         sf::Text signalSizeTip;
         sf::Text fftSizeTip;
-        ChooseList<WindowFunction>* clist;
 
         sf::Text errorMessage;
         sf::Color bgColor;
 
+        DarkThemeGUIFactory factory;
 
-        void initBackButton();
-        void initNextButton();
+        void initButtons();
         void initChooseList();
         void initInputBoxes();
         void initTips();

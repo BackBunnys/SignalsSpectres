@@ -950,7 +950,7 @@
 	"State.h"
 	"stack"
 
-1588115413 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\engine\state.h
+1588451012 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\engine\state.h
 	<SFML/Graphics.hpp>
 	"AppData.h"
 
@@ -964,10 +964,10 @@
 	"Engine/AssetManager.h"
 	<iostream>
 
-1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\state.cpp
+1588451012 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\state.cpp
 	"Engine/State.h"
 
-1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\statemachine.cpp
+1588450843 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\statemachine.cpp
 	"Engine/StateMachine.h"
 
 1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\inputbox.cpp
@@ -979,17 +979,18 @@
 1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
 	"SFML/Graphics.hpp"
 
-1588442132 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
+1588450675 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
 	"States/InputState.h"
 	<iostream>
 	<windows.h>
 	<fstream>
 	<States/WindowChooserState.h>
 
-1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\inputstate.h
+1588450083 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\inputstate.h
 	"Engine/State.h"
 	"GUI/InputBox.h"
 	"GUI/Button.h"
+	"DarkThemeGUIFactory.h"
 
 1588173521 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\button.cpp
 	"Button.h"
@@ -1015,23 +1016,25 @@
 	"Engine/State.h"
 	"GUI/Button.h"
 
-1588445979 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
+1588450924 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
 	"States/WindowChooserState.h"
 	"cmath"
 	<sstream>
+	<iostream>
 
-1588446122 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\windowchooserstate.h
+1588450895 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\windowchooserstate.h
 	"SFML/Graphics.hpp"
 	"Engine/State.h"
 	"GUI/Button.h"
 	"GUI/ChooseList.h"
 	"WindowFunction.h"
 	"GUI/InputBox.h"
+	"DarkThemeGUIFactory.h"
 
 1588261347 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\chooselist.cpp
 	"GUI/ChooseList.h"
 
-1588442782 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\chooselist.h
+1588449889 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\chooselist.h
 	<vector>
 	"SFML/Graphics.hpp"
 	"ListElement.h"
@@ -1067,4 +1070,14 @@
 	"DefaultInteractiveElement.h"
 	"cmath"
 	<iostream>
+
+1588448276 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\darkthemeguifactory.cpp
+	"DarkThemeGUIFactory.h"
+
+1588448318 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\darkthemeguifactory.h
+	"SFML/Graphics.hpp"
+	"Engine/AppData.h"
+	"GUI/Button.h"
+	"GUI/InputBox.h"
+	"GUI/ListElement.h"
 

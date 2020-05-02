@@ -31,7 +31,10 @@ bool StateMachine::isEmpty()
 
 void StateMachine::PopState()
 {
-    states.pop();
+    if(!states.empty()) {
+        delete states.top();
+        states.pop();
+    }
 }
 
 void StateMachine::PushState(State* state)

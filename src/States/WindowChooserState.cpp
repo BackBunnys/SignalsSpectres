@@ -3,7 +3,7 @@
 #include <sstream>
 
 WindowChooserState::WindowChooserState(AppData &appData):
-    State(appData)
+    State(appData), factory(appData)
 {
 
 }
@@ -21,8 +21,7 @@ void WindowChooserState::Init()
 {
     bgColor = sf::Color(100, 100, 100);
 
-    initBackButton();
-    initNextButton();
+    initButtons();
     initChooseList();
     initInputBoxes();
     initTips();
@@ -31,28 +30,12 @@ void WindowChooserState::Init()
     this->errorMessage.setString("");
 }
 
-void WindowChooserState::initBackButton()
+void WindowChooserState::initButtons()
 {
-    this->backButton = new Button(sf::Text("Назад", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                                  [](AppData &appData){appData.GetMachine()->PopState();}, this->appData);
-    this->backButton->setBorder(2, sf::Color(50, 50, 50));
-    this->backButton->setTextColor(sf::Color::White, sf::Color(45, 45, 45));
-    this->backButton->setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
-    this->backButton->setSize(sf::Vector2f(200, 50));
-    this->backButton->setCenterPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 5,
-                                                     this->appData.GetWindow()->getSize().y / 5 * 4));
-}
-
-void WindowChooserState::initNextButton()
-{
-    this->nextButton = new Button(sf::Text("Далее", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                                  [](AppData &appData){;}, this->appData);
-    this->nextButton->setBorder(2, sf::Color(50, 50, 50));
-    this->nextButton->setTextColor(sf::Color::White, sf::Color(45, 45, 45));
-    this->nextButton->setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
-    this->nextButton->setSize(sf::Vector2f(200, 50));
-    this->nextButton->setCenterPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 5 * 4,
-                                                     this->appData.GetWindow()->getSize().y / 5 * 4));
+    this->backButton = factory.getButton("Назад", [](AppData &appData){ appData.GetMachine()->PopState(); },
+                                         sf::Vector2f(this->appData.GetWindow()->getSize().x / 5, this->appData.GetWindow()->getSize().y / 5 * 4));
+    this->nextButton = factory.getButton("Далее", [](AppData &appData){;}, //There are no next state
+                                         sf::Vector2f(this->appData.GetWindow()->getSize().x / 5 * 4, this->appData.GetWindow()->getSize().y / 5 * 4));
 }
 
 void WindowChooserState::initChooseList()
@@ -60,55 +43,27 @@ void WindowChooserState::initChooseList()
     this->clist = new ChooseList<WindowFunction>(1);
     this->clist->setBorder(2, sf::Color(50, 50, 50));
 
-    ListElement<WindowFunction> el(ListElement<WindowFunction>(sf::Text("Окно Ханна", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                WindowFunction("Hann window", [](uint32_t n, uint32_t N)->double{ return 0.5 * (1 - cos(2 * M_PI * n / (N - 1))); }), this->appData));
-    el.setTextColor(sf::Color::White, sf::Color(45, 45, 45));
-    el.setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
-    el.setSize(sf::Vector2f(300, 50));
-    el.setFieldSelectedColor(sf::Color::White);
-    this->clist->addElement(el);
-    el = ListElement<WindowFunction>(ListElement<WindowFunction>(sf::Text("Окно Хэмминга", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                     WindowFunction("Hemming window", [](uint32_t n, uint32_t N)->double{ return 0.53836 - 0.46164 * cos(2 * M_PI * n / (N - 1)); }), this->appData));
-    el.setTextColor(sf::Color::White, sf::Color(45, 45, 45));
-    el.setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
-    el.setFieldSelectedColor(sf::Color::White);
-    this->clist->addElement(el);
-    el = ListElement<WindowFunction>(ListElement<WindowFunction>(sf::Text("Синус окно", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                     WindowFunction("Sinus window", [](uint32_t n, uint32_t N)->double{ return sin(M_PI * n / (N - 1)); }), this->appData));
-    el.setTextColor(sf::Color::White, sf::Color(45, 45, 45));
-    el.setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
-    el.setFieldSelectedColor(sf::Color::White);
-    this->clist->addElement(el);
-    el = ListElement<WindowFunction>(ListElement<WindowFunction>(sf::Text("Окно Ланцоша", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                     WindowFunction("Lanczos window", [](uint32_t n, uint32_t N)->double{ return sin(M_PI * (2 * n / (N - 1) - 1)) / M_PI * (2 * n / (N - 1) - 1); }), this->appData));
-    el.setTextColor(sf::Color::White, sf::Color(45, 45, 45));
-    el.setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
-    el.setFieldSelectedColor(sf::Color::White);
-    this->clist->addElement(el);
-    el = ListElement<WindowFunction>(ListElement<WindowFunction>(sf::Text("Треугольное окно", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                     WindowFunction("Barlett window", [](uint32_t n, uint32_t N)->double{ return 1 - abs(n / ((N - 1) / 2) - 1) ; }), this->appData));
-    el.setTextColor(sf::Color::White, sf::Color(45, 45, 45));
-    el.setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
-    this->clist->addElement(el);
+    this->clist->addElement(this->factory.getListElement("Окно Ханна",
+                            WindowFunction("Hann window", [](uint32_t n, uint32_t N)->double{ return 0.5 * (1 - cos(2 * M_PI * n / (N - 1))); })));
+    this->clist->addElement(this->factory.getListElement("Окно Хэмминга",
+                            WindowFunction("Hemming window", [](uint32_t n, uint32_t N)->double{ return 0.53836 - 0.46164 * cos(2 * M_PI * n / (N - 1)); })));
+    this->clist->addElement(this->factory.getListElement("Синус окно",
+                            WindowFunction("Sinus window", [](uint32_t n, uint32_t N)->double{ return sin(M_PI * n / (N - 1)); })));
+    this->clist->addElement(this->factory.getListElement("Окно Ланцоша",
+                            WindowFunction("Lanczos window", [](uint32_t n, uint32_t N)->double{ return sin(M_PI * (2 * n / (N - 1) - 1)) / M_PI * (2 * n / (N - 1) - 1); })));
+    this->clist->addElement(this->factory.getListElement("Треугольное окно",
+                            WindowFunction("Barlett window", [](uint32_t n, uint32_t N)->double{ return 1 - abs(n / ((N - 1) / 2) - 1) ; })));
+
     this->clist->setCenterPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 3, this->appData.GetWindow()->getSize().y / 3));
 }
 
 void WindowChooserState::initInputBoxes()
 {
-    this->signalSize = new InputBox(this->appData.GetAssets()->getFont("a SignboardCpsNr BoldItalic.ttf"),
-                                  sf::Vector2u(220, 50), 2, 30,
-                                  sf::Color(100, 100, 100), sf::Color(50, 50, 50),
-                                  sf::Color::White, sf::Color(50, 50, 50));
-    this->signalSize->setPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 4 * 3,
-                                               this->appData.GetWindow()->getSize().y / 8 * 2));
-    this->signalSize->setHorizontalPadding(10);
-    this->fftSize = new InputBox(this->appData.GetAssets()->getFont("a SignboardCpsNr BoldItalic.ttf"),
-                                  sf::Vector2u(220, 50), 2, 30,
-                                  sf::Color(100, 100, 100), sf::Color(50, 50, 50),
-                                  sf::Color::White, sf::Color(50, 50, 50));
-    this->fftSize->setPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 4 * 3,
-                                            this->appData.GetWindow()->getSize().y / 8 * 4));
-    this->fftSize->setHorizontalPadding(10);
+    this->signalSize = factory.getInputBox(sf::Vector2u(220, 50), sf::Vector2f(this->appData.GetWindow()->getSize().x / 4 * 3,
+                                                                               this->appData.GetWindow()->getSize().y / 8 * 2));
+    this->fftSize = factory.getInputBox(sf::Vector2u(220, 50), sf::Vector2f(this->appData.GetWindow()->getSize().x / 4 * 3,
+                                                                            this->appData.GetWindow()->getSize().y / 8 * 4));
+
     this->signalSize->activate();
 }
 
@@ -119,8 +74,7 @@ void WindowChooserState::initTips()
     this->signalSizeTip.setString("Длина сигнала");
     this->signalSizeTip.setPosition(this->signalSize->getGlobalBounds().left, this->signalSize->getGlobalBounds().top - 1.5 * this->signalSizeTip.getGlobalBounds().height);
 
-    this->fftSizeTip.setFont(this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"));
-    this->fftSizeTip.setCharacterSize(30);
+    this->fftSizeTip = this->signalSizeTip;
     this->fftSizeTip.setString("Длина БПФ");
     this->fftSizeTip.setPosition(this->fftSize->getGlobalBounds().left, this->fftSize->getGlobalBounds().top - 1.5 * this->fftSizeTip.getGlobalBounds().height);
 }

@@ -4,7 +4,8 @@
 #include <fstream>
 #include <States/WindowChooserState.h>
 
-InputState::InputState(AppData &appData): State(appData)
+InputState::InputState(AppData &appData):
+    State(appData), factory(appData)
 {
     this->Init();
 }
@@ -32,13 +33,8 @@ void InputState::Init()
 
 void InputState::initInputBox()
 {
-    this->inputBox = new InputBox(this->appData.GetAssets()->getFont("a SignboardCpsNr BoldItalic.ttf"),
-                                  sf::Vector2u(800, 50), 2, 30,
-                                  sf::Color(100, 100, 100), sf::Color(50, 50, 50),
-                                  sf::Color::White, sf::Color(50, 50, 50));
-    this->inputBox->setPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 2,
-                                             this->appData.GetWindow()->getSize().y / 2));
-    this->inputBox->setHorizontalPadding(10);
+    this->inputBox = factory.getInputBox(sf::Vector2u(800, 50), sf::Vector2f(this->appData.GetWindow()->getSize().x / 2,
+                                                                             this->appData.GetWindow()->getSize().y / 2));
     this->inputBox->activate();
 }
 
@@ -60,14 +56,8 @@ void InputState::initError()
 
 void InputState::initNextButton()
 {
-    this->nextButton = new Button(sf::Text("Далее", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                                  [](AppData &appData){appData.GetMachine()->PushState(new WindowChooserState(appData));}, this->appData);
-    this->nextButton->setBorder(2, sf::Color(50, 50, 50));
-    this->nextButton->setTextColor(sf::Color::White, sf::Color(45, 45, 45));
-    this->nextButton->setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
-    this->nextButton->setSize(sf::Vector2f(200, 50));
-    this->nextButton->setCenterPosition(sf::Vector2f(this->appData.GetWindow()->getSize().x / 2,
-                                                     this->appData.GetWindow()->getSize().y / 5 * 4));
+    this->nextButton = factory.getButton("Далее", [](AppData &appData){ appData.GetMachine()->PushState(new WindowChooserState(appData)); },
+                                          sf::Vector2f(this->appData.GetWindow()->getSize().x / 5 * 4, this->appData.GetWindow()->getSize().y / 5 * 4));
 }
 
 void InputState::Render(sf::RenderWindow& window)

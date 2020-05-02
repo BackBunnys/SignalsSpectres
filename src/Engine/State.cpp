@@ -6,6 +6,8 @@ State::State(AppData &appData):
 
 }
 
+State::~State() {}
+
 const std::string State::getDescription() const
 {
     return this->Description;

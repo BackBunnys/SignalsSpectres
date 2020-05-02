@@ -4,6 +4,7 @@
 #include "Engine/State.h"
 #include "GUI/InputBox.h"
 #include "GUI/Button.h"
+#include "DarkThemeGUIFactory.h"
 
 class InputState : public State
 {
@@ -25,6 +26,8 @@ class InputState : public State
         sf::Text error;
         InputBox *inputBox;
         Button *nextButton;
+
+        DarkThemeGUIFactory factory;
 
         void initInputBox();
         void initTip();
