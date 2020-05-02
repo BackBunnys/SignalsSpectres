@@ -22,7 +22,7 @@ class ListElement
             unselect();
         }
 
-        void update()  //TODO: do something with code duplicate with button class (some new class maybe?)
+        void update()
         {
             if(isMouseOn(sf::Mouse::getPosition(*this->appData->GetWindow())))
                 onHoverTransform();

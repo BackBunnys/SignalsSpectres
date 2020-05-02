@@ -506,10 +506,10 @@
 
 1588184774 D
 
-1588185570 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\main.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\main.cpp
 	"Application.h"
 
-1588185582 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\application.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\application.cpp
 	"Application.h"
 	"States/InputState.h"
 
@@ -532,7 +532,7 @@
 	"Engine/AppData.h"
 	<SFML/Graphics.hpp>
 
-1588351872 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\engine\appdata.h
+1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\engine\appdata.h
 	"SFML/Graphics.hpp"
 	"StateMachine.h"
 	"AssetManager.h"
@@ -957,36 +957,36 @@
 1587939110 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\engine\assetmanager.h
 	"SFML/Graphics.hpp"
 
-1588351891 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\appdata.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\appdata.cpp
 	"Engine/AppData.h"
 
-1588188795 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\assetmanager.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\assetmanager.cpp
 	"Engine/AssetManager.h"
 	<iostream>
 
-1588185613 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\state.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\state.cpp
 	"Engine/State.h"
 
-1588185646 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\statemachine.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\engine\statemachine.cpp
 	"Engine/StateMachine.h"
 
-1588273009 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\inputbox.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\inputbox.cpp
 	"GUI/InputBox.h"
 	<string>
 	<iostream>
 	<windows.h>
 
-1588273019 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
+1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\inputbox.h
 	"SFML/Graphics.hpp"
 
-1588350600 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\inputstate.cpp
 	"States/InputState.h"
 	<iostream>
 	<windows.h>
 	<fstream>
 	<States/WindowChooserState.h>
 
-1588350449 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\inputstate.h
+1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\inputstate.h
 	"Engine/State.h"
 	"GUI/InputBox.h"
 	"GUI/Button.h"
@@ -998,11 +998,11 @@
 	"SFML/Graphics.hpp"
 	"Engine/AppData.h"
 
-1588185079 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\button.h
+1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\button.h
 	"SFML/Graphics.hpp"
 	"Engine/AppData.h"
 
-1588202158 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\button.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\button.cpp
 	"GUI/Button.h"
 	"cmath"
 
@@ -1014,13 +1014,12 @@
 	"Engine/State.h"
 	"GUI/Button.h"
 
-1588354917 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\states\windowchooserstate.cpp
 	"States/WindowChooserState.h"
 	"cmath"
 	<sstream>
-	<iostream>
 
-1588354552 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\windowchooserstate.h
+1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\states\windowchooserstate.h
 	"SFML/Graphics.hpp"
 	"Engine/State.h"
 	"GUI/Button.h"
@@ -1031,7 +1030,7 @@
 1588261347 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\gui\chooselist.cpp
 	"GUI/ChooseList.h"
 
-1588348127 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\chooselist.h
+1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\chooselist.h
 	<vector>
 	"SFML/Graphics.hpp"
 	"ListElement.h"
@@ -1044,13 +1043,13 @@
 	"SFML/Graphics.hpp"
 	"Engine/AppData.h"
 
-1588269240 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\windowfunction.cpp
+1588356080 source:d:\dev\signalsspectres\signalsspectres\signalsspectres\src\windowfunction.cpp
 	"WindowFunction.h"
 
-1588270431 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\windowfunction.h
+1588356080 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\windowfunction.h
 	<string>
 
-1588269631 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\listelement.h
+1588438058 d:\dev\signalsspectres\signalsspectres\signalsspectres\include\gui\listelement.h
 	"cmath"
 	"SFML/Graphics.hpp"
 	"Engine/AppData.h"
