@@ -10,7 +10,7 @@ class InteractiveGUIElement
         virtual void update() = 0;
         virtual void draw(sf::RenderWindow &window) = 0;
 
-        virtual bool isMouseOn(int xPos, int yPos) = 0;
+        virtual bool isMouseOn(float xPos, float yPos) = 0;
 };
 
 #endif // INTERACTIVEGUIELEMENT_H
