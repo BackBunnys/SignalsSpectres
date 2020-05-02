@@ -1,4 +1,4 @@
-#include "DefaultInteractiveElement.h"
+#include "GUI/DefaultInteractiveElement.h"
 #include "cmath"
 
 DefaultInteractiveElement::DefaultInteractiveElement(sf::Text text, AppData &appData): appData(&appData)

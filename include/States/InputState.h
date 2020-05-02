@@ -4,7 +4,7 @@
 #include "Engine/State.h"
 #include "GUI/InputBox.h"
 #include "GUI/Button.h"
-#include "DarkThemeGUIFactory.h"
+#include "GUI/DarkThemeGUIFactory.h"
 
 class InputState : public State
 {

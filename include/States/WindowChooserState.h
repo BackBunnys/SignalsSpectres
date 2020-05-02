@@ -7,7 +7,7 @@
 #include "GUI/ChooseList.h"
 #include "WindowFunction.h"
 #include "GUI/InputBox.h"
-#include "DarkThemeGUIFactory.h"
+#include "GUI/DarkThemeGUIFactory.h"
 
 class WindowChooserState: public State
 {

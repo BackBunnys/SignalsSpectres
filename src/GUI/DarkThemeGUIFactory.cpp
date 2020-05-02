@@ -1,4 +1,4 @@
-#include "DarkThemeGUIFactory.h"
+#include "GUI/DarkThemeGUIFactory.h"
 
 DarkThemeGUIFactory::DarkThemeGUIFactory(AppData &appData): appData(appData)
 {
