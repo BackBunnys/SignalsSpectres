@@ -98,7 +98,7 @@ class ChooseList
         {
             if(isMouseOn(mousePos))
                 for(size_t i = 0; i < elements.size(); ++i)
-                    if(elements[i].isMouseOn(mousePos)) {
+                    if(elements[i].isMouseOn(mousePos.x, mousePos.y)) {
                         if(!elements[i].isSelect()) {
                             if(numOfSelected < selectionLimit)
                             {

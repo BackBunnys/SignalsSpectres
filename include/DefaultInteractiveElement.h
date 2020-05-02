@@ -13,7 +13,8 @@ class DefaultInteractiveElement: public InteractiveGUIElement
         virtual void update() override;
         virtual void draw(sf::RenderWindow &window) override;
 
-        void setCenterPosition(sf::Vector2f position);
+        void setPosition(sf::Vector2f position);
+        void setCenterPosition(sf::Vector2f centerPosition);
         void setSize(sf::Vector2f size);
         void setTextSize(unsigned textSize, unsigned onHoverSize);
         void setTextColor(sf::Color color, sf::Color onHoverColor);
@@ -25,7 +26,7 @@ class DefaultInteractiveElement: public InteractiveGUIElement
         void onHoverTransform();
         void onUnHoverTransform();
 
-    private:
+    protected:
         sf::Text text;
         sf::RectangleShape field;
 
@@ -33,8 +34,7 @@ class DefaultInteractiveElement: public InteractiveGUIElement
         sf::Color textColor, textHoverColor,
                   fieldColor, fieldHoverColor;
 
-    protected:
-        AppData &appData;
+        AppData* appData;
 };
 
 #endif // DEFAULTINTERACTIVEELEMENT_H

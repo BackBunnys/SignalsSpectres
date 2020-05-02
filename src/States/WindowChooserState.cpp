@@ -61,28 +61,32 @@ void WindowChooserState::initChooseList()
     this->clist->setBorder(2, sf::Color(50, 50, 50));
 
     ListElement<WindowFunction> el(ListElement<WindowFunction>(sf::Text("Окно Ханна", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                WindowFunction("Hann window", [](uint32_t n, uint32_t N)->double{ return 0.5 * (1 - cos(2 * M_PI * n / (N - 1))); }), &this->appData));
+                WindowFunction("Hann window", [](uint32_t n, uint32_t N)->double{ return 0.5 * (1 - cos(2 * M_PI * n / (N - 1))); }), this->appData));
     el.setTextColor(sf::Color::White, sf::Color(45, 45, 45));
     el.setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
     el.setSize(sf::Vector2f(300, 50));
+    el.setFieldSelectedColor(sf::Color::White);
     this->clist->addElement(el);
     el = ListElement<WindowFunction>(ListElement<WindowFunction>(sf::Text("Окно Хэмминга", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                     WindowFunction("Hemming window", [](uint32_t n, uint32_t N)->double{ return 0.53836 - 0.46164 * cos(2 * M_PI * n / (N - 1)); }), &this->appData));
+                     WindowFunction("Hemming window", [](uint32_t n, uint32_t N)->double{ return 0.53836 - 0.46164 * cos(2 * M_PI * n / (N - 1)); }), this->appData));
     el.setTextColor(sf::Color::White, sf::Color(45, 45, 45));
     el.setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
+    el.setFieldSelectedColor(sf::Color::White);
     this->clist->addElement(el);
     el = ListElement<WindowFunction>(ListElement<WindowFunction>(sf::Text("Синус окно", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                     WindowFunction("Sinus window", [](uint32_t n, uint32_t N)->double{ return sin(M_PI * n / (N - 1)); }), &this->appData));
+                     WindowFunction("Sinus window", [](uint32_t n, uint32_t N)->double{ return sin(M_PI * n / (N - 1)); }), this->appData));
     el.setTextColor(sf::Color::White, sf::Color(45, 45, 45));
     el.setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
+    el.setFieldSelectedColor(sf::Color::White);
     this->clist->addElement(el);
     el = ListElement<WindowFunction>(ListElement<WindowFunction>(sf::Text("Окно Ланцоша", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                     WindowFunction("Lanczos window", [](uint32_t n, uint32_t N)->double{ return sin(M_PI * (2 * n / (N - 1) - 1)) / M_PI * (2 * n / (N - 1) - 1); }), &this->appData));
+                     WindowFunction("Lanczos window", [](uint32_t n, uint32_t N)->double{ return sin(M_PI * (2 * n / (N - 1) - 1)) / M_PI * (2 * n / (N - 1) - 1); }), this->appData));
     el.setTextColor(sf::Color::White, sf::Color(45, 45, 45));
     el.setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
+    el.setFieldSelectedColor(sf::Color::White);
     this->clist->addElement(el);
     el = ListElement<WindowFunction>(ListElement<WindowFunction>(sf::Text("Треугольное окно", this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                     WindowFunction("Barlett window", [](uint32_t n, uint32_t N)->double{ return 1 - abs(n / ((N - 1) / 2) - 1) ; }), &this->appData));
+                     WindowFunction("Barlett window", [](uint32_t n, uint32_t N)->double{ return 1 - abs(n / ((N - 1) / 2) - 1) ; }), this->appData));
     el.setTextColor(sf::Color::White, sf::Color(45, 45, 45));
     el.setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
     this->clist->addElement(el);

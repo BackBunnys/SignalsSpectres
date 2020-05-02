@@ -10,5 +10,5 @@ Button::Button(sf::Text buttonText,
 
 void Button::runAction()
 {
-    this->action(this->appData);
+    this->action(*this->appData);
 }
