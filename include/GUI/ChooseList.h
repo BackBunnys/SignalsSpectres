@@ -17,14 +17,23 @@ class ChooseList
             this->field.setFillColor(sf::Color::Transparent);
         }
 
-        ChooseList(std::vector<ListElement<T> > elements, uint32_t selectionLimit): ChooseList(selectionLimit)
+        ChooseList(std::vector<ListElement<T>* > elements, uint32_t selectionLimit): ChooseList(selectionLimit)
         {
             this->elements = elements;
             updateFieldSize();
             setPosition(field.getPosition());
         }
 
-        virtual ~ChooseList() {}
+        virtual ~ChooseList() {
+            clear();
+        }
+
+        void clear()
+        {
+            for(size_t i = 0; i < elements.size(); ++i)
+                delete elements[i];
+            elements.clear();
+        }
 
         void setBorder(uint16_t weight, sf::Color color)
         {
@@ -38,8 +47,8 @@ class ChooseList
             int32_t yPos = position.y;
             for(size_t i = 0; i < elements.size(); ++i)
             {
-                elements[i].setPosition(sf::Vector2f(position.x, yPos));
-                yPos += elements[i].getSize().y;
+                elements[i]->setPosition(sf::Vector2f(position.x, yPos));
+                yPos += elements[i]->getSize().y;
             }
         }
 
@@ -48,19 +57,19 @@ class ChooseList
             setPosition(sf::Vector2f(position.x - this->field.getSize().x / 2, position.y - this->field.getSize().y / 2));
         }
 
-        void addElement(ListElement<T> element) {
+        void addElement(ListElement<T>* element) {
             this->elements.push_back(element);
             updateFieldSize();
             setPosition(field.getPosition());
         }
 
-        void insertElement(ListElement<T> element, uint32_t index) {
+        void insertElement(ListElement<T>* element, uint32_t index) {
             this->elements.insert(elements.begin() + index, element);
             updateFieldSize();
             setPosition(field.getPosition());
         }
 
-        void addElements(std::vector<ListElement<T> > elements)
+        void addElements(std::vector<ListElement<T>* > elements)
         {
             this->elements.insert(this->elements.end(), elements.begin(), elements.end());
             updateFieldSize();
@@ -69,6 +78,7 @@ class ChooseList
 
         void removeElement(uint32_t index)
         {
+            delete this->elements[index];
             this->elements.erase(this->elements.begin() + index);
             updateFieldSize();
             setPosition(field.getPosition());
@@ -78,13 +88,13 @@ class ChooseList
         {
             window.draw(this->field);
             for(size_t i = 0; i < elements.size(); ++i)
-                elements[i].draw(window);
+                elements[i]->draw(window);
         }
 
         void update()
         {
             for(size_t i = 0; i < elements.size(); ++i)
-                elements[i].update();
+                elements[i]->update();
         }
 
         template <typename t>
@@ -98,26 +108,26 @@ class ChooseList
         {
             if(isMouseOn(mousePos))
                 for(size_t i = 0; i < elements.size(); ++i)
-                    if(elements[i].isMouseOn(mousePos)) {
-                        if(!elements[i].isSelect()) {
+                    if(elements[i]->isMouseOn(mousePos.x, mousePos.y)) {
+                        if(!elements[i]->isSelect()) {
                             if(numOfSelected < selectionLimit)
                             {
-                                elements[i].select();
+                                elements[i]->select();
                                 ++numOfSelected;
                             }
                         }
                         else {
-                            elements[i].unselect();
+                            elements[i]->unselect();
                             --numOfSelected;
                         }
                     }
         }
 
-        std::vector<ListElement<T> > getSelectedElements()
+        std::vector<ListElement<T>* > getSelectedElements()
         {
-            std::vector<ListElement<T> > selectedElements;
+            std::vector<ListElement<T>* > selectedElements;
             for(size_t i = 0; i < elements.size(); ++i)
-                if(elements[i].isSelect())
+                if(elements[i]->isSelect())
                     selectedElements.push_back(elements[i]);
             return selectedElements;
         }
@@ -126,15 +136,15 @@ class ChooseList
         {
             std::vector<T> data;
             for(size_t i = 0; i < elements.size(); ++i)
-                if(elements[i].isSelect())
-                    data.push_back(elements[i].getData());
+                if(elements[i]->isSelect())
+                    data.push_back(elements[i]->getData());
             return data;
         }
 
         uint32_t getNumOfSelected() { return this->numOfSelected; }
 
     private:
-        std::vector<ListElement<T> > elements;
+        std::vector<ListElement<T>* > elements;
 
         sf::RectangleShape field;
 
@@ -143,11 +153,11 @@ class ChooseList
 
         void updateFieldSize()
         {
-            int32_t maxWidth = elements[0].getSize().x,
-                    maxHeight = elements[0].getSize().y;
+            int32_t maxWidth = elements[0]->getSize().x,
+                    maxHeight = elements[0]->getSize().y;
             for(size_t i = 0; i < elements.size(); ++i)
             {
-                sf::Vector2f size = elements[i].getSize();
+                sf::Vector2f size = elements[i]->getSize();
                 if(size.x > maxWidth)
                     maxWidth = size.x;
                 if(size.y > maxHeight)
@@ -155,7 +165,7 @@ class ChooseList
             }
             for(size_t i = 0; i < elements.size(); ++i)
             {
-                elements[i].setSize(sf::Vector2f(maxWidth, maxHeight));
+                elements[i]->setSize(sf::Vector2f(maxWidth, maxHeight));
             }
             field.setSize(sf::Vector2f(maxWidth, maxHeight * elements.size()));
         }
