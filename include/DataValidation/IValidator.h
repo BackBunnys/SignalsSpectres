@@ -1,6 +1,8 @@
 #ifndef IVALIDATOR_H
 #define IVALIDATOR_H
 
+#include <string>
+
 template <typename T>
 class IValidator
 {
