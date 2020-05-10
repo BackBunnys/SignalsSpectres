@@ -6,7 +6,7 @@ class IValidator
 {
     public:
 
-        virtual bool validate(string &errorString);
+        virtual bool validate(std::string &errorString) = 0;
 
         virtual T& getValidatingField() = 0;
 
