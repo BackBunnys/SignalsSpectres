@@ -3,16 +3,14 @@
 
 #include <string>
 
-template <typename T>
+template <typename C, typename T>
 class IValidator
 {
     public:
 
         virtual bool validate(std::string &errorString) = 0;
 
-        virtual T& getValidatingField() = 0;
-
-        virtual void setValidatingField(T& field) = 0;
+        virtual void setValidatingAccessor(const C &object, T (C::*accessor)() const) = 0;
 
 };
 
