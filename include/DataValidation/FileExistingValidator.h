@@ -3,13 +3,13 @@
 
 #include <fstream>
 
-#include "DataValidation/Validator.h"
+#include "Validator.h"
+#include "DataWrapping/IDataWrapper.h"
 
-template <typename C>
-class FileExistingValidator: public Validator<C, std::string>
+class FileExistingValidator: public Validator<std::string>
 {
     public:
-        FileExistingValidator(C &object, std::string (C::*accessor)() const): Validator<C, std::string>(object, accessor)
+        FileExistingValidator(IDataWrapper<std::string>* dataWrapper): Validator<std::string>(dataWrapper)
         {
             this->setErrorMessage("Ошибка: не удалось открыть файл!");
         }
@@ -20,7 +20,7 @@ class FileExistingValidator: public Validator<C, std::string>
 
         virtual bool condition()
         {
-            return std::ifstream(this->invoke().data());
+            return std::ifstream(this->dataWrapper->get().data());
         }
 };
 

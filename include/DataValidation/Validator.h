@@ -2,18 +2,16 @@
 #define VALIDATOR_H
 
 #include "IValidator.h"
+#include "DataWrapping/IDataWrapper.h"
 
-template <typename C, typename T>
-class Validator: public IValidator<C, T>
+template <typename T>
+class Validator: public IValidator<T>
 {
     public:
-        Validator(C &object, T (C::*accessor)() const)
-        {
-            setValidatingAccessor(object, accessor);
-            setErrorMessage("Неизвестная ошибка!");
-        }
 
-        virtual ~Validator() {}
+        Validator(IDataWrapper<T>* dataWrapper): dataWrapper(dataWrapper) { }
+
+        virtual ~Validator() { delete this->dataWrapper; }
 
         virtual bool validate(std::string &errorString)
         {
@@ -23,27 +21,20 @@ class Validator: public IValidator<C, T>
             return false;
         }
 
-        virtual void setValidatingAccessor(const C &object, T (C::*accessor)() const)
+        virtual void setValidatingData(IDataWrapper<T>* dataWrapper)
         {
-            this->validatingObject = &object;
-            this->validatingFieldAccessor = accessor;
+            this->dataWrapper = dataWrapper;
         }
 
         std::string getErrorMessage() { return this->errorMessage; }
         void setErrorMessage(std::string message) { this->errorMessage = message;}
 
     protected:
+        IDataWrapper<T>* dataWrapper;
+
         std::string errorMessage;
-        T (C::*validatingFieldAccessor)() const;
-        const C* validatingObject;
 
         virtual bool condition() = 0;
-
-        virtual T invoke()
-        {
-            return ((*this->validatingObject).*this->validatingFieldAccessor)();
-        }
-
 };
 
 #endif // VALIDATOR_H

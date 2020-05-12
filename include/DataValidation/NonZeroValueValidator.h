@@ -3,12 +3,12 @@
 
 #include "StringAsNumberValidator.h"
 
-template <typename C, typename Number>
-class NonZeroValueValidator: public StringAsNumberValidator<C, Number>
+template <typename T, typename Number>
+class NonZeroValueValidator: public StringAsNumberValidator<T, Number>
 {
     public:
-        NonZeroValueValidator(C &object, std::string (C::*accessor)() const, std::string fieldName)
-            : StringAsNumberValidator<C, Number>(object, accessor, fieldName)
+        NonZeroValueValidator(IDataWrapper<T>* dataWrapper, std::string fieldName)
+            : StringAsNumberValidator<T, Number>(dataWrapper, fieldName)
         {
             setErrorMessage("Ошибка: " + fieldName + " не может быть равной 0!");
         }

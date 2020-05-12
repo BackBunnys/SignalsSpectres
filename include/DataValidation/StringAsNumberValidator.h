@@ -5,11 +5,11 @@
 
 #include "Validator.h"
 
-template <typename C, typename Number>
-class StringAsNumberValidator: public Validator<C, std::string>
+template <typename T, typename Number>
+class StringAsNumberValidator: public Validator<T>
 {
 public:
-        StringAsNumberValidator(C &object, std::string (C::*accessor)() const, std::string fieldName): Validator<C, std::string>(object, accessor)
+        StringAsNumberValidator(IDataWrapper<T>* dataWrapper, std::string fieldName): Validator<T>(dataWrapper)
         {
             this->fieldName = fieldName;
         }
@@ -21,7 +21,7 @@ public:
 
         Number convertValidationFieldValue()
         {
-            std::string data = this->invoke();
+            std::string data = this->dataWrapper->get();
             if(data.size() == 0)
                 return -1;
             else {
