@@ -6,6 +6,7 @@
 #include "ConvertingDataWrapper.h"
 #include "ConstantDataWrapper.h"
 #include "AccessingDataWrapper.h"
+#include "IsPowerOfValidator.h"
 
 WindowChooserState::WindowChooserState(AppData &appData):
     State(appData), factory(appData)
@@ -31,27 +32,30 @@ void WindowChooserState::Init()
     initChooseList();
     initInputBoxes();
     initTips();
-    this->errorMessage.setFont(this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"));
-    this->errorMessage.setFillColor(sf::Color::Red);
-    this->errorMessage.setString("");
-        sf::Text errorText("", appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"), 20);
+
+    sf::Text errorText("", appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"), 20);
     errorText.setFillColor(sf::Color::Red);
     errorText.setPosition(this->appData.GetWindow()->getSize().x / 2 - errorText.getGlobalBounds().width / 2,
                           this->appData.GetWindow()->getSize().y / 8 * 5 - errorText.getGlobalBounds().height / 2);
-        errorHandler = new ValidationHandler<int>(errorText);
+    errorHandler = new ValidationHandler<long long>(errorText);
 
     errorHandler->addValidator(
-        (new InRangeValueValidator<int>( //Need to be rewrited to shared pointers
-            new ConvertingDataWrapper<std::string, int>(
+        (new InRangeValueValidator<long long>( //Need to be rewrited to shared pointers
+            new ConvertingDataWrapper<std::string, long long>(
                 new AccessingDataWrapper<InputBox, std::string>(*this->signalSize, &InputBox::getInputtedText, "значение поля \"Длина сигнала\""))))->addBorder(
-        new Border<int>(new ConstantDataWrapper<int>(0), LEFT, true)));
+        new Border<long long>(new ConstantDataWrapper<long long>(0), LEFT, true)));
     errorHandler->addValidator(
-        (new InRangeValueValidator<int>(
-            new ConvertingDataWrapper<std::string, int>(
+        (new InRangeValueValidator<long long>(
+            new ConvertingDataWrapper<std::string, long long>(
                 new AccessingDataWrapper<InputBox, std::string>(*this->fftSize, &InputBox::getInputtedText, "значение поля \"Длина БПФ\""))))->addBorder(
-        new Border<int>(
-            new ConvertingDataWrapper<std::string, int>(
+        new Border<long long>(
+            new ConvertingDataWrapper<std::string, long long>(
                 new AccessingDataWrapper<InputBox, std::string>(*this->signalSize, &InputBox::getInputtedText, "значение поля \"Длина сигнала\"")), LEFT)));
+    errorHandler->addValidator(
+        new IsPowerOfValidator(
+            new ConvertingDataWrapper<std::string, long long>(
+                new AccessingDataWrapper<InputBox, std::string>(*this->fftSize, &InputBox::getInputtedText, "значение поля \"Длина БПФ\"")),
+            new ConstantDataWrapper<long long>(2)));
 }
 
 void WindowChooserState::initButtons()

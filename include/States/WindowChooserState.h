@@ -34,8 +34,10 @@ class WindowChooserState: public State
         sf::Text signalSizeTip;
         sf::Text fftSizeTip;
 
+        sf::Color bgColor;
+
         DarkThemeGUIFactory factory;
-        ValidationHandler<int>* errorHandler;
+        ValidationHandler<long long>* errorHandler;
 
         void initButtons();
         void initChooseList();
