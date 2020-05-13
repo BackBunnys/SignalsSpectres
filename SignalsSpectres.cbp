@@ -56,7 +56,8 @@
 		<Unit filename="include/DataValidation/FileExistingValidator.h" />
 		<Unit filename="include/DataValidation/IValidator.h" />
 		<Unit filename="include/DataValidation/InRangeValueValidator.h" />
-		<Unit filename="include/DataValidation/NonZeroValueValidator.h" />
+		<Unit filename="include/DataValidation/IsPowerOfValidator.h" />
+		<Unit filename="include/DataValidation/ValidationHandler.h" />
 		<Unit filename="include/DataValidation/Validator.h" />
 		<Unit filename="include/Engine/AppData.h" />
 		<Unit filename="include/Engine/AssetManager.h" />

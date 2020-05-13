@@ -1,19 +1,20 @@
 #include "States/InputState.h"
-#include <iostream>
-#include <windows.h>
-#include <fstream>
-#include <States/WindowChooserState.h>
+#include "States/WindowChooserState.h"
+
+#include "FileExistingValidator.h"
+#include "AccessingDataWrapper.h"
 
 InputState::InputState(AppData &appData):
     State(appData), factory(appData)
 {
-    this->Init();
+
 }
 
 InputState::~InputState()
 {
     delete inputBox;
     delete nextButton;
+    delete errorHandler;
 }
 
 void InputState::Update()
@@ -27,8 +28,8 @@ void InputState::Init()
 
     initInputBox();
     initTip();
-    initError();
     initNextButton();
+    initValidationHandler();
 }
 
 void InputState::initInputBox()
@@ -46,18 +47,22 @@ void InputState::initTip()
     tip.setPosition(this->inputBox->getGlobalBounds().left, this->inputBox->getGlobalBounds().top - 1.5 * this->tip.getGlobalBounds().height);
 }
 
-void InputState::initError()
-{
-    this->error.setFont(this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"));
-    this->error.setFillColor(sf::Color::Red);
-    this->error.setString("");
-    this->error.setCharacterSize(30);
-}
-
 void InputState::initNextButton()
 {
     this->nextButton = factory.getButton("Далее", [](AppData &appData){ appData.GetMachine()->PushState(new WindowChooserState(appData)); },
                                           sf::Vector2f(this->appData.GetWindow()->getSize().x / 5 * 4, this->appData.GetWindow()->getSize().y / 5 * 4));
+}
+
+void InputState::initValidationHandler()
+{
+    sf::Text errorText("", appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"), 30);
+    errorText.setFillColor(sf::Color::Red);
+    errorText.setPosition(this->appData.GetWindow()->getSize().x / 2 - errorText.getGlobalBounds().width / 2,
+                          this->appData.GetWindow()->getSize().y / 8 * 5 - errorText.getGlobalBounds().height / 2);
+    errorHandler = new ValidationHandler<std::string>(errorText);
+    errorHandler->addValidator(
+        new FileExistingValidator(
+            new AccessingDataWrapper<InputBox, std::string>(*this->inputBox, &InputBox::getInputtedText, "путь к файлу")));
 }
 
 void InputState::Render(sf::RenderWindow& window)
@@ -66,10 +71,8 @@ void InputState::Render(sf::RenderWindow& window)
 
     window.draw(this->tip);
     this->inputBox->draw(window);
-
     this->nextButton->draw(window);
-
-    window.draw(error);
+    this->errorHandler->draw(window);
 }
 
 void InputState::ProccessEvent(sf::Event &event)
@@ -77,7 +80,7 @@ void InputState::ProccessEvent(sf::Event &event)
     if(event.type == sf::Event::MouseButtonReleased)
         if(event.mouseButton.button == sf::Mouse::Left)
             if(this->nextButton->isMouseOn(event.mouseButton.x, event.mouseButton.y))
-                if(validateFileName()) {
+                if(this->errorHandler->fullValidate()) {
                     this->appData.setFilePath(this->inputBox->getInputtedText());
                     this->nextButton->runAction();
                 }
@@ -113,7 +116,7 @@ void InputState::ProccessEvent(sf::Event &event)
                 break;
 
             case sf::Keyboard::Enter:
-                if(validateFileName()) {
+                if(this->errorHandler->fullValidate()) {
                     this->appData.setFilePath(this->inputBox->getInputtedText());
                     this->nextButton->runAction();
                 }
@@ -122,16 +125,4 @@ void InputState::ProccessEvent(sf::Event &event)
                 break;
         }
     }
-}
-
-bool InputState::validateFileName()
-{
-    this->error.setString("");
-    if(!std::ifstream(this->inputBox->getInputtedText().data())) {
-        this->error.setString("Ошибка: файл не найден!");
-        this->error.setPosition(this->appData.GetWindow()->getSize().x / 2 - this->error.getGlobalBounds().width / 2,
-                                this->appData.GetWindow()->getSize().y / 5 * 3 - this->error.getGlobalBounds().height / 2);
-        return false;
-    }
-    return true;
 }

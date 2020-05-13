@@ -43,6 +43,7 @@ class WindowChooserState: public State
         void initChooseList();
         void initInputBoxes();
         void initTips();
+        void initValidationHandler();
 };
 
 #endif // WINDOWCHOOSERSTATE_H

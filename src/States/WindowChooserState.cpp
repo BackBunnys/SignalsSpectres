@@ -32,30 +32,7 @@ void WindowChooserState::Init()
     initChooseList();
     initInputBoxes();
     initTips();
-
-    sf::Text errorText("", appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"), 20);
-    errorText.setFillColor(sf::Color::Red);
-    errorText.setPosition(this->appData.GetWindow()->getSize().x / 2 - errorText.getGlobalBounds().width / 2,
-                          this->appData.GetWindow()->getSize().y / 8 * 5 - errorText.getGlobalBounds().height / 2);
-    errorHandler = new ValidationHandler<long long>(errorText);
-
-    errorHandler->addValidator(
-        (new InRangeValueValidator<long long>( //Need to be rewrited to shared pointers
-            new ConvertingDataWrapper<std::string, long long>(
-                new AccessingDataWrapper<InputBox, std::string>(*this->signalSize, &InputBox::getInputtedText, "значение поля \"Длина сигнала\""))))->addBorder(
-        new Border<long long>(new ConstantDataWrapper<long long>(0), LEFT, true)));
-    errorHandler->addValidator(
-        (new InRangeValueValidator<long long>(
-            new ConvertingDataWrapper<std::string, long long>(
-                new AccessingDataWrapper<InputBox, std::string>(*this->fftSize, &InputBox::getInputtedText, "значение поля \"Длина БПФ\""))))->addBorder(
-        new Border<long long>(
-            new ConvertingDataWrapper<std::string, long long>(
-                new AccessingDataWrapper<InputBox, std::string>(*this->signalSize, &InputBox::getInputtedText, "значение поля \"Длина сигнала\"")), LEFT)));
-    errorHandler->addValidator(
-        new IsPowerOfValidator(
-            new ConvertingDataWrapper<std::string, long long>(
-                new AccessingDataWrapper<InputBox, std::string>(*this->fftSize, &InputBox::getInputtedText, "значение поля \"Длина БПФ\"")),
-            new ConstantDataWrapper<long long>(2)));
+    initValidationHandler();
 }
 
 void WindowChooserState::initButtons()
@@ -105,6 +82,32 @@ void WindowChooserState::initTips()
     this->fftSizeTip = this->signalSizeTip;
     this->fftSizeTip.setString("Длина БПФ");
     this->fftSizeTip.setPosition(this->fftSize->getGlobalBounds().left, this->fftSize->getGlobalBounds().top - 1.5 * this->fftSizeTip.getGlobalBounds().height);
+}
+
+void WindowChooserState::initValidationHandler()
+{
+    sf::Text errorText("", appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"), 20);
+    errorText.setFillColor(sf::Color::Red);
+    errorText.setPosition(this->appData.GetWindow()->getSize().x / 2 - errorText.getGlobalBounds().width / 2,
+                          this->appData.GetWindow()->getSize().y / 8 * 5 - errorText.getGlobalBounds().height / 2);
+    errorHandler = new ValidationHandler<long long>(errorText);
+    errorHandler->addValidator(
+        (new InRangeValueValidator<long long>( //Need to be rewrited to shared pointers
+            new ConvertingDataWrapper<std::string, long long>(
+                new AccessingDataWrapper<InputBox, std::string>(*this->signalSize, &InputBox::getInputtedText, "значение поля \"Длина сигнала\""))))->addBorder(
+        new Border<long long>(new ConstantDataWrapper<long long>(0), LEFT, true)));
+    errorHandler->addValidator(
+        (new InRangeValueValidator<long long>(
+            new ConvertingDataWrapper<std::string, long long>(
+                new AccessingDataWrapper<InputBox, std::string>(*this->fftSize, &InputBox::getInputtedText, "значение поля \"Длина БПФ\""))))->addBorder(
+        new Border<long long>(
+            new ConvertingDataWrapper<std::string, long long>(
+                new AccessingDataWrapper<InputBox, std::string>(*this->signalSize, &InputBox::getInputtedText, "значение поля \"Длина сигнала\"")), LEFT)));
+    errorHandler->addValidator(
+        new IsPowerOfValidator(
+            new ConvertingDataWrapper<std::string, long long>(
+                new AccessingDataWrapper<InputBox, std::string>(*this->fftSize, &InputBox::getInputtedText, "значение поля \"Длина БПФ\"")),
+            new ConstantDataWrapper<long long>(2)));
 }
 
 void WindowChooserState::Update()
