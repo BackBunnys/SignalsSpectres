@@ -1,13 +1,14 @@
 #ifndef ACCESSINGDATAWRAPPER_H
 #define ACCESSINGDATAWRAPPER_H
 
-#include "IDataWrapper.h"
+#include "DataWrapper.h"
 
 template <typename C, typename T>
-class AccessingDataWrapper : public IDataWrapper<T>
+class AccessingDataWrapper : public DataWrapper<T>
 {
     public:
-        AccessingDataWrapper(const C &object, T (C::*accessor)() const)
+        AccessingDataWrapper(const C &object, T (C::*accessor)() const, std::string dataDescription)
+            : DataWrapper<T>(dataDescription)
         {
             this->object = &object;
             this->accessor = accessor;

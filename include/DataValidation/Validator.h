@@ -2,14 +2,14 @@
 #define VALIDATOR_H
 
 #include "IValidator.h"
-#include "DataWrapping/IDataWrapper.h"
+#include "DataWrapping/DataWrapper.h"
 
 template <typename T>
 class Validator: public IValidator<T>
 {
     public:
 
-        Validator(IDataWrapper<T>* dataWrapper): dataWrapper(dataWrapper) { }
+        Validator(DataWrapper<T>* dataWrapper): dataWrapper(dataWrapper) { }
 
         virtual ~Validator() { delete this->dataWrapper; }
 
@@ -21,7 +21,7 @@ class Validator: public IValidator<T>
             return false;
         }
 
-        virtual void setValidatingData(IDataWrapper<T>* dataWrapper)
+        virtual void setValidatingData(DataWrapper<T>* dataWrapper)
         {
             this->dataWrapper = dataWrapper;
         }
@@ -30,7 +30,7 @@ class Validator: public IValidator<T>
         void setErrorMessage(std::string message) { this->errorMessage = message;}
 
     protected:
-        IDataWrapper<T>* dataWrapper;
+        DataWrapper<T>* dataWrapper;
 
         std::string errorMessage;
 

@@ -3,25 +3,23 @@
 
 #include "StringAsNumberValidator.h"
 
-template <typename T, typename Number>
-class NonZeroValueValidator: public StringAsNumberValidator<T, Number>
+template <typename Number>
+class NonZeroValueValidator: public StringAsNumberValidator<Number>
 {
     public:
-        NonZeroValueValidator(IDataWrapper<T>* dataWrapper, std::string fieldName)
-            : StringAsNumberValidator<T, Number>(dataWrapper, fieldName)
+        NonZeroValueValidator(DataWrapper<std::string>* dataWrapper)
+            : StringAsNumberValidator<Number>(dataWrapper, fieldName)
         {
-            setErrorMessage("Ошибка: " + fieldName + " не может быть равной 0!");
+            setErrorMessage("Ошибка: " + dataWrapper.getDataDescription() + " не может быть равной 0!");
         }
 
         virtual ~NonZeroValueValidator() {}
-
-        virtual void setErrorMessage(std::string message) { this->errorMessage = message; }
 
     protected:
 
         virtual bool condition() override
         {
-            return this->convertValidationFieldValue() != 0;
+            return this->convertDataValue(this->dataWrapper) != 0;
         }
 };
 
