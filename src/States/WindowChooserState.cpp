@@ -1,6 +1,11 @@
 #include "States/WindowChooserState.h"
 #include "cmath"
-#include <sstream>
+#include <string>
+
+#include "InRangeValueValidator.h"
+#include "ConvertingDataWrapper.h"
+#include "ConstantDataWrapper.h"
+#include "AccessingDataWrapper.h"
 
 WindowChooserState::WindowChooserState(AppData &appData):
     State(appData), factory(appData)
@@ -15,6 +20,7 @@ WindowChooserState::~WindowChooserState()
     delete this->signalSize;
     delete this->fftSize;
     delete this->clist;
+    delete this->errorHandler;
 }
 
 void WindowChooserState::Init()
@@ -28,6 +34,24 @@ void WindowChooserState::Init()
     this->errorMessage.setFont(this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"));
     this->errorMessage.setFillColor(sf::Color::Red);
     this->errorMessage.setString("");
+        sf::Text errorText("", appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"), 20);
+    errorText.setFillColor(sf::Color::Red);
+    errorText.setPosition(this->appData.GetWindow()->getSize().x / 2 - errorText.getGlobalBounds().width / 2,
+                          this->appData.GetWindow()->getSize().y / 8 * 5 - errorText.getGlobalBounds().height / 2);
+        errorHandler = new ValidationHandler<int>(errorText);
+
+    errorHandler->addValidator(
+        (new InRangeValueValidator<int>( //Need to be rewrited to shared pointers
+            new ConvertingDataWrapper<std::string, int>(
+                new AccessingDataWrapper<InputBox, std::string>(*this->signalSize, &InputBox::getInputtedText, "значение поля \"Длина сигнала\""))))->addBorder(
+        new Border<int>(new ConstantDataWrapper<int>(0), LEFT, true)));
+    errorHandler->addValidator(
+        (new InRangeValueValidator<int>(
+            new ConvertingDataWrapper<std::string, int>(
+                new AccessingDataWrapper<InputBox, std::string>(*this->fftSize, &InputBox::getInputtedText, "значение поля \"Длина БПФ\""))))->addBorder(
+        new Border<int>(
+            new ConvertingDataWrapper<std::string, int>(
+                new AccessingDataWrapper<InputBox, std::string>(*this->signalSize, &InputBox::getInputtedText, "значение поля \"Длина сигнала\"")), LEFT)));
 }
 
 void WindowChooserState::initButtons()
@@ -96,7 +120,7 @@ void WindowChooserState::Render(sf::RenderWindow& window)
     window.draw(this->signalSizeTip);
     window.draw(this->fftSizeTip);
     this->clist->draw(window);
-    window.draw(this->errorMessage);
+    this->errorHandler->draw(window);
 }
 
 void WindowChooserState::ProccessEvent(sf::Event &event)
@@ -106,9 +130,9 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
             if(this->backButton->isMouseOn(event.mouseButton.x, event.mouseButton.y))
                     this->backButton->runAction();
             else if(this->nextButton->isMouseOn(event.mouseButton.x, event.mouseButton.y)) {
-                if(fullValidate()) {
-                    this->appData.setSignalSize(parseToInt(this->signalSize->getInputtedText()));
-                    this->appData.setFFTSize(parseToInt(this->fftSize->getInputtedText()));
+                if(this->errorHandler->fullValidate()) {
+                    this->appData.setSignalSize(std::atoi(this->signalSize->getInputtedText().data()));
+                    this->appData.setFFTSize(std::atoi(this->fftSize->getInputtedText().data()));
                     this->nextButton->runAction();
                 }
             }
@@ -139,9 +163,9 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
                 this->backButton->runAction();
                 break;
             case sf::Keyboard::Enter:
-                if(fullValidate()) {
-                    this->appData.setSignalSize(parseToInt(this->signalSize->getInputtedText()));
-                    this->appData.setFFTSize(parseToInt(this->fftSize->getInputtedText()));
+                if(this->errorHandler->fullValidate()) {
+                    this->appData.setSignalSize(std::atoi(this->signalSize->getInputtedText().data()));
+                    this->appData.setFFTSize(std::atoi(this->fftSize->getInputtedText().data()));
                     this->nextButton->runAction();
                 }
                 break;
@@ -196,52 +220,4 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
                 break;
         }
     }
-}
-
-bool WindowChooserState::fullValidate()
-{
-    this->errorMessage.setString("");
-    return (notZeroValueValidate(this->signalSize->getInputtedText(), "Длина сигнала") &
-            notZeroValueValidate(this->fftSize->getInputtedText(), "Длина БПФ")) && fftSizeValidate();
-}
-
-bool WindowChooserState::fftSizeValidate()
-{
-    int signal = parseToInt(this->signalSize->getInputtedText());
-    int fft = parseToInt(this->fftSize->getInputtedText());
-    if(fft > 0)
-        if(fft < signal) {
-            appendErrors("Ошибка: размер БПФ не может быть меньше размера сигнала!");
-            return false;
-        }
-        else if(!(fft && !(fft & (fft - 1)))) { //Не степень 2
-            appendErrors("Ошибка: размер БПФ должен быть степенью двойки!");
-            return false;
-        }
-    return true;
-}
-
-bool WindowChooserState::notZeroValueValidate(const std::string &str, std::string fieldName)
-{
-    if(parseToInt(str) == 0)
-    {
-        appendErrors("Ошибка: " + fieldName + " не может быть равной 0!");
-        return false;
-    }
-    return true;
-}
-
-int WindowChooserState::parseToInt(const std::string &str)
-{
-    if(str.size() == 0)
-        return -1;
-    else
-        return atoi(str.c_str());
-}
-
-void WindowChooserState::appendErrors(const std::string str)
-{
-    this->errorMessage.setString(this->errorMessage.getString() + "\n" + str);
-    this->errorMessage.setPosition(this->appData.GetWindow()->getSize().x / 2 - this->errorMessage.getGlobalBounds().width / 2,
-                                   this->appData.GetWindow()->getSize().y / 5 * 3 - this->errorMessage.getGlobalBounds().height / 2);
 }

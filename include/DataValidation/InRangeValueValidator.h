@@ -18,11 +18,13 @@ class Border
             this->isStrong = isStrong;
         }
 
+        virtual ~Border() { delete this->border; }
+
         bool check(DataWrapper<T>* comparingWrapper)
         {
             if(side == LEFT) {
-                if(isStrong)
-                    return this->border->get() < comparingWrapper->get();
+                if(isStrong) {
+                    return this->border->get() < comparingWrapper->get(); }
                 else return this->border->get() <= comparingWrapper->get();
             }
             else if(isStrong)
@@ -65,9 +67,10 @@ class InRangeValueValidator: public Validator<T>
         {
         }
 
-        virtual void addBorder(Border<T>* border)
+        virtual InRangeValueValidator<T>* addBorder(Border<T>* border)
         {
             this->borders.push_back(border);
+            return this;
         }
 
         virtual ~InRangeValueValidator()
@@ -90,7 +93,7 @@ class InRangeValueValidator: public Validator<T>
             if(!isInRange)
                 this->setErrorMessage("Ошибка: " + this->dataWrapper->getDataDescription() +
                                       " должно быть " + this->borders[i - 1]->getBorderDescription() +
-                                      " , чем " + this->borders[i - 1]->getDataDescription() + "!\n");
+                                      " , чем " + this->borders[i - 1]->getDataDescription() + "!");
             return isInRange;
         }
 

@@ -1,6 +1,8 @@
 #ifndef CONSTANTDATAWRAPPER_H
 #define CONSTANTDATAWRAPPER_H
 
+#include <sstream>
+
 #include "DataWrapper.h"
 
 template <typename T>
@@ -8,7 +10,7 @@ class ConstantDataWrapper : public DataWrapper<T>
 {
     public:
         ConstantDataWrapper(T data)
-            : DataWrapper(dataDescription), data(data) {}
+            : data(data) {}
 
         virtual ~ConstantDataWrapper() {}
 
@@ -16,7 +18,10 @@ class ConstantDataWrapper : public DataWrapper<T>
 
         virtual std::string getDataDescription() const override
         {
-            return std::toString(data);
+            std::stringstream sx;
+            sx << data;
+
+            return sx.str();
         }
 
     private:

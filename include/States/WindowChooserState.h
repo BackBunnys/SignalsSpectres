@@ -8,6 +8,7 @@
 #include "WindowFunction.h"
 #include "GUI/InputBox.h"
 #include "GUI/DarkThemeGUIFactory.h"
+#include "ValidationHandler.h"
 
 class WindowChooserState: public State
 {
@@ -33,25 +34,13 @@ class WindowChooserState: public State
         sf::Text signalSizeTip;
         sf::Text fftSizeTip;
 
-        sf::Text errorMessage;
-        sf::Color bgColor;
-
         DarkThemeGUIFactory factory;
+        ValidationHandler<int>* errorHandler;
 
         void initButtons();
         void initChooseList();
         void initInputBoxes();
         void initTips();
-
-        void appendErrors(const std::string error);
-
-        bool fullValidate();
-
-        bool notZeroValueValidate(const std::string &str, std::string fieldName);
-
-        bool fftSizeValidate();
-
-        int parseToInt(const std::string &str);
 };
 
 #endif // WINDOWCHOOSERSTATE_H

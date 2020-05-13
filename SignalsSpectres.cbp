@@ -15,6 +15,7 @@
 					<Add option="-g" />
 					<Add directory="include" />
 					<Add directory="include/DataValidation" />
+					<Add directory="include/DataValidation/DataWrapping" />
 				</Compiler>
 				<Linker>
 					<Add library="lib/libsfml-graphics-d.a" />
@@ -31,6 +32,7 @@
 					<Add option="-O2" />
 					<Add directory="include" />
 					<Add directory="include/DataValidation" />
+					<Add directory="include/DataValidation/DataWrapping" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -49,11 +51,12 @@
 		<Unit filename="include/Application.h" />
 		<Unit filename="include/DataValidation/DataWrapping/AccessingDataWrapper.h" />
 		<Unit filename="include/DataValidation/DataWrapping/ConstantDataWrapper.h" />
-		<Unit filename="include/DataValidation/DataWrapping/IDataWrapper.h" />
+		<Unit filename="include/DataValidation/DataWrapping/ConvertingDataWrapper.h" />
+		<Unit filename="include/DataValidation/DataWrapping/DataWrapper.h" />
 		<Unit filename="include/DataValidation/FileExistingValidator.h" />
 		<Unit filename="include/DataValidation/IValidator.h" />
+		<Unit filename="include/DataValidation/InRangeValueValidator.h" />
 		<Unit filename="include/DataValidation/NonZeroValueValidator.h" />
-		<Unit filename="include/DataValidation/StringAsNumberValidator.h" />
 		<Unit filename="include/DataValidation/Validator.h" />
 		<Unit filename="include/Engine/AppData.h" />
 		<Unit filename="include/Engine/AssetManager.h" />
