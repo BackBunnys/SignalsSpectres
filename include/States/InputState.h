@@ -28,7 +28,7 @@ class InputState : public State
         Button *nextButton;
 
         DarkThemeGUIFactory factory;
-        ValidationHandler<std::string>* errorHandler;
+        ValidationHandler* errorHandler;
 
         void initInputBox();
         void initTip();

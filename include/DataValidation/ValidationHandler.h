@@ -7,7 +7,6 @@
 
 #include "IValidator.h"
 
-template <typename T>
 class ValidationHandler
 {
     public:
@@ -23,11 +22,11 @@ class ValidationHandler
             window.draw(errorText);
         }
 
-        void addValidator(IValidator<T>* validator) { this->validators.push_back(validator); }
+        void addValidator(IValidator* validator) { this->validators.push_back(validator); }
 
         bool fullValidate()
         {
-            errors = "";
+            std::string errors = "";
             for(size_t i = 0; i < validators.size(); ++i)
                 if(!validators[i]->validate(errors)) errors += "\n";
             if(errors.size() != 0)
@@ -39,13 +38,11 @@ class ValidationHandler
         }
 
     private:
-        std::vector<IValidator<T>*> validators;
-
-        std::string errors;
+        std::vector<IValidator*> validators;
 
         sf::Text errorText;
 
-        void updateText(std::string errors)
+        void updateText(std::string &errors)
         {
             sf::Vector2f position(errorText.getPosition().x + errorText.getGlobalBounds().width / 2,
                                   errorText.getPosition().y + errorText.getGlobalBounds().height / 2);

@@ -59,7 +59,7 @@ void InputState::initValidationHandler()
     errorText.setFillColor(sf::Color::Red);
     errorText.setPosition(this->appData.GetWindow()->getSize().x / 2 - errorText.getGlobalBounds().width / 2,
                           this->appData.GetWindow()->getSize().y / 8 * 5 - errorText.getGlobalBounds().height / 2);
-    errorHandler = new ValidationHandler<std::string>(errorText);
+    errorHandler = new ValidationHandler(errorText);
     errorHandler->addValidator(
         new FileExistingValidator(
             new AccessingDataWrapper<InputBox, std::string>(*this->inputBox, &InputBox::getInputtedText, "путь к файлу")));

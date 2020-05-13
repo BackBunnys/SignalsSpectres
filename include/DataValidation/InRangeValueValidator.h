@@ -45,7 +45,7 @@ class Border
     private:
         const DataWrapper<T>* border;
         Side side;
-        bool isStrong = isStrong;
+        bool isStrong;
 };
 
 
@@ -93,7 +93,7 @@ class InRangeValueValidator: public Validator<T>
             if(!isInRange)
                 this->setErrorMessage("Ошибка: " + this->dataWrapper->getDataDescription() +
                                       " должно быть " + this->borders[i - 1]->getBorderDescription() +
-                                      " , чем " + this->borders[i - 1]->getDataDescription() + "!");
+                                      ", чем " + this->borders[i - 1]->getDataDescription() + "!");
             return isInRange;
         }
 

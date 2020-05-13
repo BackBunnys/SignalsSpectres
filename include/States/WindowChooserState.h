@@ -37,7 +37,7 @@ class WindowChooserState: public State
         sf::Color bgColor;
 
         DarkThemeGUIFactory factory;
-        ValidationHandler<long long>* errorHandler;
+        ValidationHandler* errorHandler;
 
         void initButtons();
         void initChooseList();

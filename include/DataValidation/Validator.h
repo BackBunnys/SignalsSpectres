@@ -5,7 +5,7 @@
 #include "DataWrapping/DataWrapper.h"
 
 template <typename T>
-class Validator: public IValidator<T>
+class Validator: public IValidator
 {
     public:
 

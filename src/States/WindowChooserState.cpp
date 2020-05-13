@@ -90,7 +90,7 @@ void WindowChooserState::initValidationHandler()
     errorText.setFillColor(sf::Color::Red);
     errorText.setPosition(this->appData.GetWindow()->getSize().x / 2 - errorText.getGlobalBounds().width / 2,
                           this->appData.GetWindow()->getSize().y / 8 * 5 - errorText.getGlobalBounds().height / 2);
-    errorHandler = new ValidationHandler<long long>(errorText);
+    errorHandler = new ValidationHandler(errorText);
     errorHandler->addValidator(
         (new InRangeValueValidator<long long>( //Need to be rewrited to shared pointers
             new ConvertingDataWrapper<std::string, long long>(
