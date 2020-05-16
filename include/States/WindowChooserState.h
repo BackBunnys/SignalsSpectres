@@ -25,6 +25,8 @@ class WindowChooserState: public State
 
         virtual void ProccessEvent(sf::Event &event);
 
+        virtual void NextState();
+
     private:
         Button* backButton;
         Button* nextButton;

@@ -21,6 +21,8 @@ class InputState : public State
 
         virtual void ProccessEvent(sf::Event &event);
 
+        virtual void NextState();
+
     private:
         sf::Color bgColor;
         sf::Text tip;

@@ -39,7 +39,7 @@ void WindowChooserState::initButtons()
 {
     this->backButton = factory.getButton("Назад", [](AppData &appData){ appData.GetMachine()->PopState(); },
                                          sf::Vector2f(this->appData.GetWindow()->getSize().x / 5, this->appData.GetWindow()->getSize().y / 5 * 4));
-    this->nextButton = factory.getButton("Далее", [](AppData &appData){;}, //There are no next state
+    this->nextButton = factory.getButton("Далее", [](AppData &appData){ appData.GetMachine()->getCurrentState()->NextState(); },
                                          sf::Vector2f(this->appData.GetWindow()->getSize().x / 5 * 4, this->appData.GetWindow()->getSize().y / 5 * 4));
 }
 
@@ -226,5 +226,15 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
             default:
                 break;
         }
+    }
+}
+
+void WindowChooserState::NextState()
+{
+    if(this->errorHandler->fullValidate()) {
+        this->appData.setSignalSize(std::atoi(this->signalSize->getInputtedText().data()));
+        this->appData.setFFTSize(std::atoi(this->fftSize->getInputtedText().data()));
+
+        //Push next state
     }
 }

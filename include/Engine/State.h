@@ -25,6 +25,8 @@ class State
 
         virtual const std::string getDescription() const;
 
+        virtual void NextState() = 0;
+
     protected:
 
         AppData &appData;

@@ -49,8 +49,8 @@ void InputState::initTip()
 
 void InputState::initNextButton()
 {
-    this->nextButton = factory.getButton("Далее", [](AppData &appData){ appData.GetMachine()->PushState(new WindowChooserState(appData)); },
-                                          sf::Vector2f(this->appData.GetWindow()->getSize().x / 5 * 4, this->appData.GetWindow()->getSize().y / 5 * 4));
+    this->nextButton = factory.getButton("Далее", [](AppData &appData){ appData.GetMachine()->getCurrentState()->NextState(); },
+                                         sf::Vector2f(this->appData.GetWindow()->getSize().x / 5 * 4, this->appData.GetWindow()->getSize().y / 5 * 4));
 }
 
 void InputState::initValidationHandler()
@@ -80,10 +80,7 @@ void InputState::ProccessEvent(sf::Event &event)
     if(event.type == sf::Event::MouseButtonReleased)
         if(event.mouseButton.button == sf::Mouse::Left)
             if(this->nextButton->isMouseOn(event.mouseButton.x, event.mouseButton.y))
-                if(this->errorHandler->fullValidate()) {
-                    this->appData.setFilePath(this->inputBox->getInputtedText());
-                    this->nextButton->runAction();
-                }
+                NextState();
     if(event.type == sf::Event::TextEntered) {
         if(event.text.unicode >= 32)
             this->inputBox->addChar(event.text.unicode);
@@ -116,13 +113,19 @@ void InputState::ProccessEvent(sf::Event &event)
                 break;
 
             case sf::Keyboard::Enter:
-                if(this->errorHandler->fullValidate()) {
-                    this->appData.setFilePath(this->inputBox->getInputtedText());
-                    this->nextButton->runAction();
-                }
+                NextState();
                 break;
             default:
                 break;
         }
+    }
+}
+
+void InputState::NextState()
+{
+    if(this->errorHandler->fullValidate()) {
+        this->appData.setFilePath(this->inputBox->getInputtedText());
+
+        this->appData.GetMachine()->PushState(new WindowChooserState(this->appData));
     }
 }
