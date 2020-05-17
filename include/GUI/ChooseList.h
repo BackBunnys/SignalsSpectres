@@ -7,7 +7,7 @@
 #include "ListElement.h"
 
 template <typename T>
-class ChooseList
+class ChooseList: InteractiveGUIElement
 {
     public:
         ChooseList(uint32_t selectionLimit)
@@ -97,30 +97,38 @@ class ChooseList
                 elements[i]->update();
         }
 
-        template <typename t>
-        bool isMouseOn(sf::Vector2<t> mousePos)
+        bool processEvent(sf::Event &event)
         {
-            return this->field.getGlobalBounds().contains(mousePos.x, mousePos.y);
+            if(event.type == sf::Event::MouseButtonReleased)
+                if(event.mouseButton.button == sf::Mouse::Left)
+                    if(isMouseOn(event.mouseButton.x, event.mouseButton.y)) {
+                        changeSelection(event.mouseButton.x, event.mouseButton.y);
+                        return true;
+                    }
+            return false;
         }
 
-        template <typename t>
-        void changeSelection(sf::Vector2<t> mousePos)
+        bool isMouseOn(float xPos, float yPos)
         {
-            if(isMouseOn(mousePos))
-                for(size_t i = 0; i < elements.size(); ++i)
-                    if(elements[i]->isMouseOn(mousePos.x, mousePos.y)) {
-                        if(!elements[i]->isSelect()) {
-                            if(numOfSelected < selectionLimit)
-                            {
-                                elements[i]->select();
-                                ++numOfSelected;
-                            }
-                        }
-                        else {
-                            elements[i]->unselect();
-                            --numOfSelected;
+            return this->field.getGlobalBounds().contains(xPos, yPos);
+        }
+
+        void changeSelection(float xPos, float yPos)
+        {
+            for(size_t i = 0; i < elements.size(); ++i)
+                if(elements[i]->isMouseOn(xPos, yPos)) {
+                    if(!elements[i]->isSelect()) {
+                        if(numOfSelected < selectionLimit)
+                        {
+                            elements[i]->select();
+                            ++numOfSelected;
                         }
                     }
+                    else {
+                        elements[i]->unselect();
+                        --numOfSelected;
+                    }
+                }
         }
 
         std::vector<ListElement<T>* > getSelectedElements()

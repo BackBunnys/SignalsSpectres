@@ -19,6 +19,7 @@ InputState::~InputState()
 
 void InputState::Update()
 {
+    this->inputBox->update();
     this->nextButton->update();
 }
 

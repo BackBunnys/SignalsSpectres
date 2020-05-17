@@ -23,6 +23,11 @@ class ListElement: public DefaultInteractiveElement
                 DefaultInteractiveElement::update();
         }
 
+        bool processEvent(sf::Event &event)
+        {
+            return false;
+        }
+
         void select() { this->isSelected = true; onSelectTransform(); }
         void unselect() { this->isSelected = false; }
 

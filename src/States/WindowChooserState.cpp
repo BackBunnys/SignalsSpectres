@@ -115,6 +115,8 @@ void WindowChooserState::Update()
     this->backButton->update();
     this->nextButton->update();
     this->clist->update();
+    this->signalSize->update();
+    this->fftSize->update();
 }
 
 void WindowChooserState::Render(sf::RenderWindow& window)
@@ -143,14 +145,14 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
                     this->nextButton->runAction();
                 }
             }
-            else if(this->clist->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
-                this->clist->changeSelection(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
-            else if(this->signalSize->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+            else if(this->clist->isMouseOn(event.mouseButton.x, event.mouseButton.y))
+                this->clist->changeSelection(event.mouseButton.x, event.mouseButton.y);
+            else if(this->signalSize->isMouseOn(event.mouseButton.x, event.mouseButton.y))
             {
                 this->signalSize->activate();
                 this->fftSize->deactivate();
             }
-            else if(this->fftSize->isMouseOn(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))
+            else if(this->fftSize->isMouseOn(event.mouseButton.x, event.mouseButton.y))
             {
                 this->signalSize->deactivate();
                 this->fftSize->activate();

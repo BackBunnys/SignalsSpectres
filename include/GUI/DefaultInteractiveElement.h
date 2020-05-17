@@ -12,6 +12,7 @@ class DefaultInteractiveElement: public InteractiveGUIElement
 
         virtual void update() override;
         virtual void draw(sf::RenderWindow &window) override;
+        virtual bool processEvent(sf::Event &event) = 0;
 
         void setPosition(sf::Vector2f position);
         void setCenterPosition(sf::Vector2f centerPosition);
