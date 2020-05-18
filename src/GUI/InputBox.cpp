@@ -240,7 +240,12 @@ bool InputBox::processEvent(sf::Event &event)
 {
     if(isActivated()) {
         if(event.type == sf::Event::TextEntered) {
-            if(rightLimit - leftLimit == 0 || (event.text.unicode >= leftLimit && event.text.unicode <= rightLimit))
+            bool isInLimits = true;
+            if(leftLimit != 0)
+                if(event.text.unicode < leftLimit) isInLimits = false;
+            if(rightLimit != 0)
+                if(event.text.unicode > rightLimit) isInLimits = false;
+            if(isInLimits)
                 addChar(event.text.unicode);
         }
         else if(event.type == sf::Event::KeyPressed) {
@@ -270,4 +275,10 @@ bool InputBox::processEvent(sf::Event &event)
     }
     else return false;
     return true;
+}
+
+void InputBox::setInputtedCharLimits(uint32_t left, uint32_t right)
+{
+    this->leftLimit = left;
+    this->rightLimit = right;
 }

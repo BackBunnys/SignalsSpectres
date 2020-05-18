@@ -17,7 +17,7 @@ class InputBox: InteractiveGUIElement
         void draw(sf::RenderWindow &window);
         bool processEvent(sf::Event &event);
 
-        void setInputtedCharLimits(uint32_t left, uint32_t right);
+        void setInputtedCharLimits(uint32_t left, uint32_t right = 0);
         void setPosition(sf::Vector2f position);
         void setHorizontalPadding(uint16_t px);
         void setSelectedTextColor(sf::Color color);

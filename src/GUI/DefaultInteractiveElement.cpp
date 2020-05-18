@@ -3,6 +3,10 @@
 
 DefaultInteractiveElement::DefaultInteractiveElement(sf::Text text, AppData &appData): appData(&appData)
 {
+    this->isActive = false;
+    this->activeBorder.setFillColor(sf::Color::Transparent);
+    this->activeBorder.setOutlineThickness(1);
+    this->activeBorder.setOutlineColor(sf::Color::Blue);
     this->text = text;
     this->textSize = text.getCharacterSize();
     this->textHoverSize = this->textSize;
@@ -26,7 +30,19 @@ void DefaultInteractiveElement::update()
 void DefaultInteractiveElement::draw(sf::RenderWindow &window)
 {
     window.draw(this->field);
+    if(this->isActive)
+        window.draw(this->activeBorder);
     window.draw(this->text);
+}
+
+void DefaultInteractiveElement::activate()
+{
+    this->isActive = true;
+}
+
+void DefaultInteractiveElement::deactivate()
+{
+    this->isActive = false;
 }
 
 bool DefaultInteractiveElement::isMouseOn(float xPos, float yPos)
@@ -37,6 +53,8 @@ bool DefaultInteractiveElement::isMouseOn(float xPos, float yPos)
 void DefaultInteractiveElement::setPosition(sf::Vector2f position)
 {
     this->field.setPosition(position);
+    this->activeBorder.setPosition(position.x + (field.getSize().x - activeBorder.getSize().x) / 2,
+                                   position.y + (field.getSize().y - activeBorder.getSize().y) / 2);
     this->text.setPosition(field.getPosition().x + (field.getSize().x - text.getGlobalBounds().width) / 2,
                            field.getPosition().y + (field.getSize().y - text.getGlobalBounds().height) / 3);
 }
@@ -49,6 +67,7 @@ void DefaultInteractiveElement::setCenterPosition(sf::Vector2f centerPosition)
 void DefaultInteractiveElement::setSize(sf::Vector2f size)
 {
     this->field.setSize(size);
+    this->activeBorder.setSize(sf::Vector2f(size.x - 4, size.y - 4));
 }
 
 void DefaultInteractiveElement::setTextSize(unsigned textSize, unsigned onHoverSize)

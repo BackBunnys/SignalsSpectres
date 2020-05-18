@@ -14,6 +14,9 @@ class DefaultInteractiveElement: public InteractiveGUIElement
         virtual void draw(sf::RenderWindow &window) override;
         virtual bool processEvent(sf::Event &event) = 0;
 
+        virtual void activate() override;
+        virtual void deactivate() override;
+
         void setPosition(sf::Vector2f position);
         void setCenterPosition(sf::Vector2f centerPosition);
         void setSize(sf::Vector2f size);
@@ -30,10 +33,13 @@ class DefaultInteractiveElement: public InteractiveGUIElement
     protected:
         sf::Text text;
         sf::RectangleShape field;
+        sf::RectangleShape activeBorder;
 
         unsigned textSize, textHoverSize;
         sf::Color textColor, textHoverColor,
                   fieldColor, fieldHoverColor;
+
+        bool isActive;
 
         AppData* appData;
 };

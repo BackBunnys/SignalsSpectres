@@ -12,6 +12,7 @@ class ChooseList: InteractiveGUIElement
     public:
         ChooseList(uint32_t selectionLimit)
         {
+            this->isActive = false;
             this->numOfSelected = 0;
             this->selectionLimit = selectionLimit;
             this->field.setFillColor(sf::Color::Transparent);
@@ -19,6 +20,7 @@ class ChooseList: InteractiveGUIElement
 
         ChooseList(std::vector<ListElement<T>* > elements, uint32_t selectionLimit): ChooseList(selectionLimit)
         {
+            this->isActive = false;
             this->elements = elements;
             updateFieldSize();
             setPosition(field.getPosition());
@@ -108,6 +110,9 @@ class ChooseList: InteractiveGUIElement
             return false;
         }
 
+        void activate() { this->isActive = true; }
+        void deactivate() { this->isActive = false; }
+
         bool isMouseOn(float xPos, float yPos)
         {
             return this->field.getGlobalBounds().contains(xPos, yPos);
@@ -155,6 +160,8 @@ class ChooseList: InteractiveGUIElement
         std::vector<ListElement<T>* > elements;
 
         sf::RectangleShape field;
+
+        bool isActive;
 
         uint32_t selectionLimit;
         uint32_t numOfSelected;
