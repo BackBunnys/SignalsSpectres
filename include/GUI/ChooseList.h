@@ -7,7 +7,7 @@
 #include "ListElement.h"
 
 template <typename T>
-class ChooseList: InteractiveGUIElement
+class ChooseList: public InteractiveGUIElement
 {
     public:
         ChooseList(uint32_t selectionLimit)

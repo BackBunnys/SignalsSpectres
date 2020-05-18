@@ -4,7 +4,7 @@
 #include "SFML/Graphics.hpp"
 #include "GUI/InteractiveGUIElement.h"
 
-class InputBox: InteractiveGUIElement
+class InputBox: public InteractiveGUIElement
 {
     public:
         InputBox(sf::Font &font,

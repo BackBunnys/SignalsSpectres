@@ -32,7 +32,8 @@ InputBox::InputBox(sf::Font &font,
     this->inputPtr.setSize(sf::Vector2f(2, textSize));
     this->inputPtr.setFillColor(delimiterColor);
 
-    this->leftLimit = rightLimit = 0;
+    this->leftLimit = 32;
+    this->rightLimit = 0;
     this->currentPosition = 0;
     this->leftVisibleCorner = 0;
     this->rightVisibleCorner = 0;
@@ -268,12 +269,14 @@ bool InputBox::processEvent(sf::Event &event)
                         copyFromBuffer();
                     break;
                 default:
+                    return false;
                     break;
             }
         }
         else return false;
     }
     else return false;
+
     return true;
 }
 

@@ -5,6 +5,7 @@
 #include "GUI/InputBox.h"
 #include "GUI/Button.h"
 #include "GUI/DarkThemeGUIFactory.h"
+#include "GUIHandler.h"
 #include "ValidationHandler.h"
 
 class InputState : public State
@@ -31,6 +32,7 @@ class InputState : public State
 
         DarkThemeGUIFactory factory;
         ValidationHandler* errorHandler;
+        GUIHandler guiHandler;
 
         void initInputBox();
         void initTip();

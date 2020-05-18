@@ -8,6 +8,7 @@
 #include "WindowFunction.h"
 #include "GUI/InputBox.h"
 #include "GUI/DarkThemeGUIFactory.h"
+#include "GUIHandler.h"
 #include "ValidationHandler.h"
 
 class WindowChooserState: public State
@@ -40,6 +41,7 @@ class WindowChooserState: public State
 
         DarkThemeGUIFactory factory;
         ValidationHandler* errorHandler;
+        GUIHandler guiHandler;
 
         void initButtons();
         void initChooseList();

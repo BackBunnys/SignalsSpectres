@@ -12,8 +12,8 @@ InputState::InputState(AppData &appData):
 
 InputState::~InputState()
 {
-    delete inputBox;
-    delete nextButton;
+    //delete inputBox;
+    //delete nextButton;
     delete errorHandler;
 }
 
@@ -31,6 +31,9 @@ void InputState::Init()
     initTip();
     initNextButton();
     initValidationHandler();
+    guiHandler.addInteractive(inputBox);
+    guiHandler.addInteractive(nextButton);
+    guiHandler.addStatic(&tip);
 }
 
 void InputState::initInputBox()
@@ -38,7 +41,7 @@ void InputState::initInputBox()
     this->inputBox = factory.getInputBox(sf::Vector2u(800, 50), sf::Vector2f(this->appData.GetWindow()->getSize().x / 2,
                                                                              this->appData.GetWindow()->getSize().y / 2));
     this->inputBox->setInputtedCharLimits(32);
-    this->inputBox->activate();
+    //this->inputBox->activate();
 }
 
 void InputState::initTip()
@@ -71,17 +74,25 @@ void InputState::Render(sf::RenderWindow& window)
 {
     window.clear(bgColor);
 
-    window.draw(this->tip);
-    this->inputBox->draw(window);
-    this->nextButton->draw(window);
+    //window.draw(this->tip);
+    guiHandler.draw(window);
+    //this->inputBox->draw(window);
+    //this->nextButton->draw(window);
     this->errorHandler->draw(window);
 }
 
 void InputState::ProccessEvent(sf::Event &event)
 {
-    bool isProcessed = false;
-    isProcessed = this->inputBox->processEvent(event);
-    if(!isProcessed) this->nextButton->processEvent(event);
+    if(!this->guiHandler.processEvent(event))
+        if(event.type == sf::Event::KeyPressed) {
+            if(event.key.code == sf::Keyboard::Enter)
+                NextState();
+            else if(event.key.code == sf::Keyboard::Escape)
+                this->appData.GetMachine()->PopState();
+        }
+    //bool isProcessed = false;
+    //isProcessed = this->inputBox->processEvent(event);
+    //if(!isProcessed) this->nextButton->processEvent(event);
     /*if(event.type == sf::Event::MouseButtonReleased)
         if(event.mouseButton.button == sf::Mouse::Left)
             if(this->nextButton->isMouseOn(event.mouseButton.x, event.mouseButton.y))

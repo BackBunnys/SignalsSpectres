@@ -16,11 +16,11 @@ WindowChooserState::WindowChooserState(AppData &appData):
 
 WindowChooserState::~WindowChooserState()
 {
-    delete this->backButton;
-    delete this->nextButton;
-    delete this->signalSize;
-    delete this->fftSize;
-    delete this->clist;
+    //delete this->backButton;
+    //delete this->nextButton;
+    //delete this->signalSize;
+    //delete this->fftSize;
+    //delete this->clist;
     delete this->errorHandler;
 }
 
@@ -33,6 +33,13 @@ void WindowChooserState::Init()
     initInputBoxes();
     initTips();
     initValidationHandler();
+    guiHandler.addInteractive(signalSize);
+    guiHandler.addInteractive(fftSize);
+    guiHandler.addInteractive(nextButton);
+    guiHandler.addInteractive(backButton);
+    guiHandler.addInteractive(clist);
+    guiHandler.addStatic(&signalSizeTip);
+    guiHandler.addStatic(&fftSizeTip);
 }
 
 void WindowChooserState::initButtons()
@@ -69,7 +76,7 @@ void WindowChooserState::initInputBoxes()
     this->fftSize = factory.getInputBox(sf::Vector2u(220, 50), sf::Vector2f(this->appData.GetWindow()->getSize().x / 4 * 3,
                                                                             this->appData.GetWindow()->getSize().y / 8 * 4));
 
-    this->signalSize->activate();
+    //this->signalSize->activate();
 }
 
 void WindowChooserState::initTips()
@@ -112,29 +119,38 @@ void WindowChooserState::initValidationHandler()
 
 void WindowChooserState::Update()
 {
-    this->backButton->update();
-    this->nextButton->update();
-    this->clist->update();
-    this->signalSize->update();
-    this->fftSize->update();
+    //this->backButton->update();
+    //this->nextButton->update();
+    //this->clist->update();
+    //this->signalSize->update();
+    //this->fftSize->update();
+    this->guiHandler.update();
 }
 
 void WindowChooserState::Render(sf::RenderWindow& window)
 {
     window.clear(bgColor);
-    this->backButton->draw(window);
-    this->nextButton->draw(window);
-    this->signalSize->draw(window);
-    this->fftSize->draw(window);
-    window.draw(this->signalSizeTip);
-    window.draw(this->fftSizeTip);
-    this->clist->draw(window);
+    //this->backButton->draw(window);
+    //this->nextButton->draw(window);
+    //this->signalSize->draw(window);
+    //this->fftSize->draw(window);
+    //window.draw(this->signalSizeTip);
+    //window.draw(this->fftSizeTip);
+    //this->clist->draw(window);
+    this->guiHandler.draw(window);
     this->errorHandler->draw(window);
 }
 
 void WindowChooserState::ProccessEvent(sf::Event &event)
 {
-    if(event.type == sf::Event::MouseButtonReleased)
+    if(!this->guiHandler.processEvent(event))
+        if(event.type == sf::Event::KeyPressed) {
+            if(event.key.code == sf::Keyboard::Enter)
+                NextState();
+            else if(event.key.code == sf::Keyboard::Escape)
+                this->appData.GetMachine()->PopState();
+        }
+    /*if(event.type == sf::Event::MouseButtonReleased)
         if(event.mouseButton.button == sf::Mouse::Left)
             if(this->backButton->isMouseOn(event.mouseButton.x, event.mouseButton.y))
                     this->backButton->runAction();
@@ -228,7 +244,7 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
             default:
                 break;
         }
-    }
+    }*/
 }
 
 void WindowChooserState::NextState()

@@ -15,6 +15,8 @@ class InteractiveGUIElement
         virtual void deactivate() = 0;
 
         virtual bool isMouseOn(float xPos, float yPos) = 0;
+
+        virtual ~InteractiveGUIElement() {}
 };
 
 #endif // INTERACTIVEGUIELEMENT_H
