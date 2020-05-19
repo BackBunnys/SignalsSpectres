@@ -34,3 +34,13 @@ InputBox* DarkThemeGUIFactory::getInputBox(sf::Vector2u size, sf::Vector2f posit
 
     return box;
 }
+
+sf::Text* DarkThemeGUIFactory::getText(std::string str, int charSize)
+{
+    sf::Text* text = new sf::Text();
+    text->setFont(this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"));
+    text->setCharacterSize(charSize);
+    text->setString(str);
+
+    return text;
+}

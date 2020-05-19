@@ -29,24 +29,13 @@ class WindowChooserState: public State
         virtual void NextState();
 
     private:
-        Button* backButton;
-        Button* nextButton;
-        InputBox* signalSize;
-        InputBox* fftSize;
-        ChooseList<WindowFunction>* clist;
-        sf::Text signalSizeTip;
-        sf::Text fftSizeTip;
-
         sf::Color bgColor;
 
         DarkThemeGUIFactory factory;
-        ValidationHandler* errorHandler;
+        ValidationHandler errorHandler;
         GUIHandler guiHandler;
 
-        void initButtons();
-        void initChooseList();
-        void initInputBoxes();
-        void initTips();
+        void initGUI();
         void initValidationHandler();
 };
 

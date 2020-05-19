@@ -2,6 +2,7 @@
 #define GUIHANDLER_H
 
 #include <vector>
+#include <map>
 
 #include "InteractiveGUIElement.h"
 
@@ -14,13 +15,15 @@ class GUIHandler
         virtual void draw(sf::RenderWindow& window);
         virtual bool processEvent(sf::Event &event);
 
-        virtual void addInteractive(InteractiveGUIElement* elem);
+        virtual void addInteractive(std::string key, InteractiveGUIElement* elem, bool Activate = false);
         virtual void addStatic(sf::Drawable* elem);
+
+        virtual InteractiveGUIElement* getInteractiveElement(std::string key);
 
         virtual ~GUIHandler();
 
     private:
-        std::vector<InteractiveGUIElement*> interactivElems;
+        std::vector<std::pair<std::string, InteractiveGUIElement*> > interactivElems;
         std::vector<sf::Drawable*> staticElems;
 
         int activeElementIndex;

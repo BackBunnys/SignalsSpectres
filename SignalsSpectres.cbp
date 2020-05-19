@@ -16,6 +16,7 @@
 					<Add directory="include" />
 					<Add directory="include/DataValidation" />
 					<Add directory="include/DataValidation/DataWrapping" />
+					<Add directory="include/GUI" />
 				</Compiler>
 				<Linker>
 					<Add library="lib/libsfml-graphics-d.a" />
@@ -33,6 +34,7 @@
 					<Add directory="include" />
 					<Add directory="include/DataValidation" />
 					<Add directory="include/DataValidation/DataWrapping" />
+					<Add directory="include/GUI" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -67,6 +69,7 @@
 		<Unit filename="include/GUI/ChooseList.h" />
 		<Unit filename="include/GUI/DarkThemeGUIFactory.h" />
 		<Unit filename="include/GUI/DefaultInteractiveElement.h" />
+		<Unit filename="include/GUI/GUIHandler.h" />
 		<Unit filename="include/GUI/InputBox.h" />
 		<Unit filename="include/GUI/InteractiveGUIElement.h" />
 		<Unit filename="include/GUI/ListElement.h" />
@@ -82,6 +85,7 @@
 		<Unit filename="src/GUI/Button.cpp" />
 		<Unit filename="src/GUI/DarkThemeGUIFactory.cpp" />
 		<Unit filename="src/GUI/DefaultInteractiveElement.cpp" />
+		<Unit filename="src/GUI/GUIHandler.cpp" />
 		<Unit filename="src/GUI/InputBox.cpp" />
 		<Unit filename="src/States/InputState.cpp" />
 		<Unit filename="src/States/WindowChooserState.cpp" />

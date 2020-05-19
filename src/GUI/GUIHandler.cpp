@@ -7,19 +7,19 @@ GUIHandler::GUIHandler()
 
 GUIHandler::~GUIHandler()
 {
-    for(size_t i = 0; i < interactivElems.size(); ++i) delete interactivElems[i];
+    for(size_t i = 0; i < interactivElems.size(); ++i) delete interactivElems[i].second;
     for(size_t i = 0; i < staticElems.size(); ++i) delete staticElems[i];
 }
 
 void GUIHandler::update()
 {
-    for(size_t i = 0; i < interactivElems.size(); ++i) interactivElems[i]->update();
+    for(size_t i = 0; i < interactivElems.size(); ++i) interactivElems[i].second->update();
 }
 
 void GUIHandler::draw(sf::RenderWindow &window)
 {
     for(size_t i = 0; i < staticElems.size(); ++i) window.draw(*staticElems[i]);
-    for(size_t i = 0; i < interactivElems.size(); ++i) interactivElems[i]->draw(window);
+    for(size_t i = 0; i < interactivElems.size(); ++i) interactivElems[i].second->draw(window);
 }
 
 bool GUIHandler::processEvent(sf::Event &event)
@@ -27,13 +27,13 @@ bool GUIHandler::processEvent(sf::Event &event)
     bool isProcessed = false;
 
     if(activeElementIndex < interactivElems.size())
-        isProcessed = interactivElems[activeElementIndex]->processEvent(event);
+        isProcessed = interactivElems[activeElementIndex].second->processEvent(event);
     if(!isProcessed) {
         if(event.type == sf::Event::MouseButtonPressed) {
             bool isFind = false;
             size_t i;
             for(i = 0; !isFind && i < interactivElems.size(); ++i)
-                if(interactivElems[i]->isMouseOn(event.mouseButton.x, event.mouseButton.y))
+                if(interactivElems[i].second->isMouseOn(event.mouseButton.x, event.mouseButton.y))
                     isFind = true;
             if(isFind) {
                 changeActive(i - 1);
@@ -52,15 +52,26 @@ bool GUIHandler::processEvent(sf::Event &event)
     return isProcessed;
 }
 
-void GUIHandler::addInteractive(InteractiveGUIElement* elem)
+void GUIHandler::addInteractive(std::string key, InteractiveGUIElement* elem, bool Activate)
 {
-    interactivElems.push_back(elem);
-    this->interactivElems[activeElementIndex]->activate();
+    interactivElems.push_back(std::make_pair(key, elem));
+    if(!Activate)
+        this->interactivElems[activeElementIndex].second->activate();
+    else
+        changeActive(interactivElems.size() - 1);
 }
 
 void GUIHandler::addStatic(sf::Drawable* elem)
 {
     staticElems.push_back(elem);
+}
+
+InteractiveGUIElement* GUIHandler::getInteractiveElement(std::string key)
+{
+    for(size_t i = 0; i < interactivElems.size(); ++i)
+        if(interactivElems[i].first == key)
+            return interactivElems[i].second;
+    return NULL;
 }
 
 void GUIHandler::changeActive(int index)
@@ -70,8 +81,8 @@ void GUIHandler::changeActive(int index)
 
     if(index != activeElementIndex) {
         if(this->activeElementIndex < interactivElems.size())
-            this->interactivElems[activeElementIndex]->deactivate();
+            this->interactivElems[activeElementIndex].second->deactivate();
         this->activeElementIndex = index;
-        this->interactivElems[activeElementIndex]->activate();
+        this->interactivElems[activeElementIndex].second->activate();
     }
 }

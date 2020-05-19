@@ -16,7 +16,11 @@ class IsPowerOfValidator: public Validator<long long>
             this->setErrorMessage("Ошибка: " + valueWrapper->getDataDescription() + " не является степенью " + baseWrapper->getDataDescription() + "!");
         }
 
-        virtual ~IsPowerOfValidator() {}
+        virtual ~IsPowerOfValidator()
+        {
+            //delete this->valueWrapper; I dont know why it is already deleted
+            delete this->baseWrapper;
+        }
 
     protected:
 

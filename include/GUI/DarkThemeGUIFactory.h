@@ -16,6 +16,8 @@ class DarkThemeGUIFactory
         Button* getButton(std::string text, void (*action)(AppData&), sf::Vector2f position);
         InputBox* getInputBox(sf::Vector2u size, sf::Vector2f position);
 
+        sf::Text* getText(std::string str, int charSize);
+
         template <typename T>
         ListElement<T>* getListElement(std::string text, T data)
         {

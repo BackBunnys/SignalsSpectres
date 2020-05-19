@@ -10,12 +10,15 @@
 class ValidationHandler
 {
     public:
+        ValidationHandler() { }
         ValidationHandler(sf::Text errorText) { this->errorText = errorText; }
 
         virtual ~ValidationHandler()
         {
             for(size_t i = 0; i < validators.size(); ++i) delete validators[i];
         }
+
+        void setText(sf::Text errorText) { this->errorText = errorText; }
 
         void draw(sf::RenderWindow &window)
         {

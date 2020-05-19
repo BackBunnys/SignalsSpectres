@@ -26,17 +26,12 @@ class InputState : public State
 
     private:
         sf::Color bgColor;
-        sf::Text tip;
-        InputBox *inputBox;
-        Button *nextButton;
 
         DarkThemeGUIFactory factory;
-        ValidationHandler* errorHandler;
+        ValidationHandler errorHandler;
         GUIHandler guiHandler;
 
-        void initInputBox();
-        void initTip();
-        void initNextButton();
+        void initGUI();
         void initValidationHandler();
 };
 
