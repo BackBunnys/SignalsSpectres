@@ -37,10 +37,12 @@ class ChooseList: public InteractiveGUIElement
             elements.clear();
         }
 
-        void setBorder(uint16_t weight, sf::Color color)
+        void setBorder(uint16_t weight, sf::Color borderColor, sf::Color activeBorderColor)
         {
+            this->borderColor = borderColor;
+            this->activeBorderColor = activeBorderColor;
             this->field.setOutlineThickness(weight);
-            this->field.setOutlineColor(color);
+            this->field.setOutlineColor(borderColor);
         }
 
         void setPosition(sf::Vector2f position)
@@ -110,8 +112,18 @@ class ChooseList: public InteractiveGUIElement
             return false;
         }
 
-        void activate() { this->isActive = true; }
-        void deactivate() { this->isActive = false; }
+        void activate()
+        {
+            this->isActive = true;
+
+            this->field.setOutlineColor(this->activeBorderColor);
+        }
+        void deactivate()
+        {
+            this->isActive = false;
+
+            this->field.setOutlineColor(this->borderColor);
+        }
 
         bool isMouseOn(float xPos, float yPos)
         {
@@ -160,6 +172,8 @@ class ChooseList: public InteractiveGUIElement
         std::vector<ListElement<T>* > elements;
 
         sf::RectangleShape field;
+
+        sf::Color borderColor, activeBorderColor;
 
         bool isActive;
 

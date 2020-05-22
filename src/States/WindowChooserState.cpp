@@ -37,7 +37,7 @@ void WindowChooserState::initGUI()
     fftSize->setInputtedCharLimits(48, 57);
     ////////////CHOOSELIST//////////////
     ChooseList<WindowFunction>* clist = new ChooseList<WindowFunction>(1);
-    clist->setBorder(2, sf::Color(50, 50, 50));
+    clist->setBorder(2, sf::Color(50, 50, 50), sf::Color(150, 150, 150));
 
     clist->addElement(this->factory.getListElement("Окно Ханна",
                       WindowFunction("Hann window", [](uint32_t n, uint32_t N)->double{ return 0.5 * (1 - cos(2 * M_PI * n / (N - 1))); })));

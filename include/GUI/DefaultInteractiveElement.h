@@ -24,6 +24,7 @@ class DefaultInteractiveElement: public InteractiveGUIElement
         void setTextColor(sf::Color color, sf::Color onHoverColor);
         void setFieldColor(sf::Color color, sf::Color onHoverColor);
         void setBorder(uint16_t weight, sf::Color color);
+        void setActiveBorderColor(sf::Color color);
 
         virtual bool isMouseOn(float xPos, float yPos) override;
 
@@ -33,11 +34,11 @@ class DefaultInteractiveElement: public InteractiveGUIElement
     protected:
         sf::Text text;
         sf::RectangleShape field;
-        sf::RectangleShape activeBorder;
 
         unsigned textSize, textHoverSize;
         sf::Color textColor, textHoverColor,
-                  fieldColor, fieldHoverColor;
+                  fieldColor, fieldHoverColor,
+                  borderColor, activeBorderColor;
 
         bool isActive;
 
