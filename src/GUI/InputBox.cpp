@@ -232,9 +232,14 @@ std::string InputBox::getInputtedText() const
     return std::string(this->inputtedText.begin(), this->inputtedText.end());
 }
 
-bool InputBox::isActivated()
+bool InputBox::isActivated() const
 {
     return this->isActive;
+}
+
+bool InputBox::isSomethingInputted() const
+{
+    return this->inputtedText.size() != 0;
 }
 
 bool InputBox::processEvent(sf::Event &event)

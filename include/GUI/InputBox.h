@@ -40,7 +40,8 @@ class InputBox: public InteractiveGUIElement
             return this->field.getGlobalBounds().contains(xPos, yPos);
         }
 
-        bool isActivated();
+        bool isActivated() const;
+        bool isSomethingInputted() const;
 
         void move(int chars);
 

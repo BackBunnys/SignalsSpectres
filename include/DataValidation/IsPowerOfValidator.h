@@ -28,14 +28,13 @@ class IsPowerOfValidator: public Validator<long long>
         {
             long long number = this->valueWrapper->get();
             long long base = this->baseWrapper->get();
-            bool isPower = true;
+            bool isPower = number != 0;
 
             while(isPower && number != 0) {
                 if(number % base != 0 && abs(number) != 1)
                     isPower = false;
                 number /= base;
             }
-
             return isPower;
         }
 

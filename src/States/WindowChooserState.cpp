@@ -26,7 +26,8 @@ void WindowChooserState::initGUI()
     //////////////BUTTONS///////////////
     Button* backButton = factory.getButton("Назад", [](AppData &appData){ appData.GetMachine()->PopState(); },
                                            sf::Vector2f(this->appData.GetWindow()->getSize().x / 5, this->appData.GetWindow()->getSize().y / 5 * 4));
-    Button* nextButton = factory.getButton("Далее", [](AppData &appData){ appData.GetMachine()->getCurrentState()->NextState(); },
+    Button* nextButton = factory.getButton("Далее", [](AppData &appData){
+                                           appData.GetMachine()->getCurrentState()->NextState(); },
                                            sf::Vector2f(this->appData.GetWindow()->getSize().x / 5 * 4, this->appData.GetWindow()->getSize().y / 5 * 4));
     ////////////INPUTBOXES//////////////
     InputBox* signalSize = factory.getInputBox(sf::Vector2u(220, 50), sf::Vector2f(this->appData.GetWindow()->getSize().x / 4 * 3,
@@ -114,19 +115,26 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
 {
     if(!this->guiHandler.processEvent(event))
         if(event.type == sf::Event::KeyPressed) {
-            if(event.key.code == sf::Keyboard::Enter)
+            if(event.key.code == sf::Keyboard::Enter) {
                 NextState();
+            }
             else if(event.key.code == sf::Keyboard::Escape)
                 this->appData.GetMachine()->PopState();
         }
 }
 
+#include <iostream>
 void WindowChooserState::NextState()
 {
-    if(this->errorHandler.fullValidate()) {
-        this->appData.setSignalSize(std::atoi((static_cast<InputBox*>(guiHandler.getInteractiveElement("signalSize")))->getInputtedText().data()));
-        this->appData.setFFTSize(std::atoi((static_cast<InputBox*>(guiHandler.getInteractiveElement("fftSize")))->getInputtedText().data()));
+    if((static_cast<InputBox*>(guiHandler.getInteractiveElement("signalSize")))->isSomethingInputted() ||
+       (static_cast<InputBox*>(guiHandler.getInteractiveElement("fftSize")))->isSomethingInputted())
+        if(this->errorHandler.fullValidate()) {
 
-        //Push next state
+        int32_t sSize = std::atoi((static_cast<InputBox*>(guiHandler.getInteractiveElement("signalSize")))->getInputtedText().data());
+        int32_t fSize = std::atoi((static_cast<InputBox*>(guiHandler.getInteractiveElement("fftSize")))->getInputtedText().data());
+            this->appData.setSignalSize(sSize);
+            this->appData.setFFTSize(fSize);
+
+            //Push next state
     }
 }

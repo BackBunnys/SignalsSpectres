@@ -42,16 +42,10 @@ void AppData::setFilePath(std::string filePath)
     this->filePath = filePath;
 }
 
-sf::Vector2i AppData::getMouseDelta(sf::Vector2i MousePos)
+template <typename T>
+sf::Vector2<T> AppData::getMouseDelta(sf::Vector2<T> mousePos)
 {
-    sf::Vector2i Delta = MousePos - this->mousePosition;
-    this->mousePosition = MousePos;
-    return Delta;
-}
-
-sf::Vector2f AppData::getMouseDelta(sf::Vector2f MousePos)
-{
-    sf::Vector2f Delta = MousePos - this->f_mousePosition;
-    this->f_mousePosition = MousePos;
-    return Delta;
+    sf::Vector2<T> delta = mousePos - this->mousePosition;
+    this->mousePosition = mousePos;
+    return delta;
 }
