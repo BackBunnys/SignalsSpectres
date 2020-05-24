@@ -5,6 +5,8 @@
 #include "GUI/InputBox.h"
 #include "GUI/Button.h"
 #include "GUI/DarkThemeGUIFactory.h"
+#include "GUIHandler.h"
+#include "ValidationHandler.h"
 
 class InputState : public State
 {
@@ -20,21 +22,17 @@ class InputState : public State
 
         virtual void ProccessEvent(sf::Event &event);
 
+        virtual void NextState();
+
     private:
         sf::Color bgColor;
-        sf::Text tip;
-        sf::Text error;
-        InputBox *inputBox;
-        Button *nextButton;
 
         DarkThemeGUIFactory factory;
+        ValidationHandler errorHandler;
+        GUIHandler guiHandler;
 
-        void initInputBox();
-        void initTip();
-        void initNextButton();
-        void initError();
-
-        bool validateFileName();
+        void initGUI();
+        void initValidationHandler();
 };
 
 #endif // INPUTSTATE_H

@@ -2,8 +2,9 @@
 #define INPUTBOX_H
 
 #include "SFML/Graphics.hpp"
+#include "GUI/InteractiveGUIElement.h"
 
-class InputBox
+class InputBox: public InteractiveGUIElement
 {
     public:
         InputBox(sf::Font &font,
@@ -12,6 +13,11 @@ class InputBox
                    sf::Color delimiterColor);
         virtual ~InputBox();
 
+        void update();
+        void draw(sf::RenderWindow &window);
+        bool processEvent(sf::Event &event);
+
+        void setInputtedCharLimits(uint32_t left, uint32_t right = 0);
         void setPosition(sf::Vector2f position);
         void setHorizontalPadding(uint16_t px);
         void setSelectedTextColor(sf::Color color);
@@ -19,8 +25,6 @@ class InputBox
 
         sf::FloatRect getGlobalBounds() const;
         std::string getInputtedText() const;
-
-        void draw(sf::RenderWindow &window);
 
         void addChar(uint32_t code);
         void copyFromBuffer();
@@ -31,13 +35,13 @@ class InputBox
         void activate();
         void deactivate();
 
-        template <typename t>
-        bool isMouseOn(sf::Vector2<t> mousePos)
+        bool isMouseOn(float xPos, float yPos)
         {
-            return this->field.getGlobalBounds().contains(mousePos.x, mousePos.y);
+            return this->field.getGlobalBounds().contains(xPos, yPos);
         }
 
-        bool isActivated();
+        bool isActivated() const;
+        bool isSomethingInputted() const;
 
         void move(int chars);
 
@@ -55,8 +59,12 @@ class InputBox
         sf::Clock timer;
         sf::Time ptrTime;
 
+        uint32_t leftLimit;
+        uint32_t rightLimit;
+
         bool isTextSelected;
         bool isActive;
+        bool isPtrVisible;
 
         int32_t currentPosition;
         int32_t leftVisibleCorner;

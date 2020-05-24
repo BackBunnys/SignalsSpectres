@@ -11,6 +11,8 @@ class Button: public DefaultInteractiveElement
         Button(sf::Text buttonText,
                void action(AppData&), AppData &appData);
 
+        bool processEvent(sf::Event& event);
+
         void runAction();
 
     private:

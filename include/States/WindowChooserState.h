@@ -8,6 +8,8 @@
 #include "WindowFunction.h"
 #include "GUI/InputBox.h"
 #include "GUI/DarkThemeGUIFactory.h"
+#include "GUIHandler.h"
+#include "ValidationHandler.h"
 
 class WindowChooserState: public State
 {
@@ -24,34 +26,17 @@ class WindowChooserState: public State
 
         virtual void ProccessEvent(sf::Event &event);
 
-    private:
-        Button* backButton;
-        Button* nextButton;
-        InputBox* signalSize;
-        InputBox* fftSize;
-        ChooseList<WindowFunction>* clist;
-        sf::Text signalSizeTip;
-        sf::Text fftSizeTip;
+        virtual void NextState();
 
-        sf::Text errorMessage;
+    private:
         sf::Color bgColor;
 
         DarkThemeGUIFactory factory;
+        ValidationHandler errorHandler;
+        GUIHandler guiHandler;
 
-        void initButtons();
-        void initChooseList();
-        void initInputBoxes();
-        void initTips();
-
-        void appendErrors(const std::string error);
-
-        bool fullValidate();
-
-        bool notZeroValueValidate(const std::string &str, std::string fieldName);
-
-        bool fftSizeValidate();
-
-        int parseToInt(const std::string &str);
+        void initGUI();
+        void initValidationHandler();
 };
 
 #endif // WINDOWCHOOSERSTATE_H

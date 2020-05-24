@@ -3,6 +3,8 @@
 
 DefaultInteractiveElement::DefaultInteractiveElement(sf::Text text, AppData &appData): appData(&appData)
 {
+    this->activeBorderColor = sf::Color(150, 150, 150);
+    this->isActive = false;
     this->text = text;
     this->textSize = text.getCharacterSize();
     this->textHoverSize = this->textSize;
@@ -27,6 +29,20 @@ void DefaultInteractiveElement::draw(sf::RenderWindow &window)
 {
     window.draw(this->field);
     window.draw(this->text);
+}
+
+void DefaultInteractiveElement::activate()
+{
+    this->isActive = true;
+
+    this->field.setOutlineColor(this->activeBorderColor);
+}
+
+void DefaultInteractiveElement::deactivate()
+{
+    this->isActive = false;
+
+    this->field.setOutlineColor(this->borderColor);
 }
 
 bool DefaultInteractiveElement::isMouseOn(float xPos, float yPos)
@@ -72,10 +88,16 @@ void DefaultInteractiveElement::setFieldColor(sf::Color color, sf::Color onHover
     this->fieldHoverColor = onHoverColor;
 }
 
-void DefaultInteractiveElement::setBorder(uint16_t weight, sf::Color color)
+void DefaultInteractiveElement::setBorder(float weight, sf::Color color)
 {
+    this->borderColor = color;
     this->field.setOutlineThickness(weight);
-    this->field.setOutlineColor(color);
+    this->field.setOutlineColor(borderColor);
+}
+
+void DefaultInteractiveElement::setActiveBorderColor(sf::Color color)
+{
+    this->activeBorderColor = color;
 }
 
 void DefaultInteractiveElement::onHoverTransform()
@@ -85,7 +107,6 @@ void DefaultInteractiveElement::onHoverTransform()
     this->text.setCharacterSize(this->textHoverSize);
 }
 
-#include <iostream>
 void DefaultInteractiveElement::onUnHoverTransform()
 {
     if(this->text.getFillColor() != this->textColor) {

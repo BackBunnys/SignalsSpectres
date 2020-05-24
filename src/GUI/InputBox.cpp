@@ -23,6 +23,7 @@ InputBox::InputBox(sf::Font &font,
     this->field.setOutlineThickness(borderSize);
     this->field.setOutlineColor(borderColor);
 
+    this->isPtrVisible = true;
     this->isTextSelected = false;
     this->selectedTextColor = sf::Color((selectedMarker.getFillColor().r + 100) % 256,
                                         (selectedMarker.getFillColor().g + 100) % 256,
@@ -31,6 +32,8 @@ InputBox::InputBox(sf::Font &font,
     this->inputPtr.setSize(sf::Vector2f(2, textSize));
     this->inputPtr.setFillColor(delimiterColor);
 
+    this->leftLimit = 32;
+    this->rightLimit = 0;
     this->currentPosition = 0;
     this->leftVisibleCorner = 0;
     this->rightVisibleCorner = 0;
@@ -48,6 +51,17 @@ InputBox::~InputBox()
     //dtor
 }
 
+void InputBox::update()
+{
+    isPtrVisible = false;
+    if(this->timer.getElapsedTime() > this->ptrTime)
+        timer.restart();
+    else
+        if(this->timer.getElapsedTime().asSeconds() > 0.5)
+            if(this->isActive)
+                this->isPtrVisible = true;
+}
+
 void InputBox::draw(sf::RenderWindow &window)
 {
     window.draw(this->field);
@@ -57,12 +71,8 @@ void InputBox::draw(sf::RenderWindow &window)
 
     window.draw(this->visibleText);
 
-    if(this->timer.getElapsedTime() > this->ptrTime)
-        timer.restart();
-    else
-        if(this->timer.getElapsedTime().asSeconds() > 0.5)
-            if(this->isActive)
-                window.draw(this->inputPtr);
+    if(isPtrVisible)
+        window.draw(this->inputPtr);
 }
 
 void InputBox::addChar(uint32_t code)
@@ -222,7 +232,61 @@ std::string InputBox::getInputtedText() const
     return std::string(this->inputtedText.begin(), this->inputtedText.end());
 }
 
-bool InputBox::isActivated()
+bool InputBox::isActivated() const
 {
     return this->isActive;
+}
+
+bool InputBox::isSomethingInputted() const
+{
+    return this->inputtedText.size() != 0;
+}
+
+bool InputBox::processEvent(sf::Event &event)
+{
+    if(isActivated()) {
+        if(event.type == sf::Event::TextEntered) {
+            bool isInLimits = true;
+            if(leftLimit != 0)
+                if(event.text.unicode < leftLimit) isInLimits = false;
+            if(rightLimit != 0)
+                if(event.text.unicode > rightLimit) isInLimits = false;
+            if(isInLimits)
+                addChar(event.text.unicode);
+        }
+        else if(event.type == sf::Event::KeyPressed) {
+            switch(event.key.code) {
+                case sf::Keyboard::Left:
+                    move(-1);
+                    break;
+                case sf::Keyboard::Right:
+                    move(1);
+                    break;
+                case sf::Keyboard::A: //Ctrl + A combination
+                    if(event.key.control)
+                        selectAllText();
+                    break;
+                case sf::Keyboard::Backspace:
+                    removeChar();
+                    break;
+                case sf::Keyboard::V: //Ctrl+V combination
+                    if(event.key.control)
+                        copyFromBuffer();
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
+        else return false;
+    }
+    else return false;
+
+    return true;
+}
+
+void InputBox::setInputtedCharLimits(uint32_t left, uint32_t right)
+{
+    this->leftLimit = left;
+    this->rightLimit = right;
 }

@@ -12,6 +12,10 @@ class DefaultInteractiveElement: public InteractiveGUIElement
 
         virtual void update() override;
         virtual void draw(sf::RenderWindow &window) override;
+        virtual bool processEvent(sf::Event &event) = 0;
+
+        virtual void activate() override;
+        virtual void deactivate() override;
 
         void setPosition(sf::Vector2f position);
         void setCenterPosition(sf::Vector2f centerPosition);
@@ -19,7 +23,10 @@ class DefaultInteractiveElement: public InteractiveGUIElement
         void setTextSize(unsigned textSize, unsigned onHoverSize);
         void setTextColor(sf::Color color, sf::Color onHoverColor);
         void setFieldColor(sf::Color color, sf::Color onHoverColor);
-        void setBorder(uint16_t weight, sf::Color color);
+        void setBorder(float weight, sf::Color color);
+        void setActiveBorderColor(sf::Color color);
+
+        float getBorderWidth() const { return this->field.getOutlineThickness(); }
 
         virtual bool isMouseOn(float xPos, float yPos) override;
 
@@ -32,7 +39,10 @@ class DefaultInteractiveElement: public InteractiveGUIElement
 
         unsigned textSize, textHoverSize;
         sf::Color textColor, textHoverColor,
-                  fieldColor, fieldHoverColor;
+                  fieldColor, fieldHoverColor,
+                  borderColor, activeBorderColor;
+
+        bool isActive;
 
         AppData* appData;
 };

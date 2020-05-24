@@ -23,6 +23,11 @@ class ListElement: public DefaultInteractiveElement
                 DefaultInteractiveElement::update();
         }
 
+        bool processEvent(sf::Event &event)
+        {
+            return false;
+        }
+
         void select() { this->isSelected = true; onSelectTransform(); }
         void unselect() { this->isSelected = false; }
 
@@ -34,13 +39,19 @@ class ListElement: public DefaultInteractiveElement
         bool isSelect() { return this->isSelected; }
 
         void setFieldSelectedColor(sf::Color color) { this->fieldSelectedColor = color; }
+        void setTextSelectedColor(sf::Color color) { this-> textSelectedColor = color; }
 
-        void onSelectTransform() { this->field.setFillColor(fieldSelectedColor); }
+        void onSelectTransform()
+        {
+            this->field.setFillColor(fieldSelectedColor);
+            this->text.setFillColor(textSelectedColor);
+        }
 
     private:
         bool isSelected;
 
-        sf::Color fieldSelectedColor;
+        sf::Color fieldSelectedColor,
+                  textSelectedColor;
 
         T data;
 };
