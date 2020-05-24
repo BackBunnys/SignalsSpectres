@@ -23,8 +23,10 @@ class DefaultInteractiveElement: public InteractiveGUIElement
         void setTextSize(unsigned textSize, unsigned onHoverSize);
         void setTextColor(sf::Color color, sf::Color onHoverColor);
         void setFieldColor(sf::Color color, sf::Color onHoverColor);
-        void setBorder(uint16_t weight, sf::Color color);
+        void setBorder(float weight, sf::Color color);
         void setActiveBorderColor(sf::Color color);
+
+        float getBorderWidth() const { return this->field.getOutlineThickness(); }
 
         virtual bool isMouseOn(float xPos, float yPos) override;
 

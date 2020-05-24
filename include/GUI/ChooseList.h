@@ -13,6 +13,7 @@ class ChooseList: public InteractiveGUIElement
         ChooseList(uint32_t selectionLimit)
         {
             this->isActive = false;
+            this->activeElementIndex = 0;
             this->numOfSelected = 0;
             this->selectionLimit = selectionLimit;
             this->field.setFillColor(sf::Color::Transparent);
@@ -21,9 +22,7 @@ class ChooseList: public InteractiveGUIElement
         ChooseList(std::vector<ListElement<T>* > elements, uint32_t selectionLimit): ChooseList(selectionLimit)
         {
             this->isActive = false;
-            this->elements = elements;
-            updateFieldSize();
-            setPosition(field.getPosition());
+            addElement(elements);
         }
 
         virtual ~ChooseList() {
@@ -35,6 +34,7 @@ class ChooseList: public InteractiveGUIElement
             for(size_t i = 0; i < elements.size(); ++i)
                 delete elements[i];
             elements.clear();
+            onResized();
         }
 
         void setBorder(uint16_t weight, sf::Color borderColor, sf::Color activeBorderColor)
@@ -48,11 +48,11 @@ class ChooseList: public InteractiveGUIElement
         void setPosition(sf::Vector2f position)
         {
             this->field.setPosition(position);
-            int32_t yPos = position.y;
+
             for(size_t i = 0; i < elements.size(); ++i)
             {
-                elements[i]->setPosition(sf::Vector2f(position.x, yPos));
-                yPos += elements[i]->getSize().y;
+                elements[i]->setPosition(position);
+                position.y += elements[i]->getSize().y + elements[i]->getBorderWidth();
             }
         }
 
@@ -63,36 +63,34 @@ class ChooseList: public InteractiveGUIElement
 
         void addElement(ListElement<T>* element) {
             this->elements.push_back(element);
-            updateFieldSize();
-            setPosition(field.getPosition());
+            onResized();
         }
 
         void insertElement(ListElement<T>* element, uint32_t index) {
             this->elements.insert(elements.begin() + index, element);
-            updateFieldSize();
-            setPosition(field.getPosition());
+            onResized();
         }
 
         void addElements(std::vector<ListElement<T>* > elements)
         {
             this->elements.insert(this->elements.end(), elements.begin(), elements.end());
-            updateFieldSize();
-            setPosition(field.getPosition());
+            onResized();
         }
 
         void removeElement(uint32_t index)
         {
             delete this->elements[index];
             this->elements.erase(this->elements.begin() + index);
-            updateFieldSize();
-            setPosition(field.getPosition());
+            onResized();
         }
 
         void draw(sf::RenderWindow &window)
         {
-            window.draw(this->field);
             for(size_t i = 0; i < elements.size(); ++i)
-                elements[i]->draw(window);
+                if(i != activeElementIndex)
+                    elements[i]->draw(window);
+            window.draw(this->field);
+            elements[activeElementIndex]->draw(window);
         }
 
         void update()
@@ -103,24 +101,54 @@ class ChooseList: public InteractiveGUIElement
 
         bool processEvent(sf::Event &event)
         {
-            if(event.type == sf::Event::MouseButtonReleased)
+            if(event.type == sf::Event::MouseButtonPressed)
+            {
                 if(event.mouseButton.button == sf::Mouse::Left)
                     if(isMouseOn(event.mouseButton.x, event.mouseButton.y)) {
-                        changeSelection(event.mouseButton.x, event.mouseButton.y);
+                        changeActive(findElem(event.mouseButton.x, event.mouseButton.y));
                         return true;
                     }
+            }
+            if(event.type == sf::Event::MouseButtonReleased) {
+                if(event.mouseButton.button == sf::Mouse::Left)
+                    if(isMouseOn(event.mouseButton.x, event.mouseButton.y)) {
+                        changeSelection();
+                        return true;
+                    }
+            }
+            else if(event.type == sf::Event::KeyPressed) {
+                if(event.key.code == sf::Keyboard::Up) {
+                    changeActive(this->activeElementIndex - 1);
+                    return true;
+                }
+                else if(event.key.code == sf::Keyboard::Down) {
+                    changeActive(this->activeElementIndex + 1);
+                    return true;
+                }
+                else if(event.key.code == sf::Keyboard::Enter) {
+                    if(activeElementIndex >= 0 && activeElementIndex < elements.size())
+                    {
+                        changeSelection();
+                        return true;
+                    }
+                }
+            }
             return false;
         }
 
         void activate()
         {
             this->isActive = true;
+            if(activeElementIndex >= 0 && activeElementIndex < elements.size())
+                elements[activeElementIndex]->activate();
 
             this->field.setOutlineColor(this->activeBorderColor);
         }
         void deactivate()
         {
             this->isActive = false;
+            if(activeElementIndex >= 0 && activeElementIndex < elements.size())
+                this->elements[activeElementIndex]->deactivate();
 
             this->field.setOutlineColor(this->borderColor);
         }
@@ -130,22 +158,19 @@ class ChooseList: public InteractiveGUIElement
             return this->field.getGlobalBounds().contains(xPos, yPos);
         }
 
-        void changeSelection(float xPos, float yPos)
+        void changeSelection()
         {
-            for(size_t i = 0; i < elements.size(); ++i)
-                if(elements[i]->isMouseOn(xPos, yPos)) {
-                    if(!elements[i]->isSelect()) {
-                        if(numOfSelected < selectionLimit)
-                        {
-                            elements[i]->select();
-                            ++numOfSelected;
-                        }
-                    }
-                    else {
-                        elements[i]->unselect();
-                        --numOfSelected;
-                    }
+            if(!elements[activeElementIndex]->isSelect()) {
+                if(numOfSelected < selectionLimit)
+                {
+                    elements[activeElementIndex]->select();
+                    ++numOfSelected;
                 }
+            }
+            else {
+                elements[activeElementIndex]->unselect();
+                --numOfSelected;
+            }
         }
 
         std::vector<ListElement<T>* > getSelectedElements()
@@ -170,6 +195,7 @@ class ChooseList: public InteractiveGUIElement
 
     private:
         std::vector<ListElement<T>* > elements;
+        int activeElementIndex;
 
         sf::RectangleShape field;
 
@@ -180,7 +206,28 @@ class ChooseList: public InteractiveGUIElement
         uint32_t selectionLimit;
         uint32_t numOfSelected;
 
+        void onResized()
+        {
+            updateFieldSize();
+            setPosition(field.getPosition());
+        }
+
         void updateFieldSize()
+        {
+            sf::Vector2f maxSize = findMaxWidthHeight();
+            float totalHeight = 0;
+            float borderWidth = 0;
+
+            for(size_t i = 0; i < elements.size(); ++i)
+            {
+                borderWidth = elements[i]->getBorderWidth();
+                elements[i]->setSize(maxSize);
+                totalHeight += maxSize.y + borderWidth;
+            }
+            field.setSize(sf::Vector2f(maxSize.x, totalHeight - borderWidth));
+        }
+
+        sf::Vector2f findMaxWidthHeight()
         {
             int32_t maxWidth = elements[0]->getSize().x,
                     maxHeight = elements[0]->getSize().y;
@@ -192,11 +239,28 @@ class ChooseList: public InteractiveGUIElement
                 if(size.y > maxHeight)
                     maxHeight = size.y;
             }
-            for(size_t i = 0; i < elements.size(); ++i)
-            {
-                elements[i]->setSize(sf::Vector2f(maxWidth, maxHeight));
+            return sf::Vector2f(maxWidth, maxHeight);
+        }
+
+        void changeActive(int index)
+        {
+            if(index < 0) index += elements.size();
+            index %= elements.size();
+
+            if(index != activeElementIndex) {
+                if(this->activeElementIndex < elements.size())
+                    this->elements[activeElementIndex]->deactivate();
+                this->activeElementIndex = index;
+                this->elements[activeElementIndex]->activate();
             }
-            field.setSize(sf::Vector2f(maxWidth, maxHeight * elements.size()));
+        }
+
+        size_t findElem(float xPos, float yPos)
+        {
+            for(size_t i = 0; i < elements.size(); ++i)
+                if(elements[i]->isMouseOn(xPos, yPos))
+                    return i;
+            return elements.size();
         }
 };
 

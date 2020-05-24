@@ -22,11 +22,14 @@ class DarkThemeGUIFactory
         ListElement<T>* getListElement(std::string text, T data)
         {
             ListElement<T>* el = new ListElement<T>(sf::Text(text, this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf")),
-                                       data, this->appData);
+                                                    data, this->appData);
             el->setTextColor(sf::Color::White, sf::Color(45, 45, 45));
             el->setFieldColor(sf::Color(100, 100, 100), sf::Color(200, 200, 200));
             el->setSize(sf::Vector2f(300, 50));
             el->setFieldSelectedColor(sf::Color::White);
+            el->setTextSelectedColor(sf::Color(45, 45, 45));
+            el->setBorder(2, sf::Color(45, 45, 45));
+            el->setActiveBorderColor(sf::Color(150, 150, 150));
 
             return el;
         }

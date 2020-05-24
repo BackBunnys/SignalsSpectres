@@ -88,7 +88,7 @@ void DefaultInteractiveElement::setFieldColor(sf::Color color, sf::Color onHover
     this->fieldHoverColor = onHoverColor;
 }
 
-void DefaultInteractiveElement::setBorder(uint16_t weight, sf::Color color)
+void DefaultInteractiveElement::setBorder(float weight, sf::Color color)
 {
     this->borderColor = color;
     this->field.setOutlineThickness(weight);
@@ -107,7 +107,6 @@ void DefaultInteractiveElement::onHoverTransform()
     this->text.setCharacterSize(this->textHoverSize);
 }
 
-#include <iostream>
 void DefaultInteractiveElement::onUnHoverTransform()
 {
     if(this->text.getFillColor() != this->textColor) {

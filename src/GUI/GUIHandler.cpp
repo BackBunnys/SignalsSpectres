@@ -26,28 +26,26 @@ bool GUIHandler::processEvent(sf::Event &event)
 {
     bool isProcessed = false;
 
-    if(activeElementIndex < interactivElems.size())
-        isProcessed = interactivElems[activeElementIndex].second->processEvent(event);
-    if(!isProcessed) {
-        if(event.type == sf::Event::MouseButtonPressed) {
-            bool isFind = false;
-            size_t i;
-            for(i = 0; !isFind && i < interactivElems.size(); ++i)
-                if(interactivElems[i].second->isMouseOn(event.mouseButton.x, event.mouseButton.y))
-                    isFind = true;
-            if(isFind) {
-                changeActive(i - 1);
-                isProcessed = true;
-            }
-        }
-        else if(event.type == sf::Event::KeyPressed) {
-            if(event.key.code == sf::Keyboard::Tab) {
-                if(event.key.shift) changeActive(activeElementIndex - 1);
-                else changeActive(activeElementIndex + 1);
-                isProcessed = true;
-            }
+    if(event.type == sf::Event::MouseButtonPressed) {
+        bool isFind = false;
+        size_t i;
+        for(i = 0; !isFind && i < interactivElems.size(); ++i)
+            if(interactivElems[i].second->isMouseOn(event.mouseButton.x, event.mouseButton.y))
+                isFind = true;
+        if(isFind) {
+            changeActive(i - 1);
         }
     }
+    else if(event.type == sf::Event::KeyPressed) {
+        if(event.key.code == sf::Keyboard::Tab) {
+            if(event.key.shift) changeActive(activeElementIndex - 1);
+            else changeActive(activeElementIndex + 1);
+        }
+    }
+
+    if(activeElementIndex < interactivElems.size())
+        isProcessed = interactivElems[activeElementIndex].second->processEvent(event);
+
 
     return isProcessed;
 }
