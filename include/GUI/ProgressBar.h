@@ -14,7 +14,7 @@ enum PaddingType { Horizontal, Vertical, Both};
 class ProgressBar: public DynamicGUI
 {
     public:
-        ProgressBar();
+        ProgressBar(sf::Font &font, uint16_t charSize = 30);
 
         void update();
         void draw(sf::RenderWindow &window);
@@ -24,11 +24,13 @@ class ProgressBar: public DynamicGUI
         void associateWithSource(const IProgressive* source);
 
         void setSize(sf::Vector2f size);
+        void setTextSize(uint16_t charSize);
         void setBorder(float weight);
         void setPadding(float padding, PaddingType type);
         void setPosition(sf::Vector2f position);
         void setCenterPosition(sf::Vector2f position);
 
+        void setTextColor(sf::Color color);
         void setFieldColor(sf::Color color);
         void setBorderColor(sf::Color color);
         void setBarColor(sf::Color color);
@@ -42,6 +44,7 @@ class ProgressBar: public DynamicGUI
 
         const sf::Vector2f& getPosition() const { return this->field.getPosition(); }
 
+        const sf::Color& getTextColor() const { return this->progressText.getFillColor(); }
         const sf::Color& getFieldColor() const { return this->field.getFillColor(); }
         const sf::Color& getBorderColor() const { return this->field.getOutlineColor(); }
         const sf::Color& getBarColor() const { return this->bar.getFillColor(); }
@@ -51,6 +54,7 @@ class ProgressBar: public DynamicGUI
     private:
         const IProgressive* associatedSource;
 
+        sf::Text progressText;
         sf::RectangleShape field;
         sf::RectangleShape bar;
 
@@ -59,6 +63,8 @@ class ProgressBar: public DynamicGUI
         float barWidth;
 
         float progress;
+
+        void updateText();
 };
 
 #endif // PROGRESSBAR_H
