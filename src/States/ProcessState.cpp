@@ -1,4 +1,4 @@
-#include "ProcessState.h"
+#include "States/ProcessState.h"
 
 ProcessState::ProcessState(AppData &appData):
     State(appData), factory(appData) { }
