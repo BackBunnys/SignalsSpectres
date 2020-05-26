@@ -1,7 +1,7 @@
 #ifndef PROGRESSBAR_H
 #define PROGRESSBAR_H
 
-#include "SFML/Graphics.hpp"
+#include "DynamicGUI.h"
 
 class IProgressive
 {
@@ -11,7 +11,7 @@ class IProgressive
 
 enum PaddingType { Horizontal, Vertical, Both};
 
-class ProgressBar
+class ProgressBar: public DynamicGUI
 {
     public:
         ProgressBar();
@@ -40,7 +40,7 @@ class ProgressBar
         float getHorizontalPadding() const { return this->horizontalPadding; }
         float getVerticalPadding() const { return this->verticalPadding; }
 
-        const sf::Vector2f& getPosition() const { this->field.getPosition(); }
+        const sf::Vector2f& getPosition() const { return this->field.getPosition(); }
 
         const sf::Color& getFieldColor() const { return this->field.getFillColor(); }
         const sf::Color& getBorderColor() const { return this->field.getOutlineColor(); }
