@@ -8,17 +8,20 @@ GUIHandler::GUIHandler()
 GUIHandler::~GUIHandler()
 {
     for(size_t i = 0; i < interactivElems.size(); ++i) delete interactivElems[i].second;
+    for(size_t i = 0; i < dynamicElems.size(); ++i) delete dynamicElems[i];
     for(size_t i = 0; i < staticElems.size(); ++i) delete staticElems[i];
 }
 
 void GUIHandler::update()
 {
     for(size_t i = 0; i < interactivElems.size(); ++i) interactivElems[i].second->update();
+    for(size_t i = 0; i < dynamicElems.size(); ++i) dynamicElems[i]->update();
 }
 
 void GUIHandler::draw(sf::RenderWindow &window)
 {
     for(size_t i = 0; i < staticElems.size(); ++i) window.draw(*staticElems[i]);
+    for(size_t i = 0; i < dynamicElems.size(); ++i) dynamicElems[i]->draw(window);
     for(size_t i = 0; i < interactivElems.size(); ++i) interactivElems[i].second->draw(window);
 }
 
@@ -62,6 +65,11 @@ void GUIHandler::addInteractive(std::string key, InteractiveGUIElement* elem, bo
 void GUIHandler::addStatic(sf::Drawable* elem)
 {
     staticElems.push_back(elem);
+}
+
+void GUIHandler::addDynamic(DynamicGUI* elem)
+{
+    dynamicElems.push_back(elem);
 }
 
 InteractiveGUIElement* GUIHandler::getInteractiveElement(std::string key)

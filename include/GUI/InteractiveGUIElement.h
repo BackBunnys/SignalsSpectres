@@ -1,14 +1,11 @@
 #ifndef INTERACTIVEGUIELEMENT_H
 #define INTERACTIVEGUIELEMENT_H
 
-#include "SFML/Graphics.hpp"
+#include "DynamicGUI.h"
 
-class InteractiveGUIElement
+class InteractiveGUIElement: public DynamicGUI
 {
     public:
-
-        virtual void update() = 0;
-        virtual void draw(sf::RenderWindow &window) = 0;
         virtual bool processEvent(sf::Event &event) = 0;
 
         virtual void activate() = 0;
