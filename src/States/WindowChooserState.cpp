@@ -122,7 +122,7 @@ void WindowChooserState::ProccessEvent(sf::Event &event)
                 this->appData.GetMachine()->PopState();
         }
 }
-
+#include "States/ProcessState.h"
 void WindowChooserState::NextState()
 {
     if((static_cast<InputBox*>(guiHandler.getInteractiveElement("signalSize")))->isSomethingInputted() ||
@@ -134,6 +134,6 @@ void WindowChooserState::NextState()
             this->appData.setSignalSize(sSize);
             this->appData.setFFTSize(fSize);
 
-            //Push next state
+        this->appData.GetMachine()->PushState(new ProcessState(appData));    //Push next state
     }
 }

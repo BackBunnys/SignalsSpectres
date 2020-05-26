@@ -15,7 +15,8 @@ void ProcessState::Init()
 
 void ProcessState::initGUI()
 {
-
+    guiHandler.addDynamic(this->factory.getProgressBar(sf::Vector2f(this->appData.GetWindow()->getSize().x / 2,
+                                                                    this->appData.GetWindow()->getSize().y / 2)));
 }
 
 void ProcessState::Update()
@@ -32,10 +33,10 @@ void ProcessState::Render(sf::RenderWindow& window)
 
 void ProcessState::ProccessEvent(sf::Event &event)
 {
-
+    this->guiHandler.processEvent(event);
 }
 
 void ProcessState::NextState()
 {
-
+    //Push a state
 }

@@ -29,7 +29,6 @@ class ProcessState: public State
         GUIHandler guiHandler;
 
         void initGUI();
-        void initValidationHandler();
 };
 
 
