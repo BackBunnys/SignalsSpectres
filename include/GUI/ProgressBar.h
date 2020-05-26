@@ -22,7 +22,6 @@ class ProgressBar
         void addProgress(float percent);
         void setProgress(float persent);
         void associateWithSource(const IProgressive* source);
-        void setPollPauseTime(sf::Time time);
 
         void setSize(sf::Vector2f size);
         void setBorder(float weight);
@@ -35,7 +34,6 @@ class ProgressBar
         void setBarColor(sf::Color color);
 
         const IProgressive* getAssociatedSource() const { return this->associatedSource; }
-        const sf::Time& getPollPauseTime() const { return this->pollPauseTime; }
 
         const sf::Vector2f& getSize() const { return this->field.getSize(); }
         float getBorderWeight() const { return this->field.getOutlineThickness(); }
@@ -52,8 +50,6 @@ class ProgressBar
 
     private:
         const IProgressive* associatedSource;
-        sf::Time pollPauseTime;
-        sf::Clock timer;
 
         sf::RectangleShape field;
         sf::RectangleShape bar;

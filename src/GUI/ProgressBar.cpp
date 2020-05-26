@@ -13,7 +13,6 @@ ProgressBar::ProgressBar()
     setBarColor(sf::Color::Green);
 
     associateWithSource(NULL);
-    setPollPauseTime(sf::Time(sf::milliseconds(50)));
 }
 
 ProgressBar::~ProgressBar()
@@ -24,10 +23,7 @@ ProgressBar::~ProgressBar()
 void ProgressBar::update()
 {
     if(associatedSource)
-        if(timer.getElapsedTime() >= pollPauseTime) {
-            timer.restart();
-            setProgress(associatedSource->getProgress());
-    }
+        setProgress(associatedSource->getProgress());
 }
 
 void ProgressBar::draw(sf::RenderWindow &window)
@@ -55,11 +51,6 @@ void ProgressBar::setProgress(float persent)
 void ProgressBar::associateWithSource(const IProgressive* source)
 {
     this->associatedSource = source;
-}
-
-void ProgressBar::setPollPauseTime(sf::Time time)
-{
-    this->pollPauseTime = time;
 }
 
 void ProgressBar::setSize(sf::Vector2f size)
