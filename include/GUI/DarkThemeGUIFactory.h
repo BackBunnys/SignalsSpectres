@@ -6,6 +6,7 @@
 #include "GUI/Button.h"
 #include "GUI/InputBox.h"
 #include "GUI/ListElement.h"
+#include "GUI/ProgressBar.h"
 
 class DarkThemeGUIFactory
 {
@@ -15,6 +16,8 @@ class DarkThemeGUIFactory
 
         Button* getButton(std::string text, void (*action)(AppData&), sf::Vector2f position);
         InputBox* getInputBox(sf::Vector2u size, sf::Vector2f position);
+
+        ProgressBar* getProgressBar(sf::Vector2f position);
 
         sf::Text* getText(std::string str, int charSize);
 

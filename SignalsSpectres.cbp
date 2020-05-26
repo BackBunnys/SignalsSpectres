@@ -69,11 +69,15 @@
 		<Unit filename="include/GUI/ChooseList.h" />
 		<Unit filename="include/GUI/DarkThemeGUIFactory.h" />
 		<Unit filename="include/GUI/DefaultInteractiveElement.h" />
+		<Unit filename="include/GUI/DynamicGUI.h" />
+		<Unit filename="include/GUI/GUI.h" />
 		<Unit filename="include/GUI/GUIHandler.h" />
 		<Unit filename="include/GUI/InputBox.h" />
 		<Unit filename="include/GUI/InteractiveGUIElement.h" />
 		<Unit filename="include/GUI/ListElement.h" />
+		<Unit filename="include/GUI/ProgressBar.h" />
 		<Unit filename="include/States/InputState.h" />
+		<Unit filename="include/States/ProcessState.h" />
 		<Unit filename="include/States/WindowChooserState.h" />
 		<Unit filename="include/WindowFunction.h" />
 		<Unit filename="main.cpp" />
@@ -87,7 +91,9 @@
 		<Unit filename="src/GUI/DefaultInteractiveElement.cpp" />
 		<Unit filename="src/GUI/GUIHandler.cpp" />
 		<Unit filename="src/GUI/InputBox.cpp" />
+		<Unit filename="src/GUI/ProgressBar.cpp" />
 		<Unit filename="src/States/InputState.cpp" />
+		<Unit filename="src/States/ProcessState.cpp" />
 		<Unit filename="src/States/WindowChooserState.cpp" />
 		<Unit filename="src/WindowFunction.cpp" />
 		<Extensions>

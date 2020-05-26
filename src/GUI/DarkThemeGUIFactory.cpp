@@ -35,6 +35,16 @@ InputBox* DarkThemeGUIFactory::getInputBox(sf::Vector2u size, sf::Vector2f posit
     return box;
 }
 
+ProgressBar* DarkThemeGUIFactory::getProgressBar(sf::Vector2f position)
+{
+    ProgressBar* pBar = new ProgressBar();
+    pBar->setFieldColor(sf::Color(45, 45, 45));
+    pBar->setBarColor(sf::Color(200, 200, 200));
+    pBar->setCenterPosition(position);
+
+    return pBar;
+}
+
 sf::Text* DarkThemeGUIFactory::getText(std::string str, int charSize)
 {
     sf::Text* text = new sf::Text();
