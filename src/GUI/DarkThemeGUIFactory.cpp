@@ -37,9 +37,10 @@ InputBox* DarkThemeGUIFactory::getInputBox(sf::Vector2u size, sf::Vector2f posit
 
 ProgressBar* DarkThemeGUIFactory::getProgressBar(sf::Vector2f position)
 {
-    ProgressBar* pBar = new ProgressBar();
+    ProgressBar* pBar = new ProgressBar(this->appData.GetAssets()->getFont("Baltica Plain.001.001.ttf"));
     pBar->setFieldColor(sf::Color(45, 45, 45));
     pBar->setBarColor(sf::Color(200, 200, 200));
+    pBar->setTextColor(sf::Color::Black);
     pBar->setCenterPosition(position);
 
     return pBar;
