@@ -2,7 +2,7 @@
 
 Task::Task(bool run)
 {
-    progress = 0u;
+    done = false;
     isAborted = false;
     this->thread = NULL;
     if(run) this->run();
@@ -11,7 +11,10 @@ Task::Task(bool run)
 Task::~Task()
 {
     abort();
-    if(thread) delete thread;
+    if(thread) {
+        thread->join();
+        delete thread;
+    }
 }
 
 void Task::run()
@@ -22,4 +25,10 @@ void Task::run()
 void Task::abort()
 {
     this->isAborted = true;
+}
+
+void Task::task()
+{
+    actions();
+    this->done = true;
 }

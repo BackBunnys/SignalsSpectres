@@ -17,6 +17,7 @@
 					<Add directory="include/DataValidation" />
 					<Add directory="include/DataValidation/DataWrapping" />
 					<Add directory="include/GUI" />
+					<Add directory="include/Tasks" />
 				</Compiler>
 				<Linker>
 					<Add library="lib/libsfml-graphics-d.a" />
@@ -35,6 +36,7 @@
 					<Add directory="include/DataValidation" />
 					<Add directory="include/DataValidation/DataWrapping" />
 					<Add directory="include/GUI" />
+					<Add directory="include/Tasks" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -79,6 +81,8 @@
 		<Unit filename="include/States/InputState.h" />
 		<Unit filename="include/States/ProcessState.h" />
 		<Unit filename="include/States/WindowChooserState.h" />
+		<Unit filename="include/Tasks/FFTTask.h" />
+		<Unit filename="include/Tasks/Task.h" />
 		<Unit filename="include/WindowFunction.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Application.cpp" />
@@ -95,6 +99,8 @@
 		<Unit filename="src/States/InputState.cpp" />
 		<Unit filename="src/States/ProcessState.cpp" />
 		<Unit filename="src/States/WindowChooserState.cpp" />
+		<Unit filename="src/Tasks/FFTTask.cpp" />
+		<Unit filename="src/Tasks/Task.cpp" />
 		<Unit filename="src/WindowFunction.cpp" />
 		<Extensions>
 			<code_completion />

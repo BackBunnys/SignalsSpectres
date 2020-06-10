@@ -13,21 +13,18 @@ class Task
         void run();
         void abort();
 
-        inline uint8_t getProgress() const { return progress; }
-        inline const std::string& getStageDescription() const { return stageDescription; }
-
-        inline bool isDone() const { return progress >= 100; }
+        inline bool isDone() const { return this->done; }
 
 
-    private:
+    protected:
         bool isAborted;
-
-        uint8_t progress;
-        std::string stageDescription;
+        bool done;
 
         std::thread* thread;
 
-        virtual void task() = 0;
+        void task();
+
+        virtual void actions() = 0;
 };
 
 #endif // TASK_H

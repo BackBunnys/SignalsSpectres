@@ -4,6 +4,7 @@
 #include "Engine/State.h"
 #include "GUI/DarkThemeGUIFactory.h"
 #include "GUI/GUIHandler.h"
+#include "Tasks/FFTTask.h"
 
 class ProcessState: public State
 {
@@ -27,6 +28,8 @@ class ProcessState: public State
 
         DarkThemeGUIFactory factory;
         GUIHandler guiHandler;
+
+        FFTTask task;
 
         void initGUI();
 };
